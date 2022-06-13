@@ -1,0 +1,16 @@
+https://f1b1-154-160-18-133.ngrok.io/api/google/auth/callback/1?code=4%2F0AX4XfWjmtcVlAZe__QZ5K1qcx0MBqYCbDNaKQKFhQBfEF4mf_TB0qZk6dFWRcdHuPHIntg&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+
+https://f1b1-154-160-18-133.ngrok.io/api/google/auth/callback/1?code=4%2F0AX4XfWgefmEDmgRdSf1X_RT5VesJoDTb-q3-2WUFhaIIIZkYvJfaCSSTV_X3u8p9N1onYQ&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+
+
+
+
+
+
+
+// Axios.get(
+    //   `https://f1b1-154-160-18-133.ngrok.io/api/google/auth/callback/1${location}`
+    // ).then((res) => {
+    //   console.log(res.data);
+    //   setUserInfo(res.data);
+    // });
