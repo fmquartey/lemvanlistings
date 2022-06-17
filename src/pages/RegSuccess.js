@@ -1,46 +1,57 @@
-import { Alert, Button, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Box, Container } from "@mui/system";
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const RegSuccess = () => {
-  const { successmessage,email } = useParams();
+  const { successmessage, email } = useParams();
+  const { setUser, setShowNav } = useContext(UserContext);
 
   const [message, setMessage] = useState("");
   const [alert, setAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   // const email = localStorage.getItem("user-info.email");
-  const backendurl = "https://b754-154-160-17-215.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
+
   const user = JSON.parse(localStorage.getItem("user-info"));
 
-  const headers = {
-    accept: "application/json",
-    Authorization: "Bearer " + user.access_token,
-  };
+  useEffect(() => {
+    setShowNav(false);
+  }, []);
+
+  const authAxios = Axios.create({
+    baseURL: backendurl,
+    headers: {
+      Authorization: "Bearer " + user.access_token,
+    },
+  });
 
   const ResendLink = () => {
-    const data = { email: email };
-    Axios.post(`${backendurl}/api/email/verify/resend`, {
-      headers: headers,
-      data,
-    })
+    authAxios
+      .post(`/api/email/verify/resend`, {
+        email: email,
+      })
       .then((res) => {
-        console.log(res.data.data);
-        setMessage(res.data.message);
-        console.log(email);
+        setMessage(res.data.data);
+        setLoading(false);
+        setDisabled(true);
         setAlertType("success");
         setAlert(true);
       })
       .catch((err) => {
-        if (err.response) {
-          console.log(err.response.data.message);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err}`)
-        }
+        console.log(err);
         setAlert(false);
+        setDisabled(false);
       });
   };
 
@@ -68,15 +79,36 @@ const RegSuccess = () => {
           </Box>
 
           <Typography variant="body1">{successmessage}</Typography>
-          <Typography variant="body1">Didn't recieve Email?</Typography>
+          <Typography variant="body1">Didn't recieve link?</Typography>
           <Button
-            sx={{
-              textTransform: "none",
-              color: "#07A804",
-            }}
             onClick={ResendLink}
+            sx={{
+              borderRadius: "10px",
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+            }}
+            disabled={loading ? true : disabled ? true : false}
           >
-            Resend
+            {loading ? (
+              <CircularProgress
+                size={23}
+                sx={{
+                  color: "#07A804",
+                }}
+              />
+            ) : (
+              <Typography
+                variant="body1"
+                sx={{
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  color: "#07A804",
+                }}
+              >
+                Resend Link
+              </Typography>
+            )}
           </Button>
         </Stack>
       </Container>

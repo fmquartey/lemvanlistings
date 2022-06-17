@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext";
 
 const FacebookAuth = () => {
   const location = useLocation();
-  const backendurl = "https://b754-154-160-17-215.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
   const facebookurl = location.search;
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);

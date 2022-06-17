@@ -9,71 +9,71 @@ import Slider from "react-slick/lib/slider";
 
 const Reviews = ({ reviews }) => {
   const sliderRef = useRef(null);
- var settings = {
-   dots: false,
-   infinite: true,
-   speed: 500,
-   slidesToShow: 3,
-   slidesToScroll: 3,
-   initialSlide: 3,
-   arrows: false,
-   responsive: [
-     {
-       breakpoint: 1024,
-       settings: {
-         slidesToShow: 3,
-         slidesToScroll: 3,
-         initialSlide: 3,
-         infinite: true,
-       },
-     },
-     {
-       breakpoint: 912,
-       settings: {
-         slidesToShow: 2,
-         slidesToScroll: 2,
-         initialSlide: 2,
-         infinite: true,
-       },
-     },
-     {
-       breakpoint: 600,
-       settings: {
-         slidesToShow: 2,
-         slidesToScroll: 2,
-         initialSlide: 2,
-         infinite: false,
-       },
-     },
-     {
-       breakpoint: 540,
-       settings: {
-         slidesToShow: 2,
-         slidesToScroll: 2,
-         initialSlide: 2,
-         infinite: false,
-       },
-     },
-     {
-       breakpoint: 480,
-       settings: {
-         slidesToShow: 1,
-         slidesToScroll: 1,
-         initialSlide: 1,
-         infinite: false,
-       },
-     },
-     {
-       breakpoint: 360,
-       settings: {
-         slidesToShow: 1,
-         slidesToScroll: 1,
-         initialSlide: 1,
-         infinite: false,
-       },
-     },
-   ],
- };
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    initialSlide: 3,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 3,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 912,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 540,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 360,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+          infinite: false,
+        },
+      },
+    ],
+  };
 
   return (
     <Box
@@ -155,14 +155,15 @@ const Reviews = ({ reviews }) => {
                 disableRipple={true}
                 aria-label="previous"
                 onClick={() => sliderRef.current.slickPrev()}
+                edge="start"
               >
                 <ChevronLeft
                   sx={{
                     fontSize: {
-                      xs: "1.5rem",
-                      sm: "1.5rem",
-                      md: "2rem",
-                      lg: "2rem",
+                      xs: "2rem",
+                      sm: "2rem",
+                      md: "2.5rem",
+                      lg: "2.5rem",
                     },
                     color: "#000",
                   }}
@@ -231,14 +232,15 @@ const Reviews = ({ reviews }) => {
                 disableRipple={true}
                 aria-label="next"
                 onClick={() => sliderRef.current.slickNext()}
+                edge="end"
               >
                 <ChevronRight
                   sx={{
                     fontSize: {
-                      xs: "1.5rem",
-                      sm: "1.5rem",
-                      md: "2rem",
-                      lg: "2rem",
+                      xs: "2rem",
+                      sm: "2rem",
+                      md: "2.5rem",
+                      lg: "2.5rem",
                     },
                     color: "#000",
                   }}
@@ -253,7 +255,3 @@ const Reviews = ({ reviews }) => {
 };
 
 export default Reviews;
-
-
-
- 

@@ -1,3 +1,4 @@
+import { Close } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -8,10 +9,12 @@ import {
   Container,
   Alert,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const Resetpwd = () => {
   const { token, email } = useParams();
@@ -22,8 +25,18 @@ const Resetpwd = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [alertType, setAlertType] = useState("");
-  const backendurl = "https://b754-154-160-17-215.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
+  const { setShowNav } = useContext(UserContext);
+
+ const backArrow = () => {
+   setShowNav(true);
+   navigate("/");
+ };
+
+ useEffect(() => {
+   setShowNav(false);
+ }, []);
 
   const handleSubmit = (e) => {
     if (password === "" || password_confirmation === "") {
@@ -72,6 +85,7 @@ const Resetpwd = () => {
       >
         <Paper
           sx={{
+            position: "relative",
             marginTop: "2rem",
             width: {
               xs: "100%",
@@ -89,6 +103,21 @@ const Resetpwd = () => {
           align="center"
           elevation={2}
         >
+          <IconButton
+            onClick={backArrow}
+            color="inherit"
+            sx={{
+              position: "absolute",
+              top: "8px",
+              right: "10px",
+            }}
+          >
+            <Close
+              sx={{
+                fontSize: "1rem",
+              }}
+            />
+          </IconButton>
           <Box
             sx={{
               display: "flex",
@@ -113,9 +142,7 @@ const Resetpwd = () => {
           </Box>
           <Box
             sx={{
-              
               marginBottom: "20px",
-              
             }}
           >
             <Typography variant="body1">
@@ -136,6 +163,7 @@ const Resetpwd = () => {
               helperText={
                 error && password === "" ? "This field is required" : ""
               }
+              type="password"
               required
             />
             <TextField
@@ -154,6 +182,7 @@ const Resetpwd = () => {
                   : ""
               }
               required
+              type="password"
             />
             <Button
               variant="contained"

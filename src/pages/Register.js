@@ -1,4 +1,4 @@
-import { Facebook, Google } from "@mui/icons-material";
+import { Close, Facebook, Google } from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -6,6 +6,7 @@ import {
   Checkbox,
   CircularProgress,
   Divider,
+  IconButton,
   Paper,
   Stack,
   TextField,
@@ -32,7 +33,7 @@ const Register = () => {
   const [alertType, setAlertType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
-  const backendurl = "https://b754-154-160-17-215.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
   const { account_type } = useParams();
   const { setShowNav } = useContext(UserContext);
@@ -75,8 +76,8 @@ const Register = () => {
   };
 
   const TextAccounttype = () => {
-  console.log(account_type);
-}
+    console.log(account_type);
+  };
 
   // check if password and confirm password match
   const handleConfirmPassword = (e) => {
@@ -158,7 +159,10 @@ const Register = () => {
           .then((res) => {
             setLoading(false);
             setMessage(res.data.data.message);
-            localStorage.setItem("user-info", JSON.stringify(res.data.data.data));
+            localStorage.setItem(
+              "user-info",
+              JSON.stringify(res.data.data.data)
+            );
             setAlertType("success");
             setAlert(true);
             navigate(`/register/${res.data.data.message}/${email}`);
@@ -199,6 +203,11 @@ const Register = () => {
     });
   };
 
+  const backArrow = () => {
+    setShowNav(true);
+    navigate("/");
+  };
+
   return (
     <Box
       sx={{
@@ -210,6 +219,7 @@ const Register = () => {
       <Paper
         elevation={2}
         sx={{
+          position: "relative",
           width: {
             xs: "95%",
             sm: "400px",
@@ -225,6 +235,21 @@ const Register = () => {
         }}
         align="center"
       >
+        <IconButton
+          onClick={backArrow}
+          color="inherit"
+          sx={{
+            position: "absolute",
+            top: "8px",
+            right: "10px",
+          }}
+        >
+          <Close
+            sx={{
+              fontSize: "1rem",
+            }}
+          />
+        </IconButton>
         <Box
           sx={{
             display: "flex",

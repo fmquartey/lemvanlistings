@@ -25,34 +25,30 @@ import Footer from "./components/Footer";
 function App() {
   const [user, setUser] = useState(false);
   const [userName, setUserName] = useState("");
+  const [userAvater, setUserAvater] = useState("");
   const [showNav, setShowNav] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
-  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("user-info")) {
-  //     if (userInfo.email_verified_at !== null) {
-  //       setUser(true);
-  //       setUserName(userInfo.firstname);
-  //       navigate("/listing");
-  //     } else {
-  //       navigate("/");
-  //       setUser(false);
-  //     }
-  //   } else {
-  //     setUser(false);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (localStorage.getItem("user-info")) {
+      setUser(true);
+      setUserName(userInfo.firstname);
+      setUserAvater(userInfo.avatar);
+    } else {
+      setUser(false);
+    }
+  }, []);
 
   return (
     <>
-      {/* <Router> */}
       <UserContext.Provider
         value={{
           user,
           setUser,
           userName,
           setUserName,
+          userAvater,
+          setUserAvater,
           showNav,
           setShowNav,
         }}
@@ -73,11 +69,7 @@ function App() {
           <Route exact path="/sociallogin" element={<SocialAuth />} />
           <Route exact path="/facebooklogin" element={<FacebookAuth />} />
           <Route exact path="/users/password/forgot" element={<ForgotPwd />} />
-          <Route
-            exact
-            path="/verify/email/verify/:id/:hash"
-            element={<Verify />}
-          />
+          <Route exact path="/email/verify/:id/:hash" element={<Verify />} />
           <Route
             exact
             path="/register/:successmessage/:email"
@@ -93,7 +85,6 @@ function App() {
 
         {showNav ? <Footer /> : null}
       </UserContext.Provider>
-      {/* </Router> */}
       <CssBaseline />
     </>
   );

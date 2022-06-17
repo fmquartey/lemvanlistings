@@ -12,8 +12,9 @@ import {
 
 const Verified = () => {
   const location = useLocation();  
-  const backendurl = "https://b754-154-160-17-215.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
   const googleurl = location.search;
+
 
   // User is verified
   const Verify = () => {

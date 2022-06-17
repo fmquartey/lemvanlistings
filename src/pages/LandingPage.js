@@ -9,6 +9,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     setShowNav(true);
+    
   }, []);
 
   return (

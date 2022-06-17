@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import google from ".././img/googlelogo.png";
-import apple from ".././img/applelogo.png";
+import google from ".././img/playstoreicon.png";
+import apple from ".././img/applestoreicon.png";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 
 const Footer = () => {
@@ -333,9 +333,10 @@ const Footer = () => {
           <Grid item xs={6} sm={6} md={3} lg={3}>
             <Box
               sx={{
+                height: "100%",
                 display: "flex",
-                alignItems: "start",
-                justifyContent: "start",
+                alignItems: "center",
+                justifyContent: "end",
                 flexDirection: "column",
               }}
             >
@@ -345,13 +346,17 @@ const Footer = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "start",
-
-                  width: "100%",
+                  
                 }}
               >
                 <Box
                   sx={{
-                    height: "50px",
+                    height: {
+                      xs: "40px",
+                      sm: "40px",
+                      md: "50px",
+                      lg: "50px",
+                    },
                     width: {
                       xs: "110px",
                       sm: "110px",
@@ -373,21 +378,26 @@ const Footer = () => {
               <Link
                 to="#"
                 style={{
-                  width: "100%",
+            
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "start",
                 }}
               >
                 <Box
+                  
                   sx={{
-                    marginLeft: "5px",
-                    height: "50px",
+                    height: {
+                      xs: "40px",
+                      sm: "40px",
+                      md: "50px",
+                      lg: "50px",
+                    },
                     width: {
-                      xs: "100px",
-                      sm: "100px",
+                      xs: "110px",
+                      sm: "110px",
                       md: "140px",
-                      lg: "140px",
+                      lg: "150px",
                     },
                   }}
                 >
@@ -395,7 +405,7 @@ const Footer = () => {
                     src={apple}
                     alt="apple"
                     style={{
-                      height: "45px",
+                      height: "100%",
                       width: "100%",
                     }}
                   />
@@ -422,7 +432,6 @@ const Footer = () => {
             mt={1}
             sx={{
               width: "100%",
-           
             }}
           >
             <Grid container spacing={3}>

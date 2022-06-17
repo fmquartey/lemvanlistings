@@ -1,15 +1,27 @@
-import { Box, Paper, Typography, Stack } from "@mui/material";
-import React from "react";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { Box, Paper, Typography, Stack, IconButton } from "@mui/material";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-
-
+import Slider from "react-slick";
 
 const ListingCard = (props) => {
+  const sliderRef = useRef(null);
+
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 1,
+    arrows: false,
+  };
+
   return (
     <Box
       key={props.key}
       sx={{
-        padding: "3px",
+        padding: "2px",
       }}
     >
       <Paper
@@ -31,26 +43,25 @@ const ListingCard = (props) => {
           borderRadius: "10px",
         }}
       >
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "#000000",
+        {/* Image slider */}
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: {
+              xs: "120px",
+              sm: "180px",
+              md: "180px",
+              lg: "180px",
+            },
+            overflow: "hidden",
+            borderRadius: "10px",
           }}
-          to={`/listing/${props.id}`}
         >
-          <Box
-            sx={{
-              width: "100%",
-              height: {
-                xs: "120px",
-                sm: "200px",
-                md: "200px",
-                lg: "200px",
-              },
-            }}
-          >
+          {/* Slider */}
+          <Slider ref={sliderRef} {...settings}>
             <img
-              src="https://media.istockphoto.com/photos/independence-arch-picture-id453437701?k=20&m=453437701&s=612x612&w=0&h=CgWGYORfjFrChuwLQLZR8HQm8fYJl34D26ta0exeB58="
+              src={props.image}
               alt=""
               style={{
                 width: "100%",
@@ -58,13 +69,115 @@ const ListingCard = (props) => {
                 borderRadius: "10px",
               }}
             />
-          </Box>
-          <Box
+            {props.image1 ? (
+              <img
+                src={props.image1}
+                alt=""
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "10px",
+                }}
+              />
+            ) : null}
+            {props.image2 ? (
+              <img
+                src={props.image2}
+                alt=""
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "10px",
+                }}
+              />
+            ) : null}
+            {props.image3 ? (
+              <img
+                src={props.image3}
+                alt=""
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "10px",
+                }}
+              />
+            ) : null}
+            {props.image4 ? (
+              <img
+                src={props.image4}
+                alt=""
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "10px",
+                }}
+              />
+            ) : null}
+          </Slider>
+          {/* Slider prev button*/}
+          <IconButton
+            size="small"
+            disableRipple={true}
+            aria-label="previous"
             sx={{
-              width: "100%",
-              height: "auto",
-              padding: "10px",
+              position: "absolute",
+              top: "40%",
+              zIndex: "1",
             }}
+            onClick={() => sliderRef.current.slickPrev()}
+          >
+            <ChevronLeft
+              sx={{
+                fontSize: {
+                  xs: "2.5rem",
+                  sm: "2.5rem",
+                  md: "2.5rem",
+                  lg: "2.5rem",
+                },
+
+                color: "#fff",
+              }}
+            />
+          </IconButton>
+          {/* Slider next button*/}
+          <IconButton
+            size="small"
+            disableRipple={true}
+            aria-label="next"
+            sx={{
+              position: "absolute",
+              top: "40%",
+              right: "0",
+              zIndex: "1",
+            }}
+            onClick={() => sliderRef.current.slickNext()}
+          >
+            <ChevronRight
+              sx={{
+                fontSize: {
+                  xs: "2.5rem",
+                  sm: "2.5rem",
+                  md: "2.5rem",
+                  lg: "2.5rem",
+                },
+                color: "#fff",
+              }}
+            />
+          </IconButton>
+        </Box>
+        <Box
+          sx={{
+            width: "100%",
+            height: "auto",
+            padding: "10px",
+          }}
+        >
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "#000000",
+            }}
+            to={`/listing/${props.id}`}
           >
             <Stack spacing={0}>
               <Stack spacing={1}>
@@ -123,12 +236,28 @@ const ListingCard = (props) => {
                     textDecoration: "none",
                   }}
                 >
-                  {props.location + ", " + props.region}
+                  {props.location + ","}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontSize: {
+                      xs: "14px",
+                      sm: "14px",
+                      md: "16px",
+                      lg: "16px",
+                    },
+                    color: "#000000",
+                    fontWeight: "400",
+                    textDecoration: "none",
+                  }}
+                >
+                  {props.region}
                 </Typography>
               </Stack>
             </Stack>
-          </Box>
-        </Link>
+          </Link>
+        </Box>
       </Paper>
     </Box>
   );

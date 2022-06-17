@@ -1,3 +1,4 @@
+import { Close } from "@mui/icons-material";
 import {
   Paper,
   Box,
@@ -6,10 +7,12 @@ import {
   Button,
   Alert,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
 import Axios from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const ForgotPwd = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +24,9 @@ const ForgotPwd = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [login, setLogin] = useState("");
-  const backendurl = "https://b754-154-160-17-215.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const navigate = useNavigate();
+  const { setShowNav } = useContext(UserContext);
 
   // handle forgot password form submit
   const handleForgotPassword = (e) => {
@@ -45,6 +50,16 @@ const ForgotPwd = () => {
       })
     }
   };
+
+   const backArrow = () => {
+     setShowNav(true);
+     navigate("/");
+   };
+
+useEffect(() => {
+  setShowNav(false);
+}, []);
+  
   return (
     <Box
       sx={{
@@ -56,6 +71,7 @@ const ForgotPwd = () => {
       <Paper
         elevation={2}
         sx={{
+          position: "relative",
           width: {
             xs: "95%",
             sm: "350px",
@@ -71,6 +87,21 @@ const ForgotPwd = () => {
         }}
         align="center"
       >
+        <IconButton
+          onClick={backArrow}
+          color="inherit"
+          sx={{
+            position: "absolute",
+            top: "8px",
+            right: "10px",
+          }}
+        >
+          <Close
+            sx={{
+              fontSize: "1rem",
+            }}
+          />
+        </IconButton>
         <Box
           sx={{
             display: "flex",

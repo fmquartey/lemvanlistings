@@ -1,10 +1,17 @@
-import { Facebook, Google } from "@mui/icons-material";
+import {
+  ArrowBack,
+  Cancel,
+  Close,
+  Facebook,
+  Google,
+} from "@mui/icons-material";
 import {
   Alert,
   Box,
   Button,
   CircularProgress,
   Divider,
+  IconButton,
   Paper,
   Stack,
   TextField,
@@ -21,7 +28,7 @@ const Login = () => {
 
   useEffect(() => {
     setShowNav(false);
-  })
+  });
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -36,21 +43,26 @@ const Login = () => {
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   // const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  const backendurl = "https://b754-154-160-17-215.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
 
   const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
-  }
+  };
   const handleOpen = () => {
     setOpen(true);
-  }
+  };
   // redirect to listing in 5 seconds
   const redirect = () => {
     setTimeout(() => {
       navigate("/listing");
     }, 1000);
+  };
+
+  const backArrow = () => {
+    setShowNav(true);
+    navigate("/");
   };
 
   const handleLoginSubmit = (e) => {
@@ -112,6 +124,7 @@ const Login = () => {
       <Paper
         elevation={2}
         sx={{
+          position: "relative",
           width: {
             xs: "95%",
             sm: "400px",
@@ -127,6 +140,21 @@ const Login = () => {
         }}
         align="center"
       >
+        <IconButton
+          onClick={backArrow}
+          color="inherit"
+          sx={{
+            position: "absolute",
+            top: "8px",
+            right: "10px",
+          }}
+        >
+          <Close
+            sx={{
+              fontSize: "1rem",
+            }}
+          />
+        </IconButton>
         <Box
           sx={{
             display: "flex",

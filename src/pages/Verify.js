@@ -1,15 +1,44 @@
 import { Alert, Button, Stack, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
-import { Axios } from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Verify = () => {
   const [message, setMessage] = useState("");
-  const [alert, setAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const backendurl = "";
+  const [loading, setLoading] = useState(false);
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const { id, hash } = useParams();
+  const location = useLocation();
+  const urlSearch = location.search;
+  const navigate = useNavigate();
+
+  const redirect = () => {
+    setTimeout(() => {
+       navigate("/login");
+    }, 5000);
+  }
+   
+  const verify = () => {
+    // console.log(`${backendurl}/api/email/verify/${id}/${hash}${urlSearch}`);
+    setLoading(true);
+    Axios.get(`${backendurl}/api/email/verify/${id}/${hash}${urlSearch}`)
+      .then((res) => {
+        setLoading(false);
+        // console.log(res.data);
+        setAlertType("success");
+        setMessage("Verification Successful");
+        redirect();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    verify();
+  }, []);
 
   return (
     <Box
@@ -26,33 +55,20 @@ const Verify = () => {
             alignItems: "center",
           }}
         >
-          <Typography
-            variant="h5"
-            sx={{
-              fontSize: "16px",
-            }}
-          >
-            Your account is successfully verified.
-          </Typography>
-          <Typography
-            variant="h5"
-            sx={{
-              fontSize: "16px",
-            }}
-          >
-            Please login into your account
-          </Typography>
-          <Link
-            to="/login"
-            style={{
-              textDecoration: "none",
-              color: "#07A804",
-              fontSize: "18px",
-              fontWeight: "500",
-            }}
-          >
-            Login
-          </Link>
+          {loading ? (
+            <Typography variant="body1">
+              Your account is being verified. Please wait
+            </Typography>
+          ) : (
+            <Alert severity={alertType}>
+              <Typography variant="body1">{message}</Typography>
+            </Alert>
+          )}
+          {loading ? null : (
+            <Typography variant="body1">
+              Redirecting you to the login page in 5 seconds
+            </Typography>
+          )}
         </Stack>
       </Container>
     </Box>

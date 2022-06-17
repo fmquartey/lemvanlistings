@@ -23,11 +23,17 @@ import React, { useEffect, useState, useRef } from "react";
 import Slider from "react-slick/lib/slider";
 import ListingCard from "../ListingCard";
 import Axios from "axios";
+import ListingSkeleton from "../ListingSkeleton";
+import hse1 from "../.././img/hse1.jpg";
+import hse2 from "../.././img/hse2.jpg";
+import hse3 from "../.././img/hse3.jpg";
+import hse4 from "../.././img/hse4.jpg";
+import hse5 from "../.././img/hse5.jpg";
 
 const OurHome = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
-  const backendurl = "https://079e-154-160-25-187.ngrok.io";
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
   const sliderRef = useRef(null);
 
   var settings = {
@@ -102,7 +108,6 @@ const OurHome = () => {
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
-        console.log(res.data.data);
         // console.log(listings);
       })
       .catch((err) => {
@@ -247,57 +252,71 @@ const OurHome = () => {
               width: "100%",
             }}
           >
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <IconButton
-                size="small"
-                disableRipple={true}
-                aria-label="previous"
-                onClick={() => sliderRef.current.slickPrev()}
-              >
-                <ChevronLeft
-                  sx={{
-                    fontSize: {
-                      xs: "1.5rem",
-                      sm: "1.5rem",
-                      md: "2rem",
-                      lg: "2rem",
-                    },
-                    color: "#000",
-                  }}
-                />
-              </IconButton>
-              {/* Slider content*/}
+            {loading ? (
               <Box
                 sx={{
                   width: "100%",
-                  height: "auto",
-                  // paddingBottom:"10px",
-                  overflow: "hidden",
+                  height: "50px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                {loading ? (
-                  <Box
+                <CircularProgress
+                  size={25}
+                  sx={{
+                    color: "#35BF43",
+                  }}
+                />
+              </Box>
+            ) : (
+              // Slider //
+              // Slider //
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                {/* Slider prev button */}
+                <IconButton
+                  size="small"
+                  disableRipple={true}
+                  aria-label="previous"
+                  onClick={() => sliderRef.current.slickPrev()}
+                  edge="start"
+                >
+                  <ChevronLeft
                     sx={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      fontSize: {
+                        xs: "2rem",
+                        sm: "2rem",
+                        md: "2.5rem",
+                        lg: "2.5rem",
+                      },
+                      color: "#000",
                     }}
-                  >
-                    <CircularProgress size={23} color="success" />
-                  </Box>
-                ) : (
+                  />
+                </IconButton>
+                {/* Slider content*/}
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "auto",
+                    overflow: "hidden",
+                  }}
+                >
                   <Slider ref={sliderRef} {...settings}>
                     {listings.map((listing) => (
                       <ListingCard
                         key={listing.id}
+                        image={listing.image}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
                         id={listing.id}
                         amount={listing.amount}
                         property_type={listing.property_type.type}
@@ -308,30 +327,30 @@ const OurHome = () => {
                       />
                     ))}
                   </Slider>
-                )}
+                </Box>
+                {/*Slider next button Icon*/}
+                <IconButton
+                  size="small"
+                  disableRipple={true}
+                  aria-label="next"
+                  onClick={() => sliderRef.current.slickNext()}
+                  edge="end"
+                >
+                  <ChevronRight
+                    sx={{
+                      fontSize: {
+                        xs: "2rem",
+                        sm: "2rem",
+                        md: "2.5rem",
+                        lg: "2.5rem",
+                      },
+                      color: "#000",
+                    }}
+                  />
+                </IconButton>
               </Box>
-              {/* Slider content */}
-              <IconButton
-                size="small"
-                disableRipple={true}
-                aria-label="next"
-                onClick={() => sliderRef.current.slickNext()}
-              >
-                <ChevronRight
-                  sx={{
-                    fontSize: {
-                      xs: "1.5rem",
-                      sm: "1.5rem",
-                      md: "2rem",
-                      lg: "2rem",
-                    },
-                    color: "#000",
-                  }}
-                />
-              </IconButton>
-            </Box>
+            )}
           </Box>
-          {/* swiper larger screens end*/}
         </Box>
       </Container>
     </Box>
