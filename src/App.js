@@ -55,8 +55,8 @@ function App() {
       >
         {showNav ? <TopBar /> : null}
         <Routes>
-          <Route exact path="/" element={<LandingPage />} />
-          <Route exact path="/listing" element={<Listing />} />
+          <Route exact path="/welcome" element={<LandingPage />} />
+          <Route exact path="/" element={<Listing />} />
           <Route exact path="/listing/:id" element={<Details />} />
           <Route exact path="/:token/:email" element={<Resetpwd />} />
           <Route exact path="/verified" element={<Verified />} />

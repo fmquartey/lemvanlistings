@@ -122,8 +122,8 @@ const Reviews = ({ reviews }) => {
               variant="body1"
               sx={{
                 fontSize: {
-                  xs: "16px",
-                  sm: "16px",
+                  xs: "14px",
+                  sm: "14px",
                   md: "18px",
                   lg: "18px",
                 },

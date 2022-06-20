@@ -1,5 +1,5 @@
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { Box, Paper, Typography, Stack, IconButton } from "@mui/material";
+import { CheckCircle, ChevronLeft, ChevronRight, Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Box, Paper, Typography, Stack, IconButton, Checkbox, Chip } from "@mui/material";
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
@@ -34,10 +34,10 @@ const ListingCard = (props) => {
             lg: "15px",
           },
           width: {
-            xs: "100%",
-            sm: "90%",
+            xs: "140px",
+            sm: "100%",
             md: "90%",
-            lg: "320px",
+            lg: "270px",
           },
           height: "auto",
           borderRadius: "10px",
@@ -49,9 +49,9 @@ const ListingCard = (props) => {
             position: "relative",
             width: "100%",
             height: {
-              xs: "120px",
-              sm: "180px",
-              md: "180px",
+              xs: "95px",
+              sm: "140px",
+              md: "110px",
               lg: "180px",
             },
             overflow: "hidden",
@@ -60,58 +60,111 @@ const ListingCard = (props) => {
         >
           {/* Slider */}
           <Slider ref={sliderRef} {...settings}>
-            <img
-              src={props.image}
-              alt=""
+            <Link
               style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "10px",
+                textDecoration: "none",
+                color: "#000000",
               }}
-            />
-            {props.image1 ? (
+              to={`/listing/${props.id}`}
+            >
               <img
-                src={props.image1}
+                src={props.image}
                 alt=""
                 style={{
                   width: "100%",
                   height: "100%",
                   borderRadius: "10px",
+                  backgroundSize: "cover",
                 }}
               />
+            </Link>
+
+            {props.image1 ? (
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "#000000",
+                }}
+                to={`/listing/${props.id}`}
+              >
+                <img
+                  src={props.image1}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "10px",
+
+                    backgroundSize: "cover",
+
+                  }}
+                />
+              </Link>
+
             ) : null}
             {props.image2 ? (
-              <img
-                src={props.image2}
-                alt=""
+              <Link
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "10px",
+                  textDecoration: "none",
+                  color: "#000000",
                 }}
-              />
+                to={`/listing/${props.id}`}
+              >
+                <img
+                  src={props.image2}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "10px",
+                    backgroundSize: "cover",
+                  }}
+                />
+              </Link>
+
             ) : null}
             {props.image3 ? (
-              <img
-                src={props.image3}
-                alt=""
+              <Link
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "10px",
+                  textDecoration: "none",
+                  color: "#000000",
                 }}
-              />
+                to={`/listing/${props.id}`}
+              >
+                <img
+                  src={props.image3}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "10px",
+                    backgroundSize: "cover",
+
+                  }}
+                />
+              </Link>
+
             ) : null}
             {props.image4 ? (
-              <img
-                src={props.image4}
-                alt=""
+              <Link
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "10px",
+                  textDecoration: "none",
+                  color: "#000000",
                 }}
-              />
+                to={`/listing/${props.id}`}
+              >
+                <img
+                  src={props.image4}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "10px",
+                    backgroundSize: "cover",
+                  }}
+                />
+              </Link>
+
             ) : null}
           </Slider>
           {/* Slider prev button*/}
@@ -121,7 +174,12 @@ const ListingCard = (props) => {
             aria-label="previous"
             sx={{
               position: "absolute",
-              top: "40%",
+              top: {
+                xs: "30%",
+                sm: "40%",
+                md: "30%",
+                lg: "35%",
+              },
               zIndex: "1",
             }}
             onClick={() => sliderRef.current.slickPrev()}
@@ -129,8 +187,8 @@ const ListingCard = (props) => {
             <ChevronLeft
               sx={{
                 fontSize: {
-                  xs: "2.5rem",
-                  sm: "2.5rem",
+                  xs: "2rem",
+                  sm: "2rem",
                   md: "2.5rem",
                   lg: "2.5rem",
                 },
@@ -146,7 +204,12 @@ const ListingCard = (props) => {
             aria-label="next"
             sx={{
               position: "absolute",
-              top: "40%",
+              top: {
+                xs: "30%",
+                sm: "40%",
+                md: "30%",
+                lg: "35%",
+              },
               right: "0",
               zIndex: "1",
             }}
@@ -155,8 +218,8 @@ const ListingCard = (props) => {
             <ChevronRight
               sx={{
                 fontSize: {
-                  xs: "2.5rem",
-                  sm: "2.5rem",
+                  xs: "2rem",
+                  sm: "2rem",
                   md: "2.5rem",
                   lg: "2.5rem",
                 },
@@ -164,6 +227,61 @@ const ListingCard = (props) => {
               }}
             />
           </IconButton>
+          {
+            props.showTag ? (
+              <Checkbox
+                sx={{
+                  position: "absolute",
+                  top: "0",
+                  right: "0",
+                  zIndex: "3",
+                }}
+                icon={<FavoriteBorder
+                  sx={{
+                    color: "#fff",
+                  }}
+                />}
+                checkedIcon={<Favorite sx={{
+                  color: "#FF5F05"
+                }} />}
+              />
+            ) : null
+          }
+
+          {/* Verified tag */}
+          {
+            props.showTag ? (
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: "5px",
+                  right: "4px",
+                  padding: {
+                    xs: "2px 4px",
+                    sm: "2px 4px",
+                    md: "5px 8px",
+                    lg: "5px 8px",
+                  },
+                  borderRadius: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#FF5F05",
+                }}>
+                <CheckCircle sx={{
+                  fontSize: "16px",
+                  color: "#fff",
+                }} />
+                <Typography variant="body1"
+                  sx={{
+                    fontSize: "12px",
+                    color: "#fff",
+                  }}>
+                  Verified
+                </Typography>
+              </Box>
+            ) : null
+          }
         </Box>
         <Box
           sx={{
@@ -179,34 +297,45 @@ const ListingCard = (props) => {
             }}
             to={`/listing/${props.id}`}
           >
-            <Stack spacing={0}>
-              <Stack spacing={1}>
+            <Box sx={{
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "start",
+              flexDirection: "column",
+            }}>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}>
                 <Typography
                   variant="body1"
                   sx={{
                     fontSize: {
-                      xs: "14px",
-                      sm: "14px",
+                      xs: "12px",
+                      sm: "18px",
                       md: "16px",
-                      lg: "16px",
+                      lg: "17px",
                     },
                     color: "#000000",
                     fontWeight: "400",
                     textDecoration: "none",
                   }}
                 >
-                  {props.amount}
+                  {props.amount} / {props.period}
                 </Typography>
-              </Stack>
-              <Stack spacing={1}>
+              </Box>
+              <Stack spacing={0}>
                 <Typography
                   variant="body1"
                   sx={{
                     fontSize: {
-                      xs: "14px",
-                      sm: "14px",
+                      xs: "12px",
+                      sm: "18px",
                       md: "16px",
-                      lg: "16px",
+                      lg: "17px",
                     },
                     color: "#000000",
                     fontWeight: "400",
@@ -226,10 +355,10 @@ const ListingCard = (props) => {
                   variant="body1"
                   sx={{
                     fontSize: {
-                      xs: "14px",
-                      sm: "14px",
+                      xs: "12px",
+                      sm: "18px",
                       md: "16px",
-                      lg: "16px",
+                      lg: "17px",
                     },
                     color: "#000000",
                     fontWeight: "400",
@@ -242,10 +371,10 @@ const ListingCard = (props) => {
                   variant="body1"
                   sx={{
                     fontSize: {
-                      xs: "14px",
-                      sm: "14px",
+                      xs: "12px",
+                      sm: "18px",
                       md: "16px",
-                      lg: "16px",
+                      lg: "17px",
                     },
                     color: "#000000",
                     fontWeight: "400",
@@ -255,7 +384,7 @@ const ListingCard = (props) => {
                   {props.region}
                 </Typography>
               </Stack>
-            </Stack>
+            </Box>
           </Link>
         </Box>
       </Paper>

@@ -35,6 +35,8 @@ const OurHome = () => {
   const [loading, setLoading] = useState(false);
   const backendurl = process.env.REACT_APP_BACKEND_URL;
   const sliderRef = useRef(null);
+  const [showTag, setShowTag] = useState(false);
+
 
   var settings = {
     dots: false,
@@ -234,8 +236,8 @@ const OurHome = () => {
               variant="body1"
               sx={{
                 fontSize: {
-                  xs: "16px",
-                  sm: "16px",
+                  xs: "14px",
+                  sm: "14px",
                   md: "18px",
                   lg: "18px",
                 },
@@ -318,6 +320,7 @@ const OurHome = () => {
                         image3={hse4}
                         image4={hse5}
                         id={listing.id}
+                        showTag={showTag}
                         amount={listing.amount}
                         property_type={listing.property_type.type}
                         number_of_bathrooms={listing.number_of_bathrooms}

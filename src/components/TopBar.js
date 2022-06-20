@@ -42,6 +42,7 @@ const TopBar = () => {
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
+  
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
@@ -49,7 +50,7 @@ const TopBar = () => {
   const authAxios = Axios.create({
     baseURL: backendurl,
     headers: {
-      Authorization: "Bearer " + userinfo.access_token,
+      // Authorization: "Bearer " + userinfo.access_token,
     },
   });
 
