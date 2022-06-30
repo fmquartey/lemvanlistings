@@ -335,8 +335,8 @@ const Footer = () => {
               sx={{
                 height: "100%",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
+                alignItems: "start",
+                justifyContent: "center",
                 flexDirection: "column",
               }}
             >

@@ -1,8 +1,215 @@
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { Box, Container, IconButton, Typography } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+import { CheckCircle, ChevronLeft, ChevronRight, ExpandMore, Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Box, Container, Checkbox, CircularProgress, Divider, Grid, IconButton, Stack, Typography, Button, Paper, Avatar, TextField, MenuItem } from "@mui/material";
+import React, { useContext, useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+
+import Axios from "axios";
+
+import Slider from "react-slick";
+import DetailsImg from "../components/DetailsImg";
+import ListingCard from "../components/ListingCard";
+import SimilarListings from "../components/SimilarListings";
+import hse4 from "../img/hse4.jpg";
+import hse3 from "../img/hse3.jpg";
+import hse2 from "../img/hse2.jpg";
+import hse1 from "../img/hse1.jpg";
+import hse5 from "../img/hse5.jpg";
+
+import { UserContext } from "../context/UserContext";
+
 
 const Details = () => {
+  const { id } = useParams();
+
+  const [checked, setChecked] = useState(false);
+  const [inspectionType, setInspectionType] = useState("Physical")
+  const [showTag, setShowTag] = useState(false);
+  const [selectedImg, setSelectedImg] = useState("");
+  const [imgs, setImgs] = useState([]);
+  const [hasKitchen, setHasKitchen] = useState();
+  const [hasWater, setHasWater] = useState();
+  const [isVerified, setIsVerified] = useState();
+  const [hasElectricity, setHasElectricity] = useState();
+  const [isFurnished, setIsFurnished] = useState();
+  const [loading, setLoading] = useState(false);
+  const [listing, setListing] = useState([]);
+  const backendurl = process.env.REACT_APP_BACKEND_URL;
+
+
+  const getListing = () => {
+    setLoading(true);
+    Axios.get(`${backendurl}/api/listings/${id}`)
+      .then((res) => {
+        setLoading(false);
+        setListing(res.data.data);
+        setSelectedImg(res.data.data.images[0]);
+        setImgs(res.data.data.images);
+        setHasKitchen(res.data.data.has_kitchen);
+        setHasElectricity(res.data.data.has_electricity);
+        setIsVerified(res.data.data.is_verified);
+        setIsFurnished(res.data.data.is_furnished);
+        setHasWater(res.data.data.has_water);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getListing();
+  }, []);
+
+
+
+  const sliderRef = useRef(null);
+
+  const imgslider = useRef(null);
+
+  var imgsettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 4,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          initialSlide: 4,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 912,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 3,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 3,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 540,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 3,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 360,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: false,
+        },
+      },
+    ],
+  };
+
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 4,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          initialSlide: 4,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 912,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 540,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 360,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+          infinite: false,
+        },
+      },
+    ],
+  };
+
+
+  const handleChange = (e) => {
+    setInspectionType(e.target.value);
+  }
+
+  const saveFavorite = () => {
+    if (!checked) {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }
+
   return (
     <Box
       p={2}
@@ -11,7 +218,1002 @@ const Details = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Typography align="center">Comming soon</Typography>
+        {
+          loading ? (
+            <Box
+              sx={{
+                width: "100%",
+                height: "50px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress
+                size={25}
+                sx={{
+                  color: "#35BF43",
+                }}
+              />
+            </Box>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  width: "100%",
+                }}>
+                <Box
+                  sx={{
+                    width: {
+                      xs: "100%",
+                      sm: "70%",
+                      md: "70%",
+                      lg: "70%",
+                    },
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+
+                  }}>
+                  <Stack spacing={1} direction="row"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }} >
+                    <Typography variant="body1"
+                      sx={{
+                        fontWeight: "700",
+                        fontSize: {
+                          xs: "20px",
+                          sm: "20px",
+                          md: "1.7rem",
+                          lg: "1.7rem",
+                        },
+                      }}>{listing.property_title}</Typography>
+                    {
+                      isVerified === 1 ? (
+                        <CheckCircle sx={{
+                          fontSize: {
+                            xs: "20px",
+                            sm: "20px",
+                            md: "1.7rem",
+                            lg: "1.7rem",
+                          },
+                          color: "#FF5F05",
+                          marginLeft: "10"
+                        }} />
+                      ) : null
+                    }
+                  </Stack>
+
+                  {/* Save button */}
+                  <Button
+                    size="small"
+                    onClick={saveFavorite}
+                    variant="contained"
+                    startIcon={checked ? <Favorite /> : <FavoriteBorder />}
+                    disableFocusRipple={true}
+                    disableRipple={true}
+                    disableElevation={true}
+                    sx={{
+                      height: {
+                        xs: "30px",
+                        sm: "30px",
+                        md: "30px",
+                        lg: "30px",
+                      },
+                      backgroundColor: "#000000",
+                      borderRadius: "20px",
+                      textTransform: "none",
+                      "&:hover": {
+                        backgroundColor: "#000000",
+                      },
+                    }}
+                  >
+                    <Typography variant="body1">Save</Typography>
+                  </Button>
+                </Box>
+              </Box>
+
+              {/* content */}
+              <Box
+                mt={2}
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  jsutifyContent: "space-between",
+                }}>
+
+                {/* Details */}
+                <Box
+                  sx={{
+                    width: {
+                      xs: "100%",
+                      sm: "70%",
+                      md: "70%",
+                      lg: "70%",
+                    },
+                    display: "flex",
+
+                    flexDirection: "column",
+                  }}>
+                  {/* Images */}
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: "auto",
+                    }}
+                  >
+                    {/* main image */}
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: {
+                          xs: "250px",
+                          sm: "350px",
+                          md: "450px",
+                          lg: "450px",
+                        },
+                        margin: "0 auto",
+                        borderRadius: "10px",
+                      }}>
+                      <img src={selectedImg} alt=""
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "10px",
+                        }} />
+                    </Box>
+
+                    {/* Other images */}
+                    <Box
+                      mt={1}
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        height: {
+                          xs: "80px",
+                          sm: "110px",
+                          md: "130px",
+                          lg: "130px",
+                        },
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}>
+
+                      {/* Prev slider button */}
+
+                      <IconButton
+                        size="small"
+                        disableRipple={true}
+                        aria-label="previous"
+                        onClick={() => imgslider.current.slickPrev()}
+                        edge="start"
+                      >
+                        <ChevronLeft
+                          sx={{
+                            fontSize: {
+                              xs: "2rem",
+                              sm: "2rem",
+                              md: "2.5rem",
+                              lg: "2.5rem",
+                            },
+                            color: "#000",
+                          }}
+                        />
+                      </IconButton>
+
+
+                      <Box
+                        sx={{
+                          width: "100%",
+                          height: "auto",
+                          overflow: "hidden",
+                        }}>
+
+                        <Slider ref={imgslider} {...imgsettings}>
+                          {
+                            imgs.map((img, index) => (
+                              <Box
+                                key={index}
+                                sx={{
+                                  width: "100%",
+                                  height: {
+                                    xs: "80px",
+                                    sm: "110px",
+                                    md: "130px",
+                                    lg: "130px",
+                                  },
+                                  padding: "5px 10px",
+
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center"
+                                }}
+                                onClick={() => {
+                                  setSelectedImg(img);
+                                }}
+                              >
+                                <img src={img} alt=""
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    borderRadius: "10px",
+                                  }} />
+                              </Box>
+                            ))
+                          }
+
+                        </Slider>
+                      </Box>
+                      {/* Prev slider button */}
+                      <IconButton
+                        size="small"
+                        disableRipple={true}
+                        aria-label="next"
+                        onClick={() => imgslider.current.slickNext()}
+                        edge="end"
+                      >
+                        <ChevronRight
+                          sx={{
+                            fontSize: {
+                              xs: "2rem",
+                              sm: "2rem",
+                              md: "2.5rem",
+                              lg: "2.5rem",
+                            },
+                            color: "#000",
+                          }}
+                        />
+                      </IconButton>
+                    </Box>
+                  </Box>
+
+
+                  {/* Details */}
+                  <Box
+                    mt={2}
+                    sx={{
+                      width: "100%",
+                      height: "auto"
+                    }}>
+                    <Typography variant="body1"
+                      sx={{
+                        fontWeight: "600",
+                        fontSize: "1.2rem",
+                      }}>
+                      Location: {listing.location}
+                    </Typography>
+
+
+                    {/* Bedrooms bathrooms and others */}
+                    <Box
+                      mt={1}
+                      sx={{
+                        width: {
+                          xs: "100%",
+                          sm: "100%",
+                          md: "80%",
+                          lg: "80%",
+                        },
+                      }}>
+                      <Grid container spacing={1}>
+                        <Grid item xs={6} sm={6} md={3} lg={3}>
+                          <Typography variant="body1"
+                            sx={{
+                              fontSize: "14px",
+                            }}>Bedrooms: {listing.number_of_bedrooms}</Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={3} lg={3}>
+                          <Typography variant="body1"
+                            sx={{
+                              fontSize: "14px",
+                            }}
+                          >Bathrooms: {listing.number_of_bathrooms}</Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={3} lg={3}>
+                          <Typography variant="body1"
+                            sx={{
+                              fontSize: "14px",
+                            }}
+                          >Toilets: {listing.number_of_toilets}</Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={3} lg={3}>
+                          {
+                            hasKitchen === 1 ?
+                              (
+                                <Typography variant="body1"
+                                  sx={{
+                                    fontSize: "14px",
+                                  }}
+                                >Kitchen: {listing.number_of_bathrooms}</Typography>
+                              ) : null
+                          }
+                        </Grid>
+                      </Grid>
+                    </Box>
+                    <Divider
+                      sx={{
+                        marginTop: "7px"
+                      }}
+                    />
+
+                    {/* Furnished with */}
+                    <Box
+                      mt={1}
+                      sx={{
+                        width: "100%",
+                        height: "auto"
+                      }}>
+                      <Typography variant="body1"
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "1.2rem",
+                        }}>
+                        Furnished with
+                      </Typography>
+                      <Box
+                        mt={1}
+                        sx={{
+                          width: {
+                            xs: "100%",
+                            sm: "100%",
+                            md: "80%",
+                            lg: "80%",
+                          },
+                        }}
+                      >
+                        {
+                          isFurnished === 1 ? (
+                            <Grid container spacing={1}>
+                              <Grid item xs={6} sm={6} md={3} lg={3}>
+                                <Typography variant="body1"
+                                  sx={{
+                                    fontSize: "14px",
+
+                                  }}
+                                >Bed</Typography>
+                              </Grid>
+                              <Grid item xs={6} sm={6} md={3} lg={3}>
+                                <Typography variant="body1"
+                                  sx={{
+                                    fontSize: "14px",
+
+                                  }}
+                                >Television</Typography>
+                              </Grid>
+                              <Grid item xs={6} sm={6} md={3} lg={3}>
+                                <Typography variant="body1"
+                                  sx={{
+                                    fontSize: "14px",
+
+                                  }}
+                                >Chairs</Typography>
+                              </Grid>
+                              <Grid item xs={6} sm={6} md={3} lg={3}>
+                                <Typography variant="body1"
+                                  sx={{
+                                    fontSize: "14px",
+
+                                  }}
+                                >Fridge</Typography>
+                              </Grid>
+                            </Grid>
+                          ) : (
+                            <Typography variant="body1"
+                              sx={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              Not Furnished
+                            </Typography>
+                          )
+                        }
+
+                      </Box>
+
+                    </Box>
+                    <Divider
+                      sx={{
+                        marginTop: "7px"
+                      }}
+                    />
+
+                    {/* Utilities Included */}
+                    <Box
+                      mt={1}
+                      sx={{
+                        width: "100%",
+                        height: "auto"
+                      }}>
+                      <Typography variant="body1"
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "1.2rem",
+                        }}>
+                        Utilities Included
+                      </Typography>
+                      <Box
+                        mt={1}
+                        sx={{
+                          width: {
+                            xs: "100%",
+                            sm: "100%",
+                            md: "80%",
+                            lg: "80%",
+                          },
+                        }}
+                      >
+
+
+
+
+
+                        {
+                          hasWater === 1 ? (
+                            <Typography variant="body1"
+                              sx={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              Water
+                            </Typography>
+                          ) : (
+                            <Typography variant="body1"
+                              sx={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              No Water
+                            </Typography>
+                          )
+                        }
+
+                        {
+                          hasElectricity === 1 ? (
+                            <Typography variant="body1"
+                              sx={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              Electricity
+                            </Typography>) : (
+                            <Typography variant="body1"
+                              sx={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              No Electricity
+                            </Typography>
+                          )
+                        }
+
+                      </Box>
+                    </Box>
+                    <Divider
+                      sx={{
+                        marginTop: "7px"
+                      }}
+                    />
+
+                    {/* Property description */}
+                    <Box
+                      mt={1}
+                      sx={{
+                        width: "100%",
+                        height: "auto"
+                      }}>
+
+                      <Typography variant="body1"
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "1.2rem",
+                        }}>
+                        Property Description
+                      </Typography>
+
+                      <Box
+                        mt={1}
+                        sx={{
+                          width: "100%",
+                          height: "auto"
+                        }}
+                      >
+                        <Typography variant="body1"
+                          sx={{
+                            fontSize: "14px"
+                          }}>
+                          {listing.full_property_description}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+
+
+
+
+
+                {/*Right Sidebar */}
+                <Box sx={{
+                  width: {
+                    sm: "40%",
+                    md: "30%",
+                    lg: "30%",
+                  },
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                    md: "block",
+                    lg: "block",
+                  },
+                  height: "auto",
+                  padding: "0 2rem",
+
+                }}>
+
+                  <Paper
+                    elevation={2}
+                    sx={{
+                      width: "100%",
+                      height: "auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      // borderRadius: "14px",
+                      backgroundColor: "#35BF43",
+                      borderRadius: "14px 14px 8px 8px",
+                      alignItems: "center",
+                      justifyContent: "flex-end"
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: "auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        // justifyContent: "space-between",
+                        padding: {
+                          sm: "1rem 0.8rem",
+                          md: "1rem 2rem",
+                          lg: "1rem 2rem",
+                        },
+                        alignItems: "center",
+                        borderRadius: "8px",
+                        backgroundColor: "#FFFFFF",
+                        marginTop: "5px",
+                      }}>
+                      <Typography variant="body1"
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "1.2rem",
+                        }}>GHC300 / month</Typography>
+                      <Divider sx={{
+                        width: "100%",
+                        height: "2px",
+                        backgroundColor: "#35BF43",
+                        marginTop: "0.4rem",
+                      }} />
+
+                      {/* Listed by */}
+                      <Box
+                        sx={{
+                          width: "100%",
+                          height: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          marginTop: "0.5rem"
+                        }}>
+                        <Avatar
+                          src=""
+                          alt=""
+                          size="small"
+                        />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            marginLeft: "0.5rem",
+                          }}>
+                          <Typography variant="body1"
+                            sx={{
+                              fontSize: "14px",
+                            }}>Listed by</Typography>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                            }}>
+                            <Typography variant="body1"
+                              sx={{
+                                fontSize: "14px",
+                              }}>Francis Quartey</Typography>
+                            <CheckCircle sx={{
+                              fontSize: "18px",
+                              marginLeft: "0.4rem",
+                              color: "#4285F4",
+                            }} />
+                          </Box>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        mt={2}
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}>
+                        <Typography variant="body1"
+                          align="center"
+                          sx={{
+                            fontWeight: "550",
+                            fontSize: {
+                              sm: "14px",
+                              md: "14px",
+                              lg: "14px",
+                            },
+                            lineHeight: "18px"
+                          }}>
+                          Interested in this Listing? Schedule an inspection.
+                        </Typography>
+                      </Box>
+
+                      {/* Type of inspection */}
+                      <Box
+                        mt={1}
+                        sx={{
+                          width: "100%",
+                        }}>
+                        <Typography variant="body1"
+                          sx={{
+                            fontWeight: "550",
+                            fontSize: {
+                              sm: "14px",
+                              md: "14px",
+                              lg: "14px",
+                            },
+
+                          }}>
+                          Type of inspection
+                        </Typography>
+                        <TextField
+                          color="success"
+                          select
+                          fullWidth={true}
+                          size="small"
+                          value={inspectionType}
+                          onChange={handleChange}
+                          sx={{
+                            marginTop: "3px"
+                          }}
+                        >
+                          <MenuItem value="Physical">Physical</MenuItem>
+                          <MenuItem value="Other">Other</MenuItem>
+                        </TextField>
+                      </Box>
+
+                      {/* Date */}
+                      <Box
+                        mt={1}
+                        sx={{
+                          width: "100%",
+                        }}
+                      >
+                        <Typography variant="body1"
+                          sx={{
+                            fontWeight: "550",
+                            fontSize: {
+                              sm: "14px",
+                              md: "14px",
+                              lg: "14px",
+                            },
+
+                          }}
+                        >
+                          Inspection Date
+                        </Typography>
+
+                        <TextField
+                          color="success"
+                          fullWidth={true}
+                          size="small"
+                          type="date"
+                          sx={{
+                            marginTop: "3px"
+                          }}
+                        />
+                        <Button
+                          fullWidth={true}
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "#35BF43",
+                            marginTop: "1rem",
+                            "&:hover": {
+                              backgroundColor: "#35BF43",
+                            }
+                          }}>
+                          <Typography variant="body1"
+                            sx={{
+                              textTransform: "none",
+                              fontSize: {
+                                sm: "14px",
+                                md: "14px",
+                                lg: "14px",
+                              },
+                            }}
+                          >Book Inspection</Typography>
+                        </Button>
+                      </Box>
+                    </Box>
+                  </Paper>
+
+                  {/* Apply now */}
+                  <Paper
+
+                    elevation={2}
+                    sx={{
+                      width: "100%",
+                      height: "auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      // borderRadius: "14px",
+                      backgroundColor: "#35BF43",
+                      borderRadius: "14px 14px 8px 8px",
+                      marginTop: "1.5rem",
+
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: "auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        // justifyContent: "space-between",
+                        padding: {
+                          sm: "1rem 0.8rem",
+                          md: "1rem 2rem",
+                          lg: "1rem 2rem",
+                        },
+                        alignItems: "center",
+                        borderRadius: "8px",
+                        backgroundColor: "#FFFFFF",
+                        marginTop: "5px",
+                      }}>
+
+                      <Box
+                        mt={1}
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                        }}>
+                        <Typography variant="body1"
+                          align="center"
+                          sx={{
+                            fontWeight: "550",
+                            fontSize: {
+                              sm: "14px",
+                              md: "14px",
+                              lg: "14px",
+                            },
+                            lineHeight: "18px"
+                          }}>
+                          Like this Listing? Secure this home by sending your application today!
+                        </Typography>
+                      </Box>
+
+                      {/* Date */}
+                      <Box
+                        mt={1}
+                        sx={{
+                          width: "100%",
+                        }}
+                      >
+                        <Button
+                          fullWidth={true}
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "#35BF43",
+                            marginTop: "1rem",
+                            "&:hover": {
+                              backgroundColor: "#35BF43",
+                            }
+                          }}>
+                          <Typography variant="body1"
+                            sx={{
+                              textTransform: "none",
+                              fontSize: {
+                                sm: "14px",
+                                md: "14px",
+                                lg: "14px",
+                              },
+                            }}
+                          >Apply now</Typography>
+                        </Button>
+                      </Box>
+                    </Box>
+                  </Paper>
+
+                </Box>
+              </Box>
+
+              {/* Similar Listings */}
+              <Box
+                mt={3}
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                }}>
+                <Typography variant="body1"
+                  sx={{
+                    color: "#35BF43",
+                    fontWeight: "700",
+                    fontSize: {
+                      xs: "20px",
+                      sm: "20px",
+                      md: "1.7rem",
+                      lg: "1.7rem",
+                    },
+                  }}>Similar Listings</Typography>
+
+                <Box
+                  mt={2}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between"
+                  }}>
+                  <IconButton
+                    size="small"
+                    disableRipple={true}
+                    aria-label="next"
+                    onClick={() => sliderRef.current.slickPrev()}
+                    edge="end"
+                  >
+                    <ChevronLeft
+                      sx={{
+                        fontSize: {
+                          xs: "2rem",
+                          sm: "2rem",
+                          md: "2.5rem",
+                          lg: "2.5rem",
+                        },
+                        color: "#000",
+                      }}
+                    />
+                  </IconButton>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: "auto",
+                      overflow: "hidden",
+                    }}>
+                    <Slider ref={sliderRef} {...settings}>
+                      <SimilarListings
+                        key={"1"}
+                        image={hse4}
+                        image1={hse4}
+                        image2={hse4}
+                        image3={hse4}
+                        image4={hse4}
+                        id={"2"}
+                        showTag={showTag}
+                        amount={"$200"}
+                        property_type={"Apartment"}
+                        number_of_bathrooms={"1"}
+                        number_of_bedrooms={"2"}
+                        location={"New York"}
+                        region={"Greater Accra"}
+                      />
+                      <SimilarListings
+                        key={"1"}
+                        image={hse4}
+                        image1={hse4}
+                        image2={hse4}
+                        image3={hse4}
+                        image4={hse4}
+                        id={"2"}
+                        showTag={showTag}
+                        amount={"$200"}
+                        property_type={"Apartment"}
+                        number_of_bathrooms={"1"}
+                        number_of_bedrooms={"2"}
+                        location={"New York"}
+                        region={"Greater Accra"}
+                      />
+                      <SimilarListings
+                        key={"1"}
+                        image={hse4}
+                        image1={hse4}
+                        image2={hse4}
+                        image3={hse4}
+                        image4={hse4}
+                        id={"2"}
+                        showTag={showTag}
+                        amount={"$200"}
+                        property_type={"Apartment"}
+                        number_of_bathrooms={"1"}
+                        number_of_bedrooms={"2"}
+                        location={"New York"}
+                        region={"Greater Accra"}
+                      />
+                      <SimilarListings
+                        key={"1"}
+                        image={hse4}
+                        image1={hse4}
+                        image2={hse4}
+                        image3={hse4}
+                        image4={hse4}
+                        id={"2"}
+                        showTag={showTag}
+                        amount={"$200"}
+                        property_type={"Apartment"}
+                        number_of_bathrooms={"1"}
+                        number_of_bedrooms={"2"}
+                        location={"New York"}
+                        region={"Greater Accra"}
+                      />
+                      <SimilarListings
+                        key={"1"}
+                        image={hse4}
+                        image1={hse4}
+                        image2={hse4}
+                        image3={hse4}
+                        image4={hse4}
+                        id={"2"}
+                        showTag={showTag}
+                        amount={"$200"}
+                        property_type={"Apartment"}
+                        number_of_bathrooms={"1"}
+                        number_of_bedrooms={"2"}
+                        location={"New York"}
+                        region={"Greater Accra"}
+                      />
+                      <SimilarListings
+                        key={"1"}
+                        image={hse4}
+                        image1={hse4}
+                        image2={hse4}
+                        image3={hse4}
+                        image4={hse4}
+                        id={"2"}
+                        showTag={showTag}
+                        amount={"$200"}
+                        property_type={"Apartment"}
+                        number_of_bathrooms={"1"}
+                        number_of_bedrooms={"2"}
+                        location={"New York"}
+                        region={"Greater Accra"}
+                      />
+                    </Slider>
+                  </Box>
+                  <IconButton
+                    size="small"
+                    disableRipple={true}
+                    aria-label="next"
+                    onClick={() => sliderRef.current.slickNext()}
+                    edge="end"
+                  >
+                    <ChevronRight
+                      sx={{
+                        fontSize: {
+                          xs: "2rem",
+                          sm: "2rem",
+                          md: "2.5rem",
+                          lg: "2.5rem",
+                        },
+                        color: "#000",
+                      }}
+                    />
+                  </IconButton>
+                </Box>
+              </Box>
+            </>
+          )
+        }
       </Container>
     </Box>
   );

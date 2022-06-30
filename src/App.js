@@ -22,20 +22,28 @@ import SocialAuth from "./pages/SocialAuth";
 import FacebookAuth from "./pages/FacebookAuth";
 import Footer from "./components/Footer";
 
+
+
 function App() {
   const [user, setUser] = useState(false);
   const [userName, setUserName] = useState("");
   const [userAvater, setUserAvater] = useState("");
+  const [token, setToken] = useState();
   const [showNav, setShowNav] = useState(true);
+  const [selectedImg, setSelectedImg] = useState("");
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (localStorage.getItem("user-info")) {
       setUser(true);
       setUserName(userInfo.firstname);
       setUserAvater(userInfo.avatar);
+      setToken(userInfo.access_token);
     } else {
       setUser(false);
+      // navigate("/welcome");
     }
   }, []);
 
@@ -49,11 +57,16 @@ function App() {
           setUserName,
           userAvater,
           setUserAvater,
+          token,
+          setToken,
           showNav,
           setShowNav,
+          selectedImg,
+          setSelectedImg
         }}
       >
         {showNav ? <TopBar /> : null}
+
         <Routes>
           <Route exact path="/welcome" element={<LandingPage />} />
           <Route exact path="/" element={<Listing />} />
@@ -83,9 +96,12 @@ function App() {
           />
         </Routes>
 
+
         {showNav ? <Footer /> : null}
       </UserContext.Provider>
+
       <CssBaseline />
+
     </>
   );
 }

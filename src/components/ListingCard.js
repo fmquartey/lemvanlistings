@@ -34,10 +34,10 @@ const ListingCard = (props) => {
             lg: "15px",
           },
           width: {
-            xs: "140px",
-            sm: "100%",
+            xs: "100%",
+            sm: "92%",
             md: "90%",
-            lg: "270px",
+            lg: "90%",
           },
           height: "auto",
           borderRadius: "10px",
@@ -49,10 +49,10 @@ const ListingCard = (props) => {
             position: "relative",
             width: "100%",
             height: {
-              xs: "95px",
+              xs: "93px",
               sm: "140px",
               md: "110px",
-              lg: "180px",
+              lg: "158px",
             },
             overflow: "hidden",
             borderRadius: "10px",
@@ -64,8 +64,10 @@ const ListingCard = (props) => {
               style={{
                 textDecoration: "none",
                 color: "#000000",
+               
               }}
               to={`/listing/${props.id}`}
+             
             >
               <img
                 src={props.image}
@@ -176,7 +178,7 @@ const ListingCard = (props) => {
               position: "absolute",
               top: {
                 xs: "30%",
-                sm: "40%",
+                sm: "35%",
                 md: "30%",
                 lg: "35%",
               },
@@ -206,7 +208,7 @@ const ListingCard = (props) => {
               position: "absolute",
               top: {
                 xs: "30%",
-                sm: "40%",
+                sm: "35%",
                 md: "30%",
                 lg: "35%",
               },
@@ -254,15 +256,25 @@ const ListingCard = (props) => {
               <Box
                 sx={{
                   position: "absolute",
-                  bottom: "5px",
-                  right: "4px",
-                  padding: {
-                    xs: "2px 4px",
-                    sm: "2px 4px",
-                    md: "5px 8px",
-                    lg: "5px 8px",
+                  bottom: {
+                    xs: "3px",
+                    sm: "9px",
+                    md: "5px",
+                    lg: "4px",
                   },
-                  borderRadius: "10px",
+                  right: {
+                    xs: "2px",
+                    sm: "3px",
+                    md: "4px",
+                    lg: "3px",
+                  },
+                  padding: {
+                    xs: "2px 5px",
+                    sm: "2px 5px",
+                    md: "3px 5px",
+                    lg: "3px 5px",
+                  },
+                  borderRadius: "9px",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -274,7 +286,7 @@ const ListingCard = (props) => {
                 }} />
                 <Typography variant="body1"
                   sx={{
-                    fontSize: "12px",
+                    fontSize: "10px",
                     color: "#fff",
                   }}>
                   Verified
@@ -324,7 +336,7 @@ const ListingCard = (props) => {
                     textDecoration: "none",
                   }}
                 >
-                  {props.amount} / {props.period}
+                  {props.amount}
                 </Typography>
               </Box>
               <Stack spacing={0}>

@@ -56,13 +56,13 @@ const Login = () => {
   // redirect to listing in 5 seconds
   const redirect = () => {
     setTimeout(() => {
-      navigate("/listing");
+      navigate("/");
     }, 1000);
   };
 
   const backArrow = () => {
     setShowNav(true);
-    navigate("/");
+    navigate("/welcome");
   };
 
   const handleLoginSubmit = (e) => {

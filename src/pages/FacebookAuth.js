@@ -9,12 +9,12 @@ const FacebookAuth = () => {
   const backendurl = process.env.REACT_APP_BACKEND_URL;
   const facebookurl = location.search;
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { setUser, setShowNav } = useContext(UserContext);
 
   const redirect = () => {
     setTimeout(() => {
       setUser(true);
-      navigate("/listing");
+      navigate("/");
     }, 5000);
   };
   const Facebook = () => {
@@ -29,6 +29,8 @@ const FacebookAuth = () => {
   };
 
   useEffect(() => {
+    setShowNav(false);
+
     Facebook();
     // console.log(backendurl + googleurl);
   }, []);

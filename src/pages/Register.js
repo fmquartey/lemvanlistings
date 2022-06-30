@@ -60,36 +60,6 @@ const Register = () => {
     }
   };
 
-  // validate email
-  const validateEmail = (e) => {
-    e.preventDefault();
-    if (!regex.test(email)) {
-      setMessage("Please enter a valid email address");
-      setAlert(true);
-      setAlertType("error");
-    } else {
-      setAlert(false);
-      setAlertType("success");
-      setMessage("");
-      return true;
-    }
-  };
-
-  const TextAccounttype = () => {
-    console.log(account_type);
-  };
-
-  // check if password and confirm password match
-  const handleConfirmPassword = (e) => {
-    if (password_confirmation !== password) {
-      setAlert(true);
-      setAlertType("error");
-      setAlertMessage("Passwords do not match");
-      // console.log("Passwords do not match");
-    } else {
-      console.log("Passwords match");
-    }
-  };
 
   // Register handle
   const handleSignupSubmit = (e) => {
@@ -205,7 +175,7 @@ const Register = () => {
 
   const backArrow = () => {
     setShowNav(true);
-    navigate("/");
+    navigate("/welcome");
   };
 
   return (
@@ -458,7 +428,7 @@ const Register = () => {
 
           <Stack spacing={2}>
             <Button
-              onClick={TextAccounttype}
+              onClick={handleFacebookSignIn}
               sx={{
                 borderRadius: "10px",
                 textTransform: "none",

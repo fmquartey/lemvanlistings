@@ -32,7 +32,7 @@ import { UserContext } from "../context/UserContext";
 import Axios from "axios";
 
 const TopBar = () => {
-  const { user, setUser, userName, userAvater } = useContext(UserContext);
+  const { user, setUser, userName, userAvater, token } = useContext(UserContext);
   const navigate = useNavigate();
   const userinfo = JSON.parse(localStorage.getItem("user-info"));
   const backendurl = process.env.REACT_APP_BACKEND_URL;
@@ -47,14 +47,16 @@ const TopBar = () => {
     setAnchorEl(null);
   };
 
+  
   const authAxios = Axios.create({
     baseURL: backendurl,
     headers: {
-      // Authorization: "Bearer " + userinfo.access_token,
+      Authorization: "Bearer " + token,
     },
   });
 
   const handleLogout = () => {
+    
     handleCloseMenu();
     authAxios
       .get("/api/logout")

@@ -2,12 +2,9 @@ import { FilterList, Search } from "@mui/icons-material";
 import { Box, Button, Container, Grid, InputBase, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import ListingCard from "../components/ListingCard";
+import Listings from "../components/Listings";
 import { UserContext } from "../context/UserContext";
-import hse1 from "../img/hse1.jpg";
-import hse2 from "../img/hse2.jpg";
-import hse3 from "../img/hse3.jpg";
-import hse4 from "../img/hse4.jpg";
-import hse5 from "../img/hse5.jpg";
+
 const Listing = () => {
   // const user = JSON.parse(localStorage.getItem("user-info"));
   const { setShowNav } = useContext(UserContext);
@@ -16,7 +13,7 @@ const Listing = () => {
   const [filteredListings, setFilteredListings] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const [showTag, setShowTag] = useState(true);
+
   useEffect(() => {
     setShowNav(true);
   }, []);
@@ -27,10 +24,12 @@ const Listing = () => {
       sx={{
         marginTop: "3px",
         width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Container maxWidth="lg" >
-
+      <Container maxWidth="lg">
         {/* Top section: search and filter*/}
         <Box sx={{
           width: "100%",
@@ -183,265 +182,7 @@ const Listing = () => {
             </Typography>
           </Box>
           {/* listings */}
-          <Box
-            mt={2}
-            sx={{
-              width: "100%",
-              height: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
-            <Grid container columnSpacing={3} rowSpacing={3}>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  showTag={showTag}
-                  id="1"
-                  amount="$1,000"
-                  period="month"
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  period="month"
-
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3} lg={3}>
-                <ListingCard
-                  key=""
-                  image={hse1}
-                  image1={hse2}
-                  image2={hse3}
-                  image3={hse4}
-                  image4={hse5}
-                  id="1"
-                  amount="$1,000"
-                  showTag={showTag}
-                  
-                  property_type="House"
-                  number_of_bathrooms="2"
-                  number_of_bedrooms="3"
-                  location="New York, NY"
-                  region="New York"
-                />
-              </Grid>
-
-            </Grid>
-          </Box>
+          <Listings />
           <Box
             mt={2}
             sx={{
@@ -451,7 +192,6 @@ const Listing = () => {
             }}
           >
             <Typography
-
               variant="body1"
               sx={{
                 fontSize: {

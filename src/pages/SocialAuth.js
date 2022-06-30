@@ -15,29 +15,29 @@ const SocialAuth = () => {
   const facebookurl = location.search;
 
   const navigate = useNavigate();
-const { setUser } = useContext(UserContext);
+  const { setUser, setShowNav } = useContext(UserContext);
 
   // redirect to listing in 5 seconds
   const redirect = () => {
-      setTimeout(() => {
-        setUser(true);
-        navigate("/listing");
+    setTimeout(() => {
+      setUser(true);
+      navigate("/");
     }, 5000);
-    };
-    
+  };
+
 
   // User is verified
-    const Verify = () => {
-      Axios.get(`${backendurl}/api/google/auth/callback/1${googleurl}`)
-        .then((res) => {
-            localStorage.setItem("user-info", JSON.stringify(res.data.data));
-            redirect();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  const Verify = () => {
+    Axios.get(`${backendurl}/api/google/auth/callback/1${googleurl}`)
+      .then((res) => {
+        localStorage.setItem("user-info", JSON.stringify(res.data.data));
+        redirect();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  
+
   // const Facebook = () => {
   //   Axios.get(`${backendurl}/api/facebook/auth/callback/1${facebookurl}`)
   //     .then((res) => {
@@ -48,9 +48,10 @@ const { setUser } = useContext(UserContext);
   //       console.log(err);
   //     });
   // };
-    
+
 
   useEffect(() => {
+    setShowNav(false);
     Verify();
     // Facebook();
     // console.log(backendurl + googleurl);

@@ -77,7 +77,7 @@ const OurHome = () => {
       {
         breakpoint: 540,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2, 
           slidesToScroll: 2,
           initialSlide: 2,
           infinite: false,
