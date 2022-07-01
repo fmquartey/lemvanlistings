@@ -269,7 +269,11 @@ const Details = () => {
                           md: "1.7rem",
                           lg: "1.7rem",
                         },
-                      }}>{listing.property_title}</Typography>
+                      }}>
+                      {
+                        listing.property_title
+                      }
+                    </Typography>
                     {
                       isVerified === 1 ? (
                         <CheckCircle sx={{
@@ -411,6 +415,7 @@ const Details = () => {
                           overflow: "hidden",
                         }}>
 
+                        {/* Other images */}
                         <Slider ref={imgslider} {...imgsettings}>
                           {
                             imgs.map((img, index) => (
@@ -428,7 +433,7 @@ const Details = () => {
 
                                   display: "flex",
                                   alignItems: "center",
-                                  justifyContent: "center"
+                                  justifyContent: "center",
                                 }}
                                 onClick={() => {
                                   setSelectedImg(img);
@@ -439,6 +444,7 @@ const Details = () => {
                                     width: "100%",
                                     height: "100%",
                                     borderRadius: "10px",
+                                    cursor: "pointer",
                                   }} />
                               </Box>
                             ))
@@ -564,13 +570,12 @@ const Details = () => {
                         }}
                       >
                         {
-                          isFurnished === 1 ? (
+                          isFurnished ? (
                             <Grid container spacing={1}>
                               <Grid item xs={6} sm={6} md={3} lg={3}>
                                 <Typography variant="body1"
                                   sx={{
                                     fontSize: "14px",
-
                                   }}
                                 >Bed</Typography>
                               </Grid>

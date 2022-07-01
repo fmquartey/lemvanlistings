@@ -9,6 +9,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Verified from "./pages/Verified";
 import LandingPage from "./pages/LandingPage";
 import Details from "./pages/Details";
+import Landlord from "./pages/Landlord";
 import Resetpwd from "./pages/Resetpwd";
 import Verify from "./pages/Verify";
 import Login from "./pages/Login";
@@ -30,6 +31,7 @@ function App() {
   const [userAvater, setUserAvater] = useState("");
   const [token, setToken] = useState();
   const [showNav, setShowNav] = useState(true);
+  const [openSidebar, setOpenSideBar] = useState(true);
   const [selectedImg, setSelectedImg] = useState("");
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const navigate = useNavigate();
@@ -61,16 +63,16 @@ function App() {
           setToken,
           showNav,
           setShowNav,
-          selectedImg,
-          setSelectedImg
+          openSidebar,
+          setOpenSideBar
         }}
       >
         {showNav ? <TopBar /> : null}
-
         <Routes>
           <Route exact path="/welcome" element={<LandingPage />} />
           <Route exact path="/" element={<Listing />} />
           <Route exact path="/listing/:id" element={<Details />} />
+          <Route exact path="/app/landlord" element={<Landlord />} />
           <Route exact path="/:token/:email" element={<Resetpwd />} />
           <Route exact path="/verified" element={<Verified />} />
           <Route exact path="/login" element={<Login />} />
