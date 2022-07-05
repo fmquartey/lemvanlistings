@@ -3,12 +3,13 @@ import { Box, Container } from "@mui/system";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { apilink } from "../Helper";
 
 const Verify = () => {
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("");
   const [loading, setLoading] = useState(false);
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
   const { id, hash } = useParams();
   const location = useLocation();
   const urlSearch = location.search;

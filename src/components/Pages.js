@@ -1,7 +1,10 @@
 import { Close, Menu } from '@mui/icons-material'
 import { Box, IconButton, Paper, Typography } from '@mui/material'
 import React, { useContext } from 'react'
+import { Outlet } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
+import Listings from '../pages/landlord/Listings';
+import Tenants from '../pages/landlord/Tenants';
 
 const Pages = () => {
     const { openSidebar, setOpenSideBar } = useContext(UserContext);
@@ -29,7 +32,6 @@ const Pages = () => {
                     justifyContent: "space-between",
                     borderBottom: "1px solid #E0E0E0",
                     padding: "0px 20px",
-                    transition: "5s",
                 }}>
                 <Box>
                     {
@@ -55,9 +57,11 @@ const Pages = () => {
                     }
                 </Box>
                 <Box>
-                    yes
+                    <Typography variant="body1">Francis</Typography>
                 </Box>
             </Box>
+            
+            <Outlet/>
         </Box>
     )
 }

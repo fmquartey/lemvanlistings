@@ -16,7 +16,7 @@ import SideBar from "../components/SideBar";
 import Pages from "../components/Pages";
 
 const Landlord = () => {
-    const { setUser, setShowNav } = useContext(UserContext);
+    const { setShowNav } = useContext(UserContext);
 
     useEffect(() => {
         setShowNav(false);
@@ -28,10 +28,9 @@ const Landlord = () => {
                 height: "100vh",
                 display: "flex",
                 alignItems: "center",
-                
             }}>
             <SideBar />
-            <Pages/>
+            <Pages />
         </Box>
     );
 }

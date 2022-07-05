@@ -22,6 +22,7 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import AccountType from "../components/auths/AccountType";
+import { apilink } from "../Helper";
 
 const Login = () => {
   const { setUser, setShowNav } = useContext(UserContext);
@@ -43,7 +44,7 @@ const Login = () => {
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   // const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
 
   const navigate = useNavigate();
 

@@ -22,6 +22,12 @@ import { UserContext } from "./context/UserContext";
 import SocialAuth from "./pages/SocialAuth";
 import FacebookAuth from "./pages/FacebookAuth";
 import Footer from "./components/Footer";
+import Listings from "./pages/landlord/Listings";
+import Tenants from "./pages/landlord/Tenants";
+import Profile from "./pages/landlord/Profile";
+import Chat from "./pages/landlord/Chat";
+import Settings from "./pages/landlord/Settings";
+import Home from "./pages/landlord/Home";
 
 
 
@@ -32,7 +38,7 @@ function App() {
   const [token, setToken] = useState();
   const [showNav, setShowNav] = useState(true);
   const [openSidebar, setOpenSideBar] = useState(true);
-  const [selectedImg, setSelectedImg] = useState("");
+  const [searchParam, setsearchParam] = useState("");
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const navigate = useNavigate();
 
@@ -64,7 +70,7 @@ function App() {
           showNav,
           setShowNav,
           openSidebar,
-          setOpenSideBar
+          setOpenSideBar, searchParam, setsearchParam
         }}
       >
         {showNav ? <TopBar /> : null}
@@ -72,7 +78,14 @@ function App() {
           <Route exact path="/welcome" element={<LandingPage />} />
           <Route exact path="/" element={<Listing />} />
           <Route exact path="/listing/:id" element={<Details />} />
-          <Route exact path="/app/landlord" element={<Landlord />} />
+          <Route exact path="/app/landlord" element={<Landlord />}>
+            <Route exact path="" element={<Home />} />
+            <Route exact path="listings" element={<Listings />} />
+            <Route path="tenants" element={<Tenants />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="chat" element={<Chat />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
           <Route exact path="/:token/:email" element={<Resetpwd />} />
           <Route exact path="/verified" element={<Verified />} />
           <Route exact path="/login" element={<Login />} />

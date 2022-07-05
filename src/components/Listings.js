@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CircularProgress, Grid, IconButton, Paper, Typography } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Axios from "axios";
 
 import ListingCard from './ListingCard';
@@ -10,23 +10,37 @@ import hse3 from "../img/hse3.jpg";
 import hse4 from "../img/hse4.jpg";
 import hse5 from "../img/hse5.jpg";
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { UserContext } from '../context/UserContext';
+import { apilink } from '../Helper';
 
-const Listings = () => {
+const Listings = (props) => {
     const [showTag, setShowTag] = useState(true);
     const [listings, setListings] = useState([]);
 
+    const { searchParam } = useContext(UserContext);
+
+
     const [loading, setLoading] = useState(false);
-
-    const paginateRef = useRef(null);
-    const backendurl = process.env.REACT_APP_BACKEND_URL;
-
+    const backendurl = apilink;
 
     const getListings = () => {
         setLoading(true);
         Axios.get(`${backendurl}/api/listings`)
             .then((res) => {
                 setLoading(false);
-                setListings(res.data.data);
+                setListings(res.data.data); 
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const searchListings = () => {
+        setLoading(true);
+        Axios.get(`${backendurl}/api/listings`)
+            .then((res) => {
+                setLoading(false);
+                setListings(res.data.data); 
             })
             .catch((err) => {
                 console.log(err);
@@ -37,7 +51,8 @@ const Listings = () => {
         getListings();
     }, []);
 
-
+    
+    
     const handlePageClick = (e) => {
         console.log(e.selected);
     }
@@ -47,6 +62,8 @@ const Listings = () => {
         <>
             {
                 loading ? (
+                   
+                        
                     <Box
                         sx={{
                             width: "100%",
@@ -62,7 +79,8 @@ const Listings = () => {
                                 color: "#35BF43",
                             }}
                         />
-                    </Box>
+                        </Box>
+
                 ) : (
                     <>
                         <Box
@@ -75,23 +93,23 @@ const Listings = () => {
                                 alignItems: "center",
                             }}>
                             <Grid container columnSpacing={1} rowSpacing={1}>
-                                {listings.map((listing) => (
+                                    {listings.map((data) => (
                                     <Grid item xs={6} sm={4} md={3} lg={3}>
                                         <ListingCard
-                                            key={listing.id}
-                                            image={listing.image}
-                                            image1={listing.image}
-                                            image2={listing.image}
-                                            image3={listing.image}
-                                            image4={listing.image}
-                                            id={listing.id}
+                                            key={data.id}
+                                            id={data.id}
+                                            image={data.image}
+                                            image1={data.image}
+                                            image2={data.image}
+                                            image3={data.image}
+                                            image4={data.image}
                                             showTag={showTag}
-                                            amount={listing.amount}
-                                            property_type={listing.property_type.type}
-                                            number_of_bathrooms={listing.number_of_bathrooms}
-                                            number_of_bedrooms={listing.number_of_bedrooms}
-                                            location={listing.location}
-                                            region={listing.region}
+                                            amount={data.amount}
+                                            property_type={data.property_type.type}
+                                            number_of_bathrooms={data.number_of_bathrooms}
+                                            number_of_bedrooms={data.number_of_bedrooms}
+                                            location={data.location}
+                                            region={data.region}
                                         />
                                     </Grid>
                                 ))}

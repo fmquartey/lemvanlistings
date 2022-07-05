@@ -6,11 +6,12 @@ import {
   useLocation, useNavigate,
 } from "react-router-dom";
 import { UserContext } from '../context/UserContext';
+import { apilink } from '../Helper';
 
 
 const SocialAuth = () => {
   const location = useLocation();
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
   const googleurl = location.search;
   const facebookurl = location.search;
 

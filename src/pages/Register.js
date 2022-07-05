@@ -16,6 +16,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { apilink } from "../Helper";
 
 const Register = () => {
   const [firstname, setFirstName] = useState("");
@@ -33,7 +34,7 @@ const Register = () => {
   const [alertType, setAlertType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
   const navigate = useNavigate();
   const { account_type } = useParams();
   const { setShowNav } = useContext(UserContext);

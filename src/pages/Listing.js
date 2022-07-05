@@ -1,21 +1,55 @@
 import { FilterList, Search } from "@mui/icons-material";
-import { Box, Button, Container, Grid, InputBase, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Container, Grid, InputBase, Paper, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import ListingCard from "../components/ListingCard";
 import Listings from "../components/Listings";
 import { UserContext } from "../context/UserContext";
+import Axios from "axios";
+import ReactPaginate from "react-paginate";
+import { apilink } from "../Helper";
 
 const Listing = () => {
   // const user = JSON.parse(localStorage.getItem("user-info"));
+  const backendurl = apilink;
   const { setShowNav } = useContext(UserContext);
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
-  const [filteredListings, setFilteredListings] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showTag, setShowTag] = useState(true);
+
+  const getListings = () => {
+    setLoading(true);
+    Axios.get(`${backendurl}/api/listings`)
+      .then((res) => {
+        setLoading(false);
+        setListings(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const searchListings = (e) => {
+    setSearch(e.target.value);
+    setLoading(true);
+    Axios.get(`${backendurl}/api/listings/search/${search}`)
+      .then((res) => {
+        setLoading(false);
+        setListings(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const handlePageClick = (e) => {
+    console.log(e.selected);
+  }
 
   useEffect(() => {
     setShowNav(true);
+    getListings();
   }, []);
 
   return (
@@ -107,16 +141,18 @@ const Listing = () => {
                       placeholder="Search a city or building"
                       margin="none"
                       size="medium"
+                      onChange={searchListings}
                       endAdornment={
-                        <Search sx={{
-                          color: "#35BF43",
-                          fontSize: {
-                            xs: "20px",
-                            sm: "20px",
-                            md: "1.7rem",
-                            lg: "1.7rem",
-                          },
-                        }} />
+                        <Search
+                          sx={{
+                            color: "#35BF43",
+                            fontSize: {
+                              xs: "20px",
+                              sm: "20px",
+                              md: "1.7rem",
+                              lg: "1.7rem",
+                            },
+                          }} />
                       } />
                   </Box>
                 </Box>
@@ -181,8 +217,122 @@ const Listing = () => {
               Affordable homes to fit your budget.
             </Typography>
           </Box>
+
+          {/*  */}
+          {/*  */}
           {/* listings */}
-          <Listings />
+          {
+            loading ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "50px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography>{search}</Typography>
+
+                <CircularProgress
+                  size={25}
+                  sx={{
+                    color: "#35BF43",
+                  }}
+                />
+              </Box>
+
+            ) : (
+                <>
+                <Box
+                  mt={2}
+                  sx={{
+                    width: "100%",
+                    height: "auto",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}>
+                  <Grid container columnSpacing={1} rowSpacing={1}>
+                    {listings.map((data) => (
+                      <Grid item xs={6} sm={4} md={3} lg={3}>
+                        <ListingCard
+                          key={data.id}
+                          id={data.id}
+                          image={data.image}
+                          image1={data.image}
+                          image2={data.image}
+                          image3={data.image}
+                          image4={data.image}
+                          showTag={showTag}
+                          amount={data.amount}
+                          property_type={data.property_type.type}
+                          number_of_bathrooms={data.number_of_bathrooms}
+                          number_of_bedrooms={data.number_of_bedrooms}
+                          location={data.location}
+                          region={data.region}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+                <Box sx={{
+                  padding: {
+                    xs: '1rem 0',
+                    sm: '1rem 0',
+                    md: '1rem',
+                    lg: '1rem',
+                  },
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: {
+                    xs: "center",
+                    sm: "center",
+                    md: "flex-end",
+                    lg: "flex-end",
+                  },
+                  alignItems: "center",
+                }}>
+                  <Paper
+                    elevation={0}
+                    disableGutters={true}
+                    sx={{
+                      width: {
+                        xs: "100%",
+                        sm: "100%",
+                        md: "auto",
+                        lg: "auto",
+                      },
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: " 0 1rem",
+                    }}>
+                    <ReactPaginate
+                      previousLabel={"Prev"}
+                      nextLabel={"Next"}
+                      breakLabel={"..."}
+                      pageCount={50}
+                      marginPagesDisplayed={1}
+                      onPageChange={handlePageClick}
+                      containerClassName={"pagination"}
+                      activeLinkClassName={"active"}
+                      previousLinkClassName={"prevlink"}
+                      previousClassName={"prev"}
+                      pageClassName={"page-num"}
+                      pageLinkClassName={"page-num"}
+                      nextLinkClassName={"page-num"}
+                      nextClassName={"next"}
+                      renderOnZeroPageCount={false}
+                      pageRangeDisplayed={1}
+                    />
+                  </Paper>
+                </Box>
+              </>
+            )
+          }
+
+
           <Box
             mt={2}
             sx={{

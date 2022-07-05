@@ -3,6 +3,7 @@ import { Box, Container, Checkbox, CircularProgress, Divider, Grid, IconButton, 
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
+
 import Axios from "axios";
 
 import Slider from "react-slick";
@@ -16,6 +17,7 @@ import hse1 from "../img/hse1.jpg";
 import hse5 from "../img/hse5.jpg";
 
 import { UserContext } from "../context/UserContext";
+import { apilink } from "../Helper";
 
 
 const Details = () => {
@@ -32,8 +34,11 @@ const Details = () => {
   const [hasElectricity, setHasElectricity] = useState();
   const [isFurnished, setIsFurnished] = useState();
   const [loading, setLoading] = useState(false);
+  const [similarLoading, setSimilarLoading] = useState(false);
   const [listing, setListing] = useState([]);
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const [data, setData] = useState([]);
+  const [similarListing, setSimilarListing] = useState([]);
+  const backendurl = apilink;
 
 
   const getListing = () => {
@@ -49,14 +54,29 @@ const Details = () => {
         setIsVerified(res.data.data.is_verified);
         setIsFurnished(res.data.data.is_furnished);
         setHasWater(res.data.data.has_water);
+      
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const similarListings = () => {
+    setLoading(true);
+    Axios.get(`${backendurl}/api/similar/listings`)
+      .then((res) => {
+        setLoading(false);
+        setSimilarListing(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+
+
   useEffect(() => {
     getListing();
+    similarListings();
   }, []);
 
 
@@ -1044,6 +1064,9 @@ const Details = () => {
                 </Box>
               </Box>
 
+
+
+
               {/* Similar Listings */}
               <Box
                 mt={3}
@@ -1063,158 +1086,104 @@ const Details = () => {
                     },
                   }}>Similar Listings</Typography>
 
-                <Box
-                  mt={2}
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between"
-                  }}>
-                  <IconButton
-                    size="small"
-                    disableRipple={true}
-                    aria-label="next"
-                    onClick={() => sliderRef.current.slickPrev()}
-                    edge="end"
-                  >
-                    <ChevronLeft
+                {
+                  loading ? (
+                    <Box
                       sx={{
-                        fontSize: {
-                          xs: "2rem",
-                          sm: "2rem",
-                          md: "2.5rem",
-                          lg: "2.5rem",
-                        },
-                        color: "#000",
+                        width: "100%",
+                        height: "50px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
-                    />
-                  </IconButton>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      height: "auto",
-                      overflow: "hidden",
-                    }}>
-                    <Slider ref={sliderRef} {...settings}>
-                      <SimilarListings
-                        key={"1"}
-                        image={hse4}
-                        image1={hse4}
-                        image2={hse4}
-                        image3={hse4}
-                        image4={hse4}
-                        id={"2"}
-                        showTag={showTag}
-                        amount={"$200"}
-                        property_type={"Apartment"}
-                        number_of_bathrooms={"1"}
-                        number_of_bedrooms={"2"}
-                        location={"New York"}
-                        region={"Greater Accra"}
+                    >
+                      <CircularProgress
+                        size={25}
+                        sx={{
+                          color: "#35BF43",
+                        }}
                       />
-                      <SimilarListings
-                        key={"1"}
-                        image={hse4}
-                        image1={hse4}
-                        image2={hse4}
-                        image3={hse4}
-                        image4={hse4}
-                        id={"2"}
-                        showTag={showTag}
-                        amount={"$200"}
-                        property_type={"Apartment"}
-                        number_of_bathrooms={"1"}
-                        number_of_bedrooms={"2"}
-                        location={"New York"}
-                        region={"Greater Accra"}
-                      />
-                      <SimilarListings
-                        key={"1"}
-                        image={hse4}
-                        image1={hse4}
-                        image2={hse4}
-                        image3={hse4}
-                        image4={hse4}
-                        id={"2"}
-                        showTag={showTag}
-                        amount={"$200"}
-                        property_type={"Apartment"}
-                        number_of_bathrooms={"1"}
-                        number_of_bedrooms={"2"}
-                        location={"New York"}
-                        region={"Greater Accra"}
-                      />
-                      <SimilarListings
-                        key={"1"}
-                        image={hse4}
-                        image1={hse4}
-                        image2={hse4}
-                        image3={hse4}
-                        image4={hse4}
-                        id={"2"}
-                        showTag={showTag}
-                        amount={"$200"}
-                        property_type={"Apartment"}
-                        number_of_bathrooms={"1"}
-                        number_of_bedrooms={"2"}
-                        location={"New York"}
-                        region={"Greater Accra"}
-                      />
-                      <SimilarListings
-                        key={"1"}
-                        image={hse4}
-                        image1={hse4}
-                        image2={hse4}
-                        image3={hse4}
-                        image4={hse4}
-                        id={"2"}
-                        showTag={showTag}
-                        amount={"$200"}
-                        property_type={"Apartment"}
-                        number_of_bathrooms={"1"}
-                        number_of_bedrooms={"2"}
-                        location={"New York"}
-                        region={"Greater Accra"}
-                      />
-                      <SimilarListings
-                        key={"1"}
-                        image={hse4}
-                        image1={hse4}
-                        image2={hse4}
-                        image3={hse4}
-                        image4={hse4}
-                        id={"2"}
-                        showTag={showTag}
-                        amount={"$200"}
-                        property_type={"Apartment"}
-                        number_of_bathrooms={"1"}
-                        number_of_bedrooms={"2"}
-                        location={"New York"}
-                        region={"Greater Accra"}
-                      />
-                    </Slider>
-                  </Box>
-                  <IconButton
-                    size="small"
-                    disableRipple={true}
-                    aria-label="next"
-                    onClick={() => sliderRef.current.slickNext()}
-                    edge="end"
-                  >
-                    <ChevronRight
+                    </Box>
+                  ) : (
+                    <Box
+                      mt={2}
                       sx={{
-                        fontSize: {
-                          xs: "2rem",
-                          sm: "2rem",
-                          md: "2.5rem",
-                          lg: "2.5rem",
-                        },
-                        color: "#000",
-                      }}
-                    />
-                  </IconButton>
-                </Box>
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between"
+                      }}>
+                      <IconButton
+                        size="small"
+                        disableRipple={true}
+                        aria-label="next"
+                        onClick={() => sliderRef.current.slickPrev()}
+                        edge="end"
+                      >
+                        <ChevronLeft
+                          sx={{
+                            fontSize: {
+                              xs: "2rem",
+                              sm: "2rem",
+                              md: "2.5rem",
+                              lg: "2.5rem",
+                            },
+                            color: "#000",
+                          }}
+                        />
+                      </IconButton>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          height: "auto",
+                          overflow: "hidden",
+                        }}>
+                        <Slider ref={sliderRef} {...settings}>
+                          {
+                                similarListing.map((similar, index) => (
+                                  <SimilarListings
+                                    key={index}
+                                    image={similar.image}
+                                    image1={similar.image}
+                                    image2={similar.image}
+                                    image3={similar.image}
+                                    image4={similar.image}
+                                    id={similar.id}
+                                    showTag={showTag}
+                                    amount={similar.amount}
+                                    property_type={similar.property_type.type}
+                                    number_of_bathrooms={similar.number_of_bathrooms}
+                                    number_of_bedrooms={similar.number_of_bedrooms}
+                                    location={similar.location}
+                                    region={similar.region}
+                                  />
+                            ))
+                          }
+
+                        </Slider>
+                      </Box>
+                      <IconButton
+                        size="small"
+                        disableRipple={true}
+                        aria-label="next"
+                        onClick={() => sliderRef.current.slickNext()}
+                        edge="end"
+                      >
+                        <ChevronRight
+                          sx={{
+                            fontSize: {
+                              xs: "2rem",
+                              sm: "2rem",
+                              md: "2.5rem",
+                              lg: "2.5rem",
+                            },
+                            color: "#000",
+                          }}
+                        />
+                      </IconButton>
+                    </Box>
+                  )
+                }
               </Box>
             </>
           )

@@ -10,6 +10,7 @@ import Axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { apilink } from "../Helper";
 
 const RegSuccess = () => {
   const { successmessage, email } = useParams();
@@ -21,7 +22,7 @@ const RegSuccess = () => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   // const email = localStorage.getItem("user-info.email");
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
 
   const user = JSON.parse(localStorage.getItem("user-info"));
 

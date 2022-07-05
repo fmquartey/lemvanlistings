@@ -21,7 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import Slider from "react-slick/lib/slider";
-import ListingCard from "../ListingCard";
+import IndexListings from "../ListingCard";
 import Axios from "axios";
 import ListingSkeleton from "../ListingSkeleton";
 import hse1 from "../.././img/hse1.jpg";
@@ -29,11 +29,12 @@ import hse2 from "../.././img/hse2.jpg";
 import hse3 from "../.././img/hse3.jpg";
 import hse4 from "../.././img/hse4.jpg";
 import hse5 from "../.././img/hse5.jpg";
+import { apilink } from "../../Helper";
 
 const OurHome = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
   const sliderRef = useRef(null);
   const [showTag, setShowTag] = useState(false);
 
@@ -42,26 +43,26 @@ const OurHome = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    initialSlide: 3,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 4,
     arrows: false,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          initialSlide: 3,
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          initialSlide: 4,
           infinite: true,
         },
       },
       {
         breakpoint: 912,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          initialSlide: 3,
           infinite: true,
         },
       },
@@ -104,6 +105,13 @@ const OurHome = () => {
     ],
   };
 
+  const testing = () => { 
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+     },2000);
+  }
+
   const getListings = () => {
     setLoading(true);
     Axios.get(`${backendurl}/api/index/page`)
@@ -118,7 +126,8 @@ const OurHome = () => {
   };
 
   useEffect(() => {
-    getListings();
+    // getListings();
+    testing();
   }, []);
 
   return (
@@ -311,8 +320,124 @@ const OurHome = () => {
                   }}
                 >
                   <Slider ref={sliderRef} {...settings}>
-                    {listings.map((listing) => (
-                      <ListingCard
+                      <IndexListings
+                        key={"1"}
+                        image={hse1}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
+                        id="1"
+                        showTag={showTag}
+                        amount="200 / month"
+                        property_type="House"
+                        number_of_bathrooms="2"
+                        number_of_bedrooms="3"
+                        location="Lagos"
+                        region="Lagos"
+                      />
+                      <IndexListings
+                        key={"1"}
+                        image={hse1}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
+                        id="1"
+                        showTag={showTag}
+                        amount="200 / month"
+                        property_type="House"
+                        number_of_bathrooms="2"
+                        number_of_bedrooms="3"
+                        location="Lagos"
+                        region="Lagos"
+                      />
+                      <IndexListings
+                        key={"1"}
+                        image={hse1}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
+                        id="1"
+                        showTag={showTag}
+                        amount="200 / month"
+                        property_type="House"
+                        number_of_bathrooms="2"
+                        number_of_bedrooms="3"
+                        location="Lagos"
+                        region="Lagos"
+                      />
+                      <IndexListings
+                        key={"1"}
+                        image={hse1}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
+                        id="1"
+                        showTag={showTag}
+                        amount="200 / month"
+                        property_type="House"
+                        number_of_bathrooms="2"
+                        number_of_bedrooms="3"
+                        location="Lagos"
+                        region="Lagos"
+                      />
+                      <IndexListings
+                        key={"1"}
+                        image={hse1}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
+                        id="1"
+                        showTag={showTag}
+                        amount="200 / month"
+                        property_type="House"
+                        number_of_bathrooms="2"
+                        number_of_bedrooms="3"
+                        location="Lagos"
+                        region="Lagos"
+                      />
+                      <IndexListings
+                        key={"1"}
+                        image={hse1}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
+                        id="1"
+                        showTag={showTag}
+                        amount="200 / month"
+                        property_type="House"
+                        number_of_bathrooms="2"
+                        number_of_bedrooms="3"
+                        location="Lagos"
+                        region="Lagos"
+                      />
+                      <IndexListings
+                        key={"1"}
+                        image={hse1}
+                        image1={hse2}
+                        image2={hse3}
+                        image3={hse4}
+                        image4={hse5}
+                        id="1"
+                        showTag={showTag}
+                        amount="200 / month"
+                        property_type="House"
+                        number_of_bathrooms="2"
+                        number_of_bedrooms="3"
+                        location="Lagos"
+                        region="Lagos"
+                      />
+
+
+
+                      
+                    {/* {listings.map((listing) => (
+                      <IndexListings
                         key={listing.id}
                         image={listing.image}
                         image1={hse2}
@@ -328,7 +453,7 @@ const OurHome = () => {
                         location={listing.location}
                         region={listing.region}
                       />
-                    ))}
+                    ))} */}
                   </Slider>
                 </Box>
                 {/*Slider next button Icon*/}

@@ -15,6 +15,7 @@ import Axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { apilink } from "../Helper";
 
 const Resetpwd = () => {
   const { token, email } = useParams();
@@ -25,7 +26,7 @@ const Resetpwd = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [alertType, setAlertType] = useState("");
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
   const navigate = useNavigate();
   const { setShowNav } = useContext(UserContext);
 

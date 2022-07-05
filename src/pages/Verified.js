@@ -9,10 +9,11 @@ import {
   useSearchParams,
   useLocation,
 } from "react-router-dom";
+import { apilink } from "../Helper";
 
 const Verified = () => {
   const location = useLocation();  
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
+  const backendurl = apilink;
   const googleurl = location.search;
 
 
