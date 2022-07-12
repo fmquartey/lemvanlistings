@@ -42,7 +42,6 @@ const Listing = () => {
       });
   };
 
-
   const handlePageClick = (e) => {
     console.log(e.selected);
   }
@@ -232,8 +231,6 @@ const Listing = () => {
                   justifyContent: "center",
                 }}
               >
-                <Typography>{search}</Typography>
-
                 <CircularProgress
                   size={25}
                   sx={{
@@ -243,7 +240,7 @@ const Listing = () => {
               </Box>
 
             ) : (
-                <>
+              <>
                 <Box
                   mt={2}
                   sx={{

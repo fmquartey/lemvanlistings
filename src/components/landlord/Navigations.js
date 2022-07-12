@@ -1,4 +1,4 @@
-import { AccountCircle, Chat, Home, ListAlt, PeopleAlt, Settings } from "@mui/icons-material";
+import { AccountCircle, Alarm, Chat, Home, ListAlt, PeopleAlt, Settings } from "@mui/icons-material";
 
 export const navigation = [
     {
@@ -20,6 +20,14 @@ export const navigation = [
         path: "/app/landlord/tenants",
         icon: <PeopleAlt sx={{
             fontSize: "20px",
+        }} />,
+    },
+    {
+        name: "Appointments",
+        path: "/app/landlord/appointments",
+        icon: <Alarm sx={{
+            fontSize: "20px",
+            
         }} />,
     },
     {

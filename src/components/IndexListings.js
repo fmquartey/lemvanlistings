@@ -21,7 +21,12 @@ const IndexListings = (props) => {
         <Box
             key={props.key}
             sx={{
-                padding: "2px",
+                padding: {
+                    xs: "10px",
+                    sm: "10px",
+                    md: "15px",
+                    lg: "15px",
+                }
             }}
         >
             <Paper
@@ -35,9 +40,9 @@ const IndexListings = (props) => {
                     },
                     width: {
                         xs: "100%",
-                        sm: "92%",
-                        md: "90%",
-                        lg: "90%",
+                        sm: "90%",
+                        md: "95%",
+                        lg: "95%",
                     },
                     height: "auto",
                     borderRadius: "10px",
@@ -47,7 +52,7 @@ const IndexListings = (props) => {
                 <Box
                     sx={{
                         position: "relative",
-                        width: "100%",
+                        width: "80%",
                         height: {
                             xs: "200px",
                             sm: "140px",

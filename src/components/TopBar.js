@@ -22,12 +22,7 @@ import {
   Avatar,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  AccountCircleOutlined,
-  Close,
-  Facebook,
-  Google,
-} from "@mui/icons-material";
+
 import { UserContext } from "../context/UserContext";
 import Axios from "axios";
 import { apilink } from "../Helper";
@@ -43,12 +38,16 @@ const TopBar = () => {
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
-  
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
-  
+  const openDashboard = () => {
+    navigate("/app/landlord");
+    handleCloseMenu();
+  }
+
   const authAxios = Axios.create({
     baseURL: backendurl,
     headers: {
@@ -57,7 +56,7 @@ const TopBar = () => {
   });
 
   const handleLogout = () => {
-    
+
     handleCloseMenu();
     authAxios
       .get("/api/logout")
@@ -124,6 +123,8 @@ const TopBar = () => {
                   onClose={handleCloseMenu}
                 >
                   <MenuItem onClick={handleCloseMenu}>{userName}</MenuItem>
+                  <MenuItem onClick={openDashboard}>Dashbord</MenuItem>
+                  <Divider />
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </>

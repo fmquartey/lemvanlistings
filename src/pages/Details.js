@@ -54,17 +54,17 @@ const Details = () => {
         setIsVerified(res.data.data.is_verified);
         setIsFurnished(res.data.data.is_furnished);
         setHasWater(res.data.data.has_water);
-      
+        similarListings();
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const similarListings = () => {
-    setLoading(true);
-    Axios.get(`${backendurl}/api/similar/listings`)
+    setSimilarLoading(true);
+    Axios.get(`${backendurl}/api/similar/listings/${id}`)
       .then((res) => {
-        setLoading(false);
+        setSimilarLoading(false);
         setSimilarListing(res.data.data);
       })
       .catch((err) => {
@@ -76,8 +76,8 @@ const Details = () => {
 
   useEffect(() => {
     getListing();
-    similarListings();
-  }, []);
+   
+  }, [id]);
 
 
 
@@ -1087,7 +1087,7 @@ const Details = () => {
                   }}>Similar Listings</Typography>
 
                 {
-                  loading ? (
+                    similarLoading ? (
                     <Box
                       sx={{
                         width: "100%",

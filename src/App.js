@@ -28,6 +28,9 @@ import Profile from "./pages/landlord/Profile";
 import Chat from "./pages/landlord/Chat";
 import Settings from "./pages/landlord/Settings";
 import Home from "./pages/landlord/Home";
+import Appointments from "./pages/landlord/Appointments";
+import AllListings from "./pages/landlord/AllListings";
+import CreateListing from "./pages/landlord/CreateListing";
 
 
 
@@ -70,7 +73,9 @@ function App() {
           showNav,
           setShowNav,
           openSidebar,
-          setOpenSideBar, searchParam, setsearchParam
+          setOpenSideBar,
+          searchParam,
+          setsearchParam
         }}
       >
         {showNav ? <TopBar /> : null}
@@ -80,7 +85,11 @@ function App() {
           <Route exact path="/listing/:id" element={<Details />} />
           <Route exact path="/app/landlord" element={<Landlord />}>
             <Route exact path="" element={<Home />} />
-            <Route exact path="listings" element={<Listings />} />
+            <Route exact path="listings" element={<Listings />}>
+              <Route exact path="" element={<AllListings />} />
+              <Route exact path="create" element={<CreateListing />} />
+            </Route>
+            <Route exact path="appointments" element={<Appointments />} />
             <Route path="tenants" element={<Tenants />} />
             <Route path="profile" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
