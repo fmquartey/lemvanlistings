@@ -28,6 +28,7 @@ const Landlord = () => {
                 height: "100vh",
                 display: "flex",
                 alignItems: "center",
+                position: "fixed",
             }}>
             <SideBar />
             <Pages />

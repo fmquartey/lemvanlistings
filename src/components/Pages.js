@@ -18,10 +18,14 @@ const Pages = () => {
     }
 
     return (
+        // gey background color from theme
         <Box
             sx={{
                 width: "100%",
                 height: "100vh",
+                backgroundColor: "#F5F5F5",
+                overflowY: "scroll",
+
             }}>
             <Box
                 sx={{
@@ -32,6 +36,7 @@ const Pages = () => {
                     justifyContent: "space-between",
                     borderBottom: "1px solid #E0E0E0",
                     padding: "0px 20px",
+                    position: "sticky",
                 }}>
                 <Box>
                     {
