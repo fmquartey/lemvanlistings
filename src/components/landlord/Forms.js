@@ -18,8 +18,7 @@ const ListingForms = () => {
     const [msgBoxMessage, setMsgBoxMessage] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState("");
-
-    const [propertyType, setPropertyType] = useState("Apartment");
+    const [propertyType, setPropertyType] = useState("");
     const [propertyTitle, setPropertyTitle] = useState("");
     const [amount, setAmount] = useState();
     const [period, setPeriod] = useState("month");
@@ -91,13 +90,34 @@ const ListingForms = () => {
     }
 
     const formSubmit = () => {
-
-        if (propertyTitle === "" && amount === "" && period === "" && number_of_bedrooms === "" && number_of_bathrooms === "" && number_of_toilets === "" && number_of_kitchens === "" && location === "" && region === "" && full_property_description === "") {
+        // setOpenAlert(true);
+        // setLoading(true);
+        // setTimeout(() => {
+        //     setLoading(false)
+        //     closeAlert()
+        // }, 2000);
+        if (
+            propertyType === "" &&
+            propertyTitle === "" &&
+            amount === "" &&
+            period === "" &&
+            number_of_bedrooms === "" &&
+            number_of_bathrooms === "" &&
+            number_of_toilets === "" &&
+            number_of_kitchens === "" &&
+            location === "" &&
+            region === "" &&
+            full_property_description === ""
+        ) {
             setOpenMsgBox(true);
             setMsgBoxTitle("Error");
             setMsgBoxMessage("Please provide property tittle, number of bedrooms, no of bathrooms,number of toilets, price of property, duration, region, location");
         } else {
-            if (propertyTitle === "") {
+            if (propertyType === "") {
+                setOpenMsgBox(true);
+                setMsgBoxTitle("Error");
+                setMsgBoxMessage("Please select the Type of Property")
+            } else if (propertyTitle === "") {
                 setOpenMsgBox(true);
                 setMsgBoxTitle("Error");
                 setMsgBoxMessage("Property title is required")
@@ -134,49 +154,81 @@ const ListingForms = () => {
                 setMsgBoxMessage("Property description is required")
                 setMsgBoxTitle("Error");
             } else {
-                setOpenAlert(true);
-                
-                setLoading(true);
-                const price = amount + " / " + period;
-                const formData = new FormData();
-                formData.append("property_type", propertyType);
-                formData.append("property_title", propertyTitle);
-                formData.append("amount", price);
-                formData.append("period", period);
-                formData.append("number_of_bedrooms", number_of_bedrooms);
-                formData.append("number_of_bathrooms", number_of_bathrooms);
-                formData.append("number_of_toilets", number_of_toilets);
-                formData.append("has_kitchen", has_kitchen);
-                formData.append("number_of_kitchens", number_of_kitchens);
-                formData.append("has_water", has_water);
-                formData.append("has_electricity", has_electricity);
-                formData.append("is_furnished", is_furnished);
-                formData.append("furnished_with", furnished_with);
-                formData.append("location", location);
-                formData.append("region", region);
-                formData.append("full_property_description", full_property_description);
-                formData.append("is_verified", is_verified);
-                formData.append("rear", rear);
-                formData.append("front", front);
-                formData.append("bird_eye_view", bird_eye_view);
-                formData.append("kitchen", kitchen);
-                formData.append("bathroom", bathroom);
-                formData.append("toilet", toilet);
-                formData.append("bedroom", bedroom);
-                formData.append("other_images", other_images);
-                Axios.post(`${apilink}/api/listings`, formData).then(res => {
-                    setAlertType("success");
-                    setAlertMessage("this a test message")
-                    setTimeout(() => {
-                        setLoading(false)
-                        closeAlert()
-                    }, 2000);
-                }).catch(err => {
-                    console.log(err);
-                })
+                if (front.length > 3 || rear.length > 3 || bird_eye_view.length > 3 || kitchen.length > 3 || bathroom.length > 3 || toilet.length > 3 || bedroom.length > 3 || other_images.length > 3) {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Please images cannot be more than 3")
+                    setMsgBoxTitle("Error");
+                } else {
+                    setOpenAlert(true);
+                    setLoading(true);
+                    const price = amount + " / " + period;
+                    const formData = new FormData();
+                    formData.append("property_type", propertyType);
+                    formData.append("property_title", propertyTitle);
+                    formData.append("amount", price);
+                    formData.append("period", period);
+                    formData.append("number_of_bedrooms", number_of_bedrooms);
+                    formData.append("number_of_bathrooms", number_of_bathrooms);
+                    formData.append("number_of_toilets", number_of_toilets);
+                    formData.append("has_kitchen", has_kitchen);
+                    formData.append("number_of_kitchens", number_of_kitchens);
+                    formData.append("has_water", has_water);
+                    formData.append("has_electricity", has_electricity);
+                    formData.append("is_furnished", is_furnished);
+                    formData.append("furnished_with", furnished_with);
+                    formData.append("location", location);
+                    formData.append("region", region);
+                    formData.append("full_property_description", full_property_description);
+                    formData.append("is_verified", is_verified);
+                    formData.append("rear", rear);
+                    formData.append("front", front);
+                    formData.append("bird_eye_view", bird_eye_view);
+                    formData.append("kitchen", kitchen);
+                    formData.append("bathroom", bathroom);
+                    formData.append("toilet", toilet);
+                    formData.append("bedroom", bedroom);
+                    formData.append("other_images", other_images);
+                    Axios.post(`${apilink}/api/listings`, formData).then(res => {
+                        setAlertType("success");
+                        setAlertMessage(res.data.data.message)
+                        setAlertMessage("this a test message")
+                        setTimeout(() => {
+                            setLoading(false)
+                            closeAlert()
+                        }, 2000);
+
+
+                        setPropertyType("")
+                        setPropertyTitle("")
+                        setAmount("")
+                        setPeriod("")
+                        setNumber_of_bedrooms("")
+                        setNumber_of_bathrooms("")
+                        setNumber_of_toilets("")
+                        has_kitchen(0)
+                        setNumber_of_kitchens("")
+                        setHas_water(0)
+                        setHas_electricity(0)
+                        setIs_furnished(0)
+                        setFurnished_with("")
+                        setLocation("")
+                        setRegion("")
+                        setFull_property_description("")
+                        is_verified(0)
+                        setRear([])
+                        setFront([])
+                        setBird_eye_view([])
+                        setKitchen([])
+                        setBathroom([])
+                        setToilet([])
+                        setBedroom([])
+                        setOther_images([])
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
             }
         }
-        console.log(propertyType, propertyTitle, amount, period, number_of_bedrooms, number_of_bathrooms, number_of_toilets, has_kitchen, number_of_kitchens, has_water, has_electricity, is_furnished, furnished_with, location, region, full_property_description, is_verified, rear, front, bird_eye_view, kitchen, bathroom, toilet, bedroom, "Other images", other_images);
     }
 
 
@@ -576,7 +628,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input hidden accept="image/*" type="file" multiple
                                             onChange={(e) => setFront(e.target.files)}
                                         />
@@ -597,7 +649,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input hidden accept="image/*" type="file" multiple
                                             onChange={(e) => setRear(e.target.files)}
                                         />
@@ -618,7 +670,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input hidden accept="image/*" type="file" multiple
                                             onChange={(e) => setBird_eye_view(e.target.files)}
                                         />
@@ -639,7 +691,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input hidden accept="image/*" type="file" multiple
                                             onChange={(e) => setKitchen(e.target.files)}
                                         />
@@ -660,7 +712,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input hidden accept="image/*" type="file" multiple
                                             onChange={(e) => setBedroom(e.target.files)}
                                         />
@@ -681,7 +733,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input hidden accept="image/*" type="file" multiple
                                             onChange={(e) => setBathroom(e.target.files)}
                                         />
@@ -702,7 +754,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input hidden accept="image/*" type="file" multiple
                                             onChange={(e) => setToilet(e.target.files)}
                                         />
@@ -724,7 +776,7 @@ const ListingForms = () => {
                                             color: "#000",
                                         }}
                                     >
-                                        <PhotoCamera />
+                                        <CloudUpload />
                                         <input
                                             hidden
                                             accept="image/*"
@@ -776,7 +828,7 @@ const ListingForms = () => {
                 </Box >
             </Paper >
             <MsgBox openMsgBox={openMsgBox} closeMsgBox={closeMsgBox} msgBoxMessage={msgBoxMessage} msgBoxTitle={msgBoxTitle} />
-            <AlertDialog openAlert={openAlert} closeAlert={closeAlert} alertMessage={alertMessage} loading={loading} alertType={alertType} />
+            <AlertDialog openAlert={openAlert} alertMessage={alertMessage} loading={loading} alertType={alertType} />
         </Box >
     );
 }

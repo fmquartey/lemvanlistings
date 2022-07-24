@@ -1,4 +1,4 @@
-import { Check, CheckCircleOutline } from '@mui/icons-material';
+import { Check, CheckCircleOutline, TaskAlt } from '@mui/icons-material';
 import { Alert, CircularProgress, Dialog, DialogContent, DialogContentText } from '@mui/material';
 import React from 'react';
 
@@ -6,7 +6,6 @@ const AlertDialog = (props) => {
     return (
         <Dialog
             open={props.openAlert}
-            onClose={props.closeAlert}
             aria-describedby="alert-dialog-description"
         >
             <DialogContent>
@@ -22,12 +21,12 @@ const AlertDialog = (props) => {
                                     color: "#35BF43"
                                 }} />
                         ) : (
-                                <Alert icon={<CheckCircleOutline fontSize="inherit" />} severity={props.alertType}>
-                                    {
-                                        props.alertMessage
-                                    }
-                                </Alert>
-                            
+
+                                <TaskAlt sx={{
+                                    fontSize: "40px",
+                                    color:"#35BF43"
+                            }} />
+
                         )
                     }
                 </DialogContentText>
