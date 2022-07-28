@@ -1,10 +1,62 @@
-import { Search } from '@mui/icons-material'
-import { Box, Button, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import React from 'react'
+import { Delete, Edit, Search } from '@mui/icons-material'
+import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import Axios from "axios";
+import { apilink } from '../../Helper';
+
 
 const AllListings = () => {
+    const { setTitle } = useContext(UserContext);
+    const [listings, setListings] = useState([]);
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const openMenu = Boolean(anchorEl);
+    const handleMenuClick = (e) => {
+        setAnchorEl(e.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
     const navigate = useNavigate();
+    const editListing = (id) => {
+        navigate(`/app/landlord/listings/edit/${id}`);
+        setTitle("\\ Edit listing")
+        handleCloseMenu();
+    }
+
+    const deleteListing = (id) => {
+        console.log(id);
+        handleCloseMenu();
+    }
+
+    const createNewListing = () => {
+        navigate("/app/landlord/listings/create");
+        setTitle("\\ Create listing")
+    }
+
+    const getListings = () => {
+        setLoading(true);
+        Axios.get(`${apilink}/api/listings`)
+            .then((res) => {
+                setLoading(false);
+                setListings(res.data.data);
+                console.log(listings)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    useEffect(() => {
+        getListings();
+    }, [])
+
     return (
         <Box
             sx={{
@@ -20,7 +72,7 @@ const AllListings = () => {
                     justifyContent: "flex-end",
                 }}>
                 <Button
-                    onClick={() => { navigate("/app/landlord/listings/create") }}
+                    onClick={createNewListing}
                     color="success"
                     variant="outlined"
                     sx={{
@@ -60,12 +112,13 @@ const AllListings = () => {
                     width: "100%",
                     marginTop: "20px",
                 }}>
+
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Property_title</TableCell>
-                                <TableCell align="center">Property_type</TableCell>
+                                <TableCell>Property title</TableCell>
+                                <TableCell align="center">Property type</TableCell>
                                 <TableCell align="center">Amount </TableCell>
                                 <TableCell align="center">Period </TableCell>
                                 <TableCell align="center">Location</TableCell>
@@ -79,7 +132,7 @@ const AllListings = () => {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    "Estate house"
+                                    Estate house
                                 </TableCell>
                                 <TableCell align="center">Apartment</TableCell>
                                 <TableCell align="center">GHS 300</TableCell>
@@ -88,6 +141,7 @@ const AllListings = () => {
                                 <TableCell align="center">Pending</TableCell>
                                 <TableCell align="center">
                                     <Button
+                                        onClick={handleMenuClick}
                                         variant="text"
                                         sx={{
                                             textTransform: "none",
@@ -102,7 +156,27 @@ const AllListings = () => {
                     </Table>
                 </TableContainer>
             </Box>
+            <Menu
+                id="menu-area"
+                anchorEl={anchorEl}
+                open={openMenu}
+                onClose={handleCloseMenu}
+            >
+                <MenuItem onClick={()=>editListing(12)}>
+                    <ListItemIcon>
+                        <Edit fontSize="inherit" />
+                    </ListItemIcon>
 
+                    Edit
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={()=>deleteListing(12)}>
+                    <ListItemIcon>
+                        <Delete fontSize="inherit" />
+                    </ListItemIcon>
+                    Delete
+                </MenuItem>
+            </Menu>
         </Box>
     )
 }

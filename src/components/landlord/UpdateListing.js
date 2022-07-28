@@ -7,9 +7,10 @@ import AlertDialog from "../AlertDialog";
 import MsgBox from "../Alert";
 import { UserContext } from "../../context/UserContext";
 
-const ListingForms = () => {
+
+const UpdateListing = () => {
     const { token } = useContext(UserContext);
-    // const [property_type_id, setProperty_type_id] = useState([]);
+    const [propertyType, setPropertyType] = useState([]);
     const [openAlert, setOpenAlert] = useState(false);
     const [loading, setLoading] = useState(false);
     const [openMsgBox, setOpenMsgBox] = useState(false);
@@ -67,7 +68,7 @@ const ListingForms = () => {
     }
 
     const handleChange = (e) => {
-        setPropertyType_id(e.target.value);
+        setPropertyType(e.target.value);
     }
 
     const hasKitchen = (e) => {
@@ -188,49 +189,14 @@ const ListingForms = () => {
                     formData.append("region", region);
                     formData.append("full_property_description", full_property_description);
                     formData.append("is_verified", is_verified);
-
-
-                    // formData.append("rear", rear);
-                    for (let r = 0; r < rear.length; r++) {
-                        formData.append("rear", rear[r]);
-                    }
-
-
-                    // formData.append("front", front);
-                    for (let f = 0; f < front.length; f++) {
-                        formData.append("front", front[f]);
-                    }
-
-                    // formData.append("bird_eye_view", bird_eye_view);
-                    for (let b = 0; b < bird_eye_view.length; b++) {
-                        formData.append("bird_eye_view", bird_eye_view[b]);
-                    }
-
-                    // formData.append("kitchen", kitchen);
-                    for (let k = 0; k < kitchen.length; k++) {
-                        formData.append("kitchen", kitchen[k]);
-                    }
-
-                    // formData.append("toilet", toilet);
-                    for (let t = 0; t < toilet.length; t++) {
-                        formData.append("toilet", toilet[t]);
-                    }
-
-                    // formData.append("bathroom", bathroom);
-                    for (let c = 0; c < bathroom.length; c++) {
-                        formData.append("bathroom", bathroom[c]);
-                    }
-
-                    // formData.append("bedroom", bedroom);
-                    for (let d = 0; d < bedroom.length; d++) {
-                        formData.append("bedroom", bedroom[d]);
-                    }
-
-                    // formData.append("other_images", other_images);
-                    for (let o = 0; o < other_images.length; o++) {
-                        formData.append("other_images", other_images[o]);
-                    }
-
+                    formData.append("rear", rear);
+                    formData.append("front", front);
+                    formData.append("bird_eye_view", bird_eye_view);
+                    formData.append("kitchen", kitchen);
+                    formData.append("bathroom", bathroom);
+                    formData.append("toilet", toilet);
+                    formData.append("bedroom", bedroom);
+                    formData.append("other_images", other_images);
                     authAxios.post("/api/listings", formData).then(res => {
                         setAlertType("success");
                         setAlertMessage(res.data.data.message)
@@ -238,7 +204,7 @@ const ListingForms = () => {
                             setLoading(false)
                             closeAlert()
                         }, 2000);
-                        // setPropertyType("")
+                        setPropertyType("")
                         setPropertyTitle("")
                         setAmount("")
                         setPeriod("")
@@ -271,18 +237,18 @@ const ListingForms = () => {
         }
     }
 
-    // const getPropertyType = () => {
-    //     Axios.get(`${apilink}/api/property/types`).then((res) => {
-    //         setPropertyType(res.data.data);
-    //         console.log(propertyType);
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     })
-    // }
+    const getPropertyType = () => {
+        Axios.get(`${apilink}/api/property/types`).then((res) => {
+            setPropertyType(res.data.data);
+            console.log(propertyType);
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
-    // useEffect(() => {
-    //     getPropertyType();
-    // }, []);
+    useEffect(() => {
+        getPropertyType();
+    }, []);
 
     return (
         <Box
@@ -336,16 +302,17 @@ const ListingForms = () => {
                                 select
                                 fullWidth={true}
                                 size="small"
-                                value={property_type_id}
+                                value={setPropertyType_id}
                                 onChange={handleChange}
                                 label="Property Type"
                                 sx={{
                                     marginTop: "3px"
                                 }}
                             >
-                                <MenuItem value="1">Apartment</MenuItem>
-                                <MenuItem value="2">Single Room</MenuItem>
-
+                                {
+                                    propertyType.map((data, i) => (
+                                        <MenuItem key={1} value={data.id}>{data.type}</MenuItem>
+                                    ))}
                             </TextField>
 
 
@@ -357,6 +324,9 @@ const ListingForms = () => {
                                 onChange={(e) => setPropertyTitle(e.target.value)}
                                 label="Property Title"
                             />
+
+
+
                             <TextField
                                 color="success"
                                 fullWidth={true}
@@ -882,4 +852,4 @@ const ListingForms = () => {
     );
 }
 
-export default ListingForms;
+export default UpdateListing

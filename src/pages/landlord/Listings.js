@@ -1,12 +1,11 @@
-import { Search } from '@mui/icons-material'
-import { Box, Button, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import AllListings from './AllListings';
+
 
 const Listings = () => {
-    const { openSidebar } = useContext(UserContext);
+    const { title, openSidebar } = useContext(UserContext);
 
     return (
         <Box
@@ -33,10 +32,10 @@ const Listings = () => {
                         fontSize: "20px",
                         fontWeight: "600",
                     }}>
-                    Listings
+                    Listings {title}
                 </Typography>
             </Box>
-            <Outlet/>
+            <Outlet />
         </Box>
     )
 }

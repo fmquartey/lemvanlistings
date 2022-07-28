@@ -31,6 +31,7 @@ import Home from "./pages/landlord/Home";
 import Appointments from "./pages/landlord/Appointments";
 import AllListings from "./pages/landlord/AllListings";
 import CreateListing from "./pages/landlord/CreateListing";
+import Editlisting from "./pages/landlord/Editlisting";
 
 
 
@@ -42,6 +43,7 @@ function App() {
   const [showNav, setShowNav] = useState(true);
   const [openSidebar, setOpenSideBar] = useState(true);
   const [searchParam, setsearchParam] = useState("");
+  const [title, setTitle] = useState("")
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const navigate = useNavigate();
 
@@ -75,7 +77,9 @@ function App() {
           openSidebar,
           setOpenSideBar,
           searchParam,
-          setsearchParam
+          setsearchParam,
+          title,
+          setTitle
         }}
       >
         {showNav ? <TopBar /> : null}
@@ -88,6 +92,7 @@ function App() {
             <Route exact path="listings" element={<Listings />}>
               <Route exact path="" element={<AllListings />} />
               <Route exact path="create" element={<CreateListing />} />
+              <Route path="edit/:id" element={<Editlisting />} />
             </Route>
             <Route exact path="appointments" element={<Appointments />} />
             <Route path="tenants" element={<Tenants />} />

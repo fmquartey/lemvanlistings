@@ -10,6 +10,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import _ from "lodash";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
@@ -74,14 +75,12 @@ const SideBar = () => {
                                         padding: "0px 10px",
                                         marginBottom: "5px",
                                         borderRadius: "5px",
-                                        backgroundColor: selected ? "#35BF43" : null,
                                         "&:hover": {
                                             backgroundColor: "#35BF43",
                                             color: "#FFFFFF",
                                         }
                                     }}
                                 >
-
                                     <Box sx={{
                                         marginRight: "15px",
                                         display: "flex",

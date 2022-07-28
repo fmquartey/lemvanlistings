@@ -1,11 +1,13 @@
-import { ArrowBack, ArrowBackIos } from "@mui/icons-material"
+import { ArrowBack } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material"
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ListingForms from "../../components/landlord/Forms";
-import React, { useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
+import EditLis from "../../components/landlord/Edit";
+import UpdateListing from "../../components/landlord/UpdateListing";
+import { UserContext } from "../../context/UserContext";
 
-const CreateListing = () => {
+
+const Editlisting = () => {
     const navigate = useNavigate();
     const { setTitle } = useContext(UserContext);
 
@@ -13,6 +15,7 @@ const CreateListing = () => {
         navigate("/app/landlord/listings")
         setTitle("")
     }
+
 
     return (
         <Box
@@ -33,11 +36,10 @@ const CreateListing = () => {
                     }} />
                 </IconButton>
             </Box>
-            {/* Forms */}
-            <ListingForms />
+        
+            <UpdateListing />
         </Box>
-
     )
 }
 
-export default CreateListing
+export default Editlisting
