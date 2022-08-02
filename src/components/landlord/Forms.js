@@ -6,6 +6,7 @@ import Axios from "axios";
 import AlertDialog from "../AlertDialog";
 import MsgBox from "../Alert";
 import { UserContext } from "../../context/UserContext";
+import _ from "lodash";
 
 const ListingForms = () => {
     const { token } = useContext(UserContext);
@@ -34,7 +35,7 @@ const ListingForms = () => {
     const [region, setRegion] = useState("");
     const [full_property_description, setFull_property_description] = useState("");
     const [is_verified, setIs_verified] = useState(0);
-    const [rear, setRear] = useState([]);
+    const [rear, setRear] = useState("");
     const [front, setFront] = useState([]);
     const [bird_eye_view, setBird_eye_view] = useState([]);
     const [kitchen, setKitchen] = useState([]);
@@ -94,6 +95,23 @@ const ListingForms = () => {
             Authorization: "Bearer " + token,
         },
     });
+
+
+    const texting = () => {
+        const formData = new FormData();
+        for (let o = 0; o < other_images.length; o++) {
+            formData.append("other_images", other_images[o]);
+        }
+        console.log(other_images)
+    }
+
+
+    const handlechange = (e) => {
+        const formData = new FormData();
+        _.forEach(e.target.files, front => {
+            formData.append("front", front);
+        })
+    }
 
     const formSubmit = () => {
 
@@ -188,6 +206,8 @@ const ListingForms = () => {
                     formData.append("region", region);
                     formData.append("full_property_description", full_property_description);
                     formData.append("is_verified", is_verified);
+
+
 
 
                     // formData.append("rear", rear);
@@ -594,7 +614,6 @@ const ListingForms = () => {
                                 rows={8}
                             />
 
-
                             <TextField
                                 color="success"
                                 fullWidth={true}
@@ -678,7 +697,7 @@ const ListingForms = () => {
                                         }}
                                     >
                                         <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
+                                        <input hidden accept="image/*" type="file" multiple name="front"
                                             onChange={(e) => setFront(e.target.files)}
                                         />
                                     </IconButton>
@@ -699,7 +718,7 @@ const ListingForms = () => {
                                         }}
                                     >
                                         <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
+                                        <input hidden accept="image/*" type="file" multiple name="rear"
                                             onChange={(e) => setRear(e.target.files)}
                                         />
                                     </IconButton>
@@ -720,7 +739,7 @@ const ListingForms = () => {
                                         }}
                                     >
                                         <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
+                                        <input hidden accept="image/*" type="file" multiple name="bird_eye_view"
                                             onChange={(e) => setBird_eye_view(e.target.files)}
                                         />
                                     </IconButton>
@@ -741,7 +760,7 @@ const ListingForms = () => {
                                         }}
                                     >
                                         <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
+                                        <input hidden accept="image/*" type="file" multiple name="kitchen"
                                             onChange={(e) => setKitchen(e.target.files)}
                                         />
                                     </IconButton>
@@ -762,7 +781,7 @@ const ListingForms = () => {
                                         }}
                                     >
                                         <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
+                                        <input hidden accept="image/*" type="file" multiple name="bedroom"
                                             onChange={(e) => setBedroom(e.target.files)}
                                         />
                                     </IconButton>
@@ -783,7 +802,7 @@ const ListingForms = () => {
                                         }}
                                     >
                                         <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
+                                        <input hidden accept="image/*" type="file" multiple name="bathroom"
                                             onChange={(e) => setBathroom(e.target.files)}
                                         />
                                     </IconButton>
@@ -804,7 +823,7 @@ const ListingForms = () => {
                                         }}
                                     >
                                         <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
+                                        <input hidden accept="image/*" type="file" multiple name="toilet"
                                             onChange={(e) => setToilet(e.target.files)}
                                         />
                                     </IconButton>
@@ -828,6 +847,7 @@ const ListingForms = () => {
                                         <CloudUpload />
                                         <input
                                             hidden
+                                            name="other_images"
                                             accept="image/*"
                                             type="file"
                                             multiple

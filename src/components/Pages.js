@@ -1,7 +1,7 @@
 import { Menu, Logout } from '@mui/icons-material'
 import { Box, Button, ListItemIcon, Divider, MenuItem, IconButton, Paper, Typography } from '@mui/material'
 import React, { useContext, useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import Axios from "axios";
 import { apilink } from "../Helper";
@@ -71,7 +71,23 @@ const Pages = () => {
                         />
                     </IconButton>
                 </Box>
-                <Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                    }}>
+                    <Box
+                        sx={{
+                            marginRight: "20px",
+                        }}>
+                        <Link to="/"
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                            }}>
+                            Listings
+                        </Link>
+                    </Box>
                     <IconButton
                         onClick={handleLogout}>
                         <Logout
@@ -79,19 +95,6 @@ const Pages = () => {
                                 fontSize: "20px",
                             }} />
                     </IconButton>
-                    {/* <Button
-                        startIcon={<Logout fontSize="inherit"/>}
-                        onClick={handleLogout}
-                        variant="text"
-                        sx={{
-                            textTransform: "none",
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            color: "#35BF43",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}>Logout</Button> */}
                 </Box>
             </Box>
 

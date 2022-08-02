@@ -1,61 +1,34 @@
 import { Delete, Edit, Search } from '@mui/icons-material'
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import Axios from "axios";
 import { apilink } from '../../Helper';
 
 
 const AllListings = () => {
-    const { setTitle } = useContext(UserContext);
-    const [listings, setListings] = useState([]);
-    const [search, setSearch] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const openMenu = Boolean(anchorEl);
-    const handleMenuClick = (e) => {
-        setAnchorEl(e.currentTarget);
-    };
-
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-    };
-
     const navigate = useNavigate();
-    const editListing = (id) => {
-        navigate(`/app/landlord/listings/edit/${id}`);
-        setTitle("\\ Edit listing")
-        handleCloseMenu();
-    }
+    const { setTitle } = useContext(UserContext);
 
-    const deleteListing = (id) => {
-        console.log(id);
-        handleCloseMenu();
-    }
 
     const createNewListing = () => {
         navigate("/app/landlord/listings/create");
         setTitle("\\ Create listing")
     }
+    const publishedListing = () => {
+        navigate("/app/landlord/listings");
+        setTitle("");
+    }
+    const hiddenListing = () => {
+        navigate("/app/landlord/listings/hidden");
+        setTitle("\\ Hidden")
+    }
+    const draftListing = () => {
+        navigate("/app/landlord/listings/draft");
+        setTitle("\\ Draft")
+    }
 
-    const getListings = () => {
-        setLoading(true);
-        Axios.get(`${apilink}/api/listings`)
-            .then((res) => {
-                setLoading(false);
-                setListings(res.data.data);
-                console.log(listings)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    useEffect(() => {
-        getListings();
-    }, [])
 
     return (
         <Box
@@ -69,114 +42,95 @@ const AllListings = () => {
                     height: "auto",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "flex-end",
+                    justifyContent: "space-between",
+                    mt: 2
                 }}>
-                <Button
-                    onClick={createNewListing}
-                    color="success"
-                    variant="outlined"
-                    sx={{
-                        borderRadius: "8px",
-                        textTransform: "none",
-                        backgroundColor: "#FFF",
-                        height: "40px",
-                        "&:hover": {
-                            backgroundColor: "#FFF",
-                        }
-                    }}>
-                    <Typography variant="body1"
+                <Box sx={{
+                    display: "flex",
+                    alignItems: "center",
+                }}>
+                    <Button
+                        size="small"
+                        onClick={publishedListing}
+
                         sx={{
-                            fontSize: "14px",
-                            fontWeight: "600",
-                            color: "#35BF43",
-                        }}>Create new listing</Typography>
-                </Button>
-                <Box
-                    sx={{
-                        padding: "0px 10px",
-                        borderBottom: "1px solid #35BF43",
-                        marginLeft: "10px",
-                    }}>
-                    <InputBase
-                        placeholder='Search'
-                        fullWidth={true}
-                        endAdornment={<Search sx={{
-                            color: "#35BF43",
-                        }} />}
-                    />
+                            color: "#000",
+                            textTransform: "none",
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                            }
+                        }}>
+                        Published(0)
+                    </Button>
+
+                    <Button
+                        size="small"
+                        onClick={draftListing}
+                        sx={{
+                            color: "#000",
+                            textTransform: "none",
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                            }
+                        }}>
+                        Draft(0)
+                    </Button>
+
+                    <Button
+                        size="small"
+                        onClick={hiddenListing}
+                        sx={{
+                            color: "#000",
+                            textTransform: "none",
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                            }
+                        }}>
+                        Hidden(0)
+                    </Button>
+                </Box>
+                <Box sx={{
+                    display: "flex",
+                    alignItems: "center",
+                }}>
+                    <Button
+                        size="small"
+                        onClick={createNewListing}
+                        color="success"
+                        variant="outlined"
+                        sx={{
+                            borderRadius: "8px",
+                            textTransform: "none",
+                            height: "30px",
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                            }
+                        }}>
+                        <Typography variant="body1"
+                            sx={{
+                                fontSize: "12px",
+                                fontWeight: "600",
+                                color: "#35BF43",
+
+                            }}>Create new listing</Typography>
+                    </Button>
+                    <Box
+                        sx={{
+                            padding: "0px 10px",
+                            borderBottom: "1px solid #35BF43",
+                            marginLeft: "10px",
+                        }}>
+                        <InputBase
+                            placeholder='Search'
+                            fullWidth={true}
+                            endAdornment={<Search sx={{
+                                color: "#35BF43",
+                            }} />}
+                        />
+                    </Box>
                 </Box>
             </Box>
-            <Box
-
-                sx={{
-                    width: "100%",
-                    marginTop: "20px",
-                }}>
-
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Property title</TableCell>
-                                <TableCell align="center">Property type</TableCell>
-                                <TableCell align="center">Amount </TableCell>
-                                <TableCell align="center">Period </TableCell>
-                                <TableCell align="center">Location</TableCell>
-                                <TableCell align="center">Verified</TableCell>
-                                <TableCell align="center">Actions</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-
-                            <TableRow
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    Estate house
-                                </TableCell>
-                                <TableCell align="center">Apartment</TableCell>
-                                <TableCell align="center">GHS 300</TableCell>
-                                <TableCell align="center">Month</TableCell>
-                                <TableCell align="center">Location</TableCell>
-                                <TableCell align="center">Pending</TableCell>
-                                <TableCell align="center">
-                                    <Button
-                                        onClick={handleMenuClick}
-                                        variant="text"
-                                        sx={{
-                                            textTransform: "none",
-
-                                            fontSize: "14px",
-                                            fontWeight: "600",
-                                            color: "#35BF43",
-                                        }}>Options</Button>
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Box>
-            <Menu
-                id="menu-area"
-                anchorEl={anchorEl}
-                open={openMenu}
-                onClose={handleCloseMenu}
-            >
-                <MenuItem onClick={()=>editListing(12)}>
-                    <ListItemIcon>
-                        <Edit fontSize="inherit" />
-                    </ListItemIcon>
-
-                    Edit
-                </MenuItem>
-                <Divider />
-                <MenuItem onClick={()=>deleteListing(12)}>
-                    <ListItemIcon>
-                        <Delete fontSize="inherit" />
-                    </ListItemIcon>
-                    Delete
-                </MenuItem>
-            </Menu>
+            <Outlet />
         </Box>
     )
 }

@@ -32,6 +32,10 @@ import Appointments from "./pages/landlord/Appointments";
 import AllListings from "./pages/landlord/AllListings";
 import CreateListing from "./pages/landlord/CreateListing";
 import Editlisting from "./pages/landlord/Editlisting";
+import ShowListings from "./components/landlord/Listings";
+import Draft from "./components/landlord/Draft";
+import Published from "./components/landlord/Published";
+import Hidden from "./components/landlord/Hidden";
 
 
 
@@ -87,13 +91,21 @@ function App() {
           <Route exact path="/welcome" element={<LandingPage />} />
           <Route exact path="/" element={<Listing />} />
           <Route exact path="/listing/:id" element={<Details />} />
+
           <Route exact path="/app/landlord" element={<Landlord />}>
             <Route exact path="" element={<Home />} />
             <Route exact path="listings" element={<Listings />}>
-              <Route exact path="" element={<AllListings />} />
+              <Route path="" element={<AllListings />}>
+                <Route path="" element={<Published />} />
+                <Route path="draft" element={<Draft />} />
+                <Route path="hidden" element={<Hidden />} />
+              </Route>
+
               <Route exact path="create" element={<CreateListing />} />
               <Route path="edit/:id" element={<Editlisting />} />
             </Route>
+
+
             <Route exact path="appointments" element={<Appointments />} />
             <Route path="tenants" element={<Tenants />} />
             <Route path="profile" element={<Profile />} />

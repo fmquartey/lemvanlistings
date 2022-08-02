@@ -1,11 +1,15 @@
 import { Box, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 
 const Listings = () => {
-    const { title, openSidebar } = useContext(UserContext);
+    const { title, setTitle, openSidebar } = useContext(UserContext);
+
+    useEffect(() => {
+        setTitle("");
+    }, [])
 
     return (
         <Box
