@@ -36,6 +36,7 @@ import ShowListings from "./components/landlord/Listings";
 import Draft from "./components/landlord/Draft";
 import Published from "./components/landlord/Published";
 import Hidden from "./components/landlord/Hidden";
+import EditDraft from "./components/landlord/EditDraft";
 
 
 
@@ -98,6 +99,7 @@ function App() {
               <Route path="" element={<AllListings />}>
                 <Route path="" element={<Published />} />
                 <Route path="draft" element={<Draft />} />
+                <Route path="editdraft/:id" element={<EditDraft />} />
                 <Route path="hidden" element={<Hidden />} />
               </Route>
 

@@ -1,4 +1,4 @@
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete, Edit, VisibilityOff } from '@mui/icons-material';
 import { Box, Button, Divider, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
@@ -72,7 +72,6 @@ const Published = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-
                             <TableRow
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
@@ -109,8 +108,14 @@ const Published = () => {
                     <ListItemIcon>
                         <Edit fontSize="inherit" />
                     </ListItemIcon>
-
                     Edit
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={() => deleteListing(12)}>
+                    <ListItemIcon>
+                        <VisibilityOff fontSize="inherit" />
+                    </ListItemIcon>
+                    Hide
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => deleteListing(12)}>

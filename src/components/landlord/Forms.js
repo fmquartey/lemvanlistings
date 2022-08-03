@@ -115,13 +115,6 @@ const ListingForms = () => {
 
     const formSubmit = () => {
 
-
-        // setOpenAlert(true);
-        // setLoading(true);
-        // setTimeout(() => {
-        //     setLoading(false)
-        //     closeAlert()
-        // }, 2000);
         if (
             property_type_id === "" &&
             propertyTitle === "" &&
@@ -870,10 +863,27 @@ const ListingForms = () => {
                                 sx={{
                                     width: "100%",
                                     display: "flex",
-                                    justifyContent: "flex-end",
+                                    justifyContent: "space-between",
                                     marginTop: "20px",
                                 }}>
 
+                                <Button
+                                    size="small"
+                                    variant="contained"
+                                    onClick={formSubmit}
+                                    sx={{
+                                        width: "150px",
+                                        textTransform: "none",
+                                        fontSize: "14px",
+                                        backgroundColor: "#35BF43",
+                                        color: "#fff",
+                                        "&:hover": {
+                                            backgroundColor: "#35BF43",
+                                        }
+                                    }}
+                                >
+                                    Save to Draft
+                                </Button>
                                 <Button
                                     size="small"
                                     variant="contained"
