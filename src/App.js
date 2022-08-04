@@ -37,6 +37,7 @@ import Draft from "./components/landlord/Draft";
 import Published from "./components/landlord/Published";
 import Hidden from "./components/landlord/Hidden";
 import EditDraft from "./components/landlord/EditDraft";
+import AllTenants from "./pages/landlord/AllTenants";
 
 
 
@@ -109,7 +110,11 @@ function App() {
 
 
             <Route exact path="appointments" element={<Appointments />} />
-            <Route path="tenants" element={<Tenants />} />
+            <Route path="tenants" element={<Tenants />}>
+              <Route path="" element={<AllTenants />} />
+            </Route>
+
+
             <Route path="profile" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
             <Route path="settings" element={<Settings />} />
