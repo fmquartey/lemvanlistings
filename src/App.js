@@ -38,11 +38,16 @@ import Published from "./components/landlord/Published";
 import Hidden from "./components/landlord/Hidden";
 import EditDraft from "./components/landlord/EditDraft";
 import AllTenants from "./pages/landlord/AllTenants";
+import Current from "./components/landlord/Current";
+import Upcoming from "./components/landlord/Upcoming";
+import Past from "./components/landlord/Past";
+import MyListings from "./components/landlord/MyListing";
 
 
 
 function App() {
   const [user, setUser] = useState(false);
+  const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
   const [userAvater, setUserAvater] = useState("");
   const [token, setToken] = useState();
@@ -57,6 +62,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("user-info")) {
       setUser(true);
+      setUserId(userInfo.id);
       setUserName(userInfo.firstname);
       setUserAvater(userInfo.avatar);
       setToken(userInfo.access_token);
@@ -71,6 +77,7 @@ function App() {
       <UserContext.Provider
         value={{
           user,
+          userId,
           setUser,
           userName,
           setUserName,
@@ -98,7 +105,8 @@ function App() {
             <Route exact path="" element={<Home />} />
             <Route exact path="listings" element={<Listings />}>
               <Route path="" element={<AllListings />}>
-                <Route path="" element={<Published />} />
+                <Route path="" element={<MyListings />} />
+                <Route path="published" element={<Published />} />
                 <Route path="draft" element={<Draft />} />
                 <Route path="editdraft/:id" element={<EditDraft />} />
                 <Route path="hidden" element={<Hidden />} />
@@ -110,8 +118,13 @@ function App() {
 
 
             <Route exact path="appointments" element={<Appointments />} />
+
             <Route path="tenants" element={<Tenants />}>
-              <Route path="" element={<AllTenants />} />
+              <Route path="" element={<AllTenants />} >
+                <Route path="" element={<Current />} />
+                <Route path="past" element={<Past />} />
+                <Route path="upcoming" element={<Upcoming />} />
+              </Route>
             </Route>
 
 

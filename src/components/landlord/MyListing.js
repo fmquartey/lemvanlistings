@@ -7,7 +7,7 @@ import { UserContext } from '../../context/UserContext';
 import { apilink } from '../../Helper';
 
 
-const Published = () => {
+const MyListings = () => {
     const { userId, setTitle } = useContext(UserContext);
     const [listings, setListings] = useState([]);
     const [search, setSearch] = useState("");
@@ -96,9 +96,9 @@ const Published = () => {
                                         <TableCell component="th" scope="row">
                                             {listings.property_type}
                                         </TableCell>
-                                        
-                                            <TableCell align="center">{listings.amount }</TableCell>
-                                            <TableCell align="center">{ listings.location}</TableCell>
+
+                                        <TableCell align="center">{listings.amount}</TableCell>
+                                        <TableCell align="center">{listings.location}</TableCell>
                                         <TableCell align="center">Pending</TableCell>
                                         <TableCell align="center">
                                             <Button
@@ -149,4 +149,4 @@ const Published = () => {
     )
 }
 
-export default Published
+export default MyListings

@@ -35,10 +35,10 @@ const ListingForms = () => {
     const [region, setRegion] = useState("");
     const [full_property_description, setFull_property_description] = useState("");
     const [is_verified, setIs_verified] = useState(0);
-    const [rear, setRear] = useState("");
+    const [rear, setRear] = useState([]);
     const [front, setFront] = useState([]);
     const [bird_eye_view, setBird_eye_view] = useState([]);
-    const [kitchen, setKitchen] = useState([]);
+    const [kitchen, setKitchen] = useState([])
     const [bathroom, setBathroom] = useState([]);
     const [toilet, setToilet] = useState([]);
     const [bedroom, setBedroom] = useState([]);
@@ -93,6 +93,7 @@ const ListingForms = () => {
         baseURL: apilink,
         headers: {
             Authorization: "Bearer " + token,
+            "content-type": 'multipart/form-data'
         },
     });
 
@@ -113,7 +114,8 @@ const ListingForms = () => {
         })
     }
 
-    const formSubmit = () => {
+    const publishListing = () => {
+
 
         if (
             property_type_id === "" &&
@@ -185,7 +187,7 @@ const ListingForms = () => {
                     formData.append("property_type_id", property_type_id);
                     formData.append("property_title", propertyTitle);
                     formData.append("amount", price);
-                    formData.append("period", period);
+                    // formData.append("period", period);
                     formData.append("number_of_bedrooms", number_of_bedrooms);
                     formData.append("number_of_bathrooms", number_of_bathrooms);
                     formData.append("number_of_toilets", number_of_toilets);
@@ -205,43 +207,43 @@ const ListingForms = () => {
 
                     // formData.append("rear", rear);
                     for (let r = 0; r < rear.length; r++) {
-                        formData.append("rear", rear[r]);
+                        formData.append("rear[]", rear[r]);
                     }
 
 
                     // formData.append("front", front);
                     for (let f = 0; f < front.length; f++) {
-                        formData.append("front", front[f]);
+                        formData.append("front[]", front[f]);
                     }
 
                     // formData.append("bird_eye_view", bird_eye_view);
                     for (let b = 0; b < bird_eye_view.length; b++) {
-                        formData.append("bird_eye_view", bird_eye_view[b]);
+                        formData.append("bird_eye_view[]", bird_eye_view[b]);
                     }
 
                     // formData.append("kitchen", kitchen);
                     for (let k = 0; k < kitchen.length; k++) {
-                        formData.append("kitchen", kitchen[k]);
+                        formData.append("kitchen[]", kitchen[k]);
                     }
 
                     // formData.append("toilet", toilet);
                     for (let t = 0; t < toilet.length; t++) {
-                        formData.append("toilet", toilet[t]);
+                        formData.append("toilet[]", toilet[t]);
                     }
 
                     // formData.append("bathroom", bathroom);
                     for (let c = 0; c < bathroom.length; c++) {
-                        formData.append("bathroom", bathroom[c]);
+                        formData.append("bathroom[]", bathroom[c]);
                     }
 
                     // formData.append("bedroom", bedroom);
                     for (let d = 0; d < bedroom.length; d++) {
-                        formData.append("bedroom", bedroom[d]);
+                        formData.append("bedroom[]", bedroom[d]);
                     }
 
                     // formData.append("other_images", other_images);
                     for (let o = 0; o < other_images.length; o++) {
-                        formData.append("other_images", other_images[o]);
+                        formData.append("other_images[]", other_images[o]);
                     }
 
                     authAxios.post("/api/listings", formData).then(res => {
@@ -258,7 +260,7 @@ const ListingForms = () => {
                         setNumber_of_bedrooms("")
                         setNumber_of_bathrooms("")
                         setNumber_of_toilets("")
-                        has_kitchen(0)
+                        setHas_kitchen(0)
                         setNumber_of_kitchens("")
                         setHas_water(0)
                         setHas_electricity(0)
@@ -278,10 +280,121 @@ const ListingForms = () => {
                         setOther_images([])
                     }).catch(err => {
                         console.log(err);
+                        setTimeout(() => {
+                            setLoading(false)
+                            closeAlert()
+                        }, 2000);
                     })
                 }
             }
         }
+    }
+
+    const draftListings = () => {
+
+        setOpenAlert(true);
+        setLoading(true);
+        const price = amount + " / " + period;
+        const formData = new FormData();
+        formData.append("property_type_id", property_type_id);
+        formData.append("property_title", propertyTitle);
+        formData.append("amount", price);
+        // formData.append("period", period);
+        formData.append("number_of_bedrooms", number_of_bedrooms);
+        formData.append("number_of_bathrooms", number_of_bathrooms);
+        formData.append("number_of_toilets", number_of_toilets);
+        formData.append("has_kitchen", has_kitchen);
+        formData.append("number_of_kitchens", number_of_kitchens);
+        formData.append("has_water", has_water);
+        formData.append("has_electricity", has_electricity);
+        formData.append("is_furnished", is_furnished);
+        formData.append("furnished_with", furnished_with);
+        formData.append("location", location);
+        formData.append("region", region);
+        formData.append("full_property_description", full_property_description);
+        formData.append("is_verified", is_verified);
+
+        // formData.append("rear", rear);
+        for (let r = 0; r < rear.length; r++) {
+            formData.append("rear[]", rear[r]);
+        }
+
+
+        // formData.append("front", front);
+        for (let f = 0; f < front.length; f++) {
+            formData.append("front[]", front[f]);
+        }
+
+        // formData.append("bird_eye_view", bird_eye_view);
+        for (let b = 0; b < bird_eye_view.length; b++) {
+            formData.append("bird_eye_view[]", bird_eye_view[b]);
+        }
+
+        // formData.append("kitchen", kitchen);
+        for (let k = 0; k < kitchen.length; k++) {
+            formData.append("kitchen[]", kitchen[k]);
+        }
+
+        // formData.append("toilet", toilet);
+        for (let t = 0; t < toilet.length; t++) {
+            formData.append("toilet[]", toilet[t]);
+        }
+
+        // formData.append("bathroom", bathroom);
+        for (let c = 0; c < bathroom.length; c++) {
+            formData.append("bathroom[]", bathroom[c]);
+        }
+
+        // formData.append("bedroom", bedroom);
+        for (let d = 0; d < bedroom.length; d++) {
+            formData.append("bedroom[]", bedroom[d]);
+        }
+
+        // formData.append("other_images", other_images);
+        for (let o = 0; o < other_images.length; o++) {
+            formData.append("other_images[]", other_images[o]);
+        }
+
+        authAxios.post("/api/draft-listings", formData).then(res => {
+            console.log(res);
+            setAlertType("success");
+            setAlertMessage(res.data.data.message)
+            setTimeout(() => {
+                setLoading(false)
+                closeAlert()
+            }, 2000);
+            // setPropertyType("")
+            setPropertyTitle("")
+            setAmount("")
+            setPeriod("")
+            setNumber_of_bedrooms("")
+            setNumber_of_bathrooms("")
+            setNumber_of_toilets("")
+            has_kitchen(0)
+            setNumber_of_kitchens("")
+            setHas_water(0)
+            setHas_electricity(0)
+            setIs_furnished(0)
+            setFurnished_with("")
+            setLocation("")
+            setRegion("")
+            setFull_property_description("")
+            is_verified(0)
+            setRear([])
+            setFront([])
+            setBird_eye_view([])
+            setKitchen([])
+            setBathroom([])
+            setToilet([])
+            setBedroom([])
+            setOther_images([])
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+            closeAlert()
+        })
+
+
     }
 
     // const getPropertyType = () => {
@@ -870,7 +983,7 @@ const ListingForms = () => {
                                 <Button
                                     size="small"
                                     variant="contained"
-                                    onClick={formSubmit}
+                                    onClick={draftListings}
                                     sx={{
                                         width: "150px",
                                         textTransform: "none",
@@ -887,7 +1000,7 @@ const ListingForms = () => {
                                 <Button
                                     size="small"
                                     variant="contained"
-                                    onClick={formSubmit}
+                                    onClick={publishListing}
                                     sx={{
                                         width: "150px",
                                         textTransform: "none",
@@ -899,7 +1012,7 @@ const ListingForms = () => {
                                         }
                                     }}
                                 >
-                                    Submit
+                                    Publish
                                 </Button>
                             </Box>
                         </Box>
