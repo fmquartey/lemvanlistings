@@ -1,5 +1,5 @@
-import { Delete, Edit, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, CircularProgress, Divider, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Delete, Edit, Search, VisibilityOff } from '@mui/icons-material';
+import { Box, Button, CircularProgress, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { apilink } from '../../Helper';
 
 
 const Published = () => {
-    const { userId, setTitle } = useContext(UserContext);
+    const { userId, setTitle, setPublishedCol } = useContext(UserContext);
     const [listings, setListings] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
@@ -49,6 +49,7 @@ const Published = () => {
     };
 
     useEffect(() => {
+        setPublishedCol(true);
         getListings();
     }, [])
 
@@ -59,6 +60,27 @@ const Published = () => {
                     width: "100%",
                     marginTop: "10px",
                 }}>
+                <Box
+                    sx={{
+                        width: {
+                            xs: "100%",
+                            sm: "300px",
+                            md: "300px",
+                            lg: "300px",
+                        },
+                        padding: "0px 10px",
+                        border: "1px solid #ACACAC",
+                        marginBottom: "10px",
+                        borderRadius: "8px",
+                    }}>
+                    <InputBase
+                        placeholder='Search'
+                        fullWidth={true}
+                        endAdornment={<Search sx={{
+                            color: "#ACACAC",
+                        }} />}
+                    />
+                </Box>
                 {
                     loading ? (
                         <Box
@@ -96,9 +118,9 @@ const Published = () => {
                                         <TableCell component="th" scope="row">
                                             {listings.property_type}
                                         </TableCell>
-                                        
-                                            <TableCell align="center">{listings.amount }</TableCell>
-                                            <TableCell align="center">{ listings.location}</TableCell>
+
+                                        <TableCell align="center">{listings.amount}</TableCell>
+                                        <TableCell align="center">{listings.location}</TableCell>
                                         <TableCell align="center">Pending</TableCell>
                                         <TableCell align="center">
                                             <Button

@@ -9,12 +9,18 @@ import { apilink } from '../../Helper';
 
 const AllListings = () => {
     const navigate = useNavigate();
-    const { setTitle } = useContext(UserContext);
-    const [allCol, setAllCol] = useState(false);
-    const [publishedCol, setPublishedCol] = useState(false);
-    const [hiddendCol, setHiddenCol] = useState(false);
-    const [draftCol, setDraftCol] = useState(false);
 
+    const {
+        setTitle,
+        allCol,
+        setAllCol,
+        publishedCol,
+        setPublishedCol,
+        hiddendCol,
+        setHiddenCol,
+        draftCol,
+        setDraftCol,
+    } = useContext(UserContext);
 
     const createNewListing = () => {
         navigate("/app/landlord/listings/create");
@@ -25,9 +31,8 @@ const AllListings = () => {
         setPublishedCol(false);
         setHiddenCol(false);
         setDraftCol(false);
-        setTitle("");
+    
         navigate("/app/landlord/listings");
-
     }
 
     const publishedListing = () => {
@@ -35,7 +40,7 @@ const AllListings = () => {
         setAllCol(false);
         setHiddenCol(false);
         setDraftCol(false);
-        setTitle("");
+        
         navigate("/app/landlord/listings/published");
 
     }
@@ -44,7 +49,7 @@ const AllListings = () => {
         setAllCol(false);
         setPublishedCol(false);
         setDraftCol(false);
-        setTitle("\\ Hidden")
+        
         navigate("/app/landlord/listings/hidden");
     }
     const draftListing = () => {
@@ -52,13 +57,12 @@ const AllListings = () => {
         setAllCol(false);
         setHiddenCol(false);
         setPublishedCol(false);
-        setTitle("\\ Draft");
+        
         navigate("/app/landlord/listings/draft");
-
     }
 
     useEffect(() => {
-        setAllCol(true);
+
     }, [])
 
     return (
@@ -154,7 +158,6 @@ const AllListings = () => {
                         sx={{
                             borderRadius: "8px",
                             textTransform: "none",
-                            height: "30px",
                             border: "1px solid #000",
                             "&:hover": {
                                 backgroundColor: "transparent",
@@ -169,7 +172,7 @@ const AllListings = () => {
 
                             }}>Create new listing</Typography>
                     </Button>
-                    <Box
+                    {/* <Box
                         sx={{
                             padding: "0px 10px",
                             borderBottom: "1px solid #ACACAC",
@@ -182,7 +185,7 @@ const AllListings = () => {
                                 color: "#ACACAC",
                             }} />}
                         />
-                    </Box>
+                    </Box> */}
                 </Box>
             </Box>
             <Outlet />

@@ -42,6 +42,7 @@ import Current from "./components/landlord/Current";
 import Upcoming from "./components/landlord/Upcoming";
 import Past from "./components/landlord/Past";
 import MyListings from "./components/landlord/MyListing";
+import MyTenants from "./components/landlord/MyTenants";
 
 
 
@@ -53,6 +54,14 @@ function App() {
   const [token, setToken] = useState();
   const [showNav, setShowNav] = useState(true);
   const [openSidebar, setOpenSideBar] = useState(true);
+  const [allCol, setAllCol] = useState(false);
+  const [publishedCol, setPublishedCol] = useState(false);
+  const [hiddendCol, setHiddenCol] = useState(false);
+  const [draftCol, setDraftCol] = useState(false);
+  const [allColor, setAllColor] = useState(false);
+  const [currentcolor, setCurrentColor] = useState(false);
+  const [pastcolor, setPastColor] = useState(false);
+  const [upcomingcolor, setUpcomingColor] = useState(false);
   const [searchParam, setsearchParam] = useState("");
   const [title, setTitle] = useState("")
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
@@ -92,7 +101,23 @@ function App() {
           searchParam,
           setsearchParam,
           title,
-          setTitle
+          setTitle,
+          allCol,
+          setAllCol,
+          publishedCol,
+          setPublishedCol,
+          hiddendCol,
+          setHiddenCol,
+          draftCol,
+          setDraftCol,
+          allColor,
+          setAllColor,
+          currentcolor,
+          setCurrentColor,
+          pastcolor,
+          setPastColor,
+          upcomingcolor,
+          setUpcomingColor
         }}
       >
         {showNav ? <TopBar /> : null}
@@ -121,7 +146,8 @@ function App() {
 
             <Route path="tenants" element={<Tenants />}>
               <Route path="" element={<AllTenants />} >
-                <Route path="" element={<Current />} />
+                <Route path="" element={<MyTenants />} />
+                <Route path="current" element={<Current />} />
                 <Route path="past" element={<Past />} />
                 <Route path="upcoming" element={<Upcoming />} />
               </Route>

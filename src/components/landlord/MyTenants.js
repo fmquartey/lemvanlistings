@@ -1,4 +1,4 @@
-import { Delete, Edit, Forward, Search, VisibilityOff } from '@mui/icons-material';
+import { Edit, Forward, Search } from '@mui/icons-material';
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
@@ -6,8 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { apilink } from '../../Helper';
 
-const Current = () => {
-    const { setTitle, setCurrentColor } = useContext(UserContext);  
+const MyTenants = () => {
+    const { setTitle,
+        setAllColor,
+        setCurrentColor,
+        setUpcomingColor,
+        setPastColor
+    } = useContext(UserContext);
+
     const [listings, setListings] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
@@ -50,9 +56,11 @@ const Current = () => {
 
     useEffect(() => {
         // getCurrent();
-        setCurrentColor(true)
-        // setTitle("\\ Current")
-
+        setTitle("")
+        setAllColor(true);
+        setCurrentColor(false)
+        setUpcomingColor(false)
+        setPastColor(false);
     }, [])
 
 
@@ -149,4 +157,4 @@ const Current = () => {
     );
 }
 
-export default Current;
+export default MyTenants

@@ -1,5 +1,5 @@
-import { Delete, Edit } from '@mui/icons-material';
-import { Box, Button, Divider, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Delete, Edit, Search } from '@mui/icons-material';
+import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { apilink } from '../../Helper';
 
 
 const Draft = () => {
-  const { setTitle } = useContext(UserContext);
+  const { setTitle, setDraftCol } = useContext(UserContext);
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ const Draft = () => {
     handleCloseMenu();
   }
 
-  const getListings = () => {
+  const getDrafts = () => {
     setLoading(true);
     Axios.get(`${apilink}/api/listings`)
       .then((res) => {
@@ -49,14 +49,37 @@ const Draft = () => {
   };
 
   useEffect(() => {
-    getListings();
-    setTitle("\\ Draft");
+    getDrafts();
+    // setTitle("\\ Draft");
+
+    setDraftCol(true);
   }, [])
 
   return (
     <Box sx={{
       marginTop: "10px",
     }}>
+      <Box
+        sx={{
+          width: {
+            xs: "100%",
+            sm: "300px",
+            md: "300px",
+            lg: "300px",
+          },
+          padding: "0px 10px",
+          border: "1px solid #ACACAC",
+          marginBottom: "10px",
+          borderRadius: "8px",
+        }}>
+        <InputBase
+          placeholder='Search'
+          fullWidth={true}
+          endAdornment={<Search sx={{
+            color: "#ACACAC",
+          }} />}
+        />
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

@@ -7,40 +7,61 @@ import Axios from "axios";
 import { apilink } from '../../Helper';
 
 const AllTenants = () => {
-    const [currentcolor, setCurrentColor] = useState(false);
-    const [pastcolor, setPastColor] = useState(false);
-    const [upcomingcolor, setUpcomingColor] = useState(false);
     const navigate = useNavigate();
-    const { setTitle } = useContext(UserContext);
+    const {
+        setTitle,
+        allColor,
+        setAllColor,
+        currentcolor,
+        setCurrentColor,
+        pastcolor,
+        setPastColor,
+        upcomingcolor,
+        setUpcomingColor
+    } = useContext(UserContext);
 
 
     const current = () => {
         setCurrentColor(true)
+        setAllColor(false);
+
         setUpcomingColor(false)
         setPastColor(false);
-        setTitle("");
-        navigate("/app/landlord/tenants");
 
+        navigate("/app/landlord/tenants/current");
     }
-    const past = () => {
-        setPastColor(true);
+
+    const all = () => {
+        setAllColor(true);
         setCurrentColor(false)
         setUpcomingColor(false)
-        setTitle("\\ Past");
+        setPastColor(false);
+
+        navigate("/app/landlord/tenants");
+    }
+
+    const past = () => {
+        setPastColor(true);
+        setAllColor(false);
+        setCurrentColor(false)
+        setUpcomingColor(false)
+
         navigate("/app/landlord/tenants/past");
 
     }
     const upcoming = () => {
         setUpcomingColor(true)
+        setAllColor(false);
+
         setCurrentColor(false)
         setPastColor(false);
-        setTitle("\\ Upcoming")
+
         navigate("/app/landlord/tenants/upcoming");
 
     }
 
     useEffect(() => {
-        setCurrentColor(true)
+        // setCurrentColor(true)
     }, [])
 
     return (
@@ -64,8 +85,21 @@ const AllTenants = () => {
                 }}>
                     <Button
                         size="small"
+                        onClick={all}
+                        sx={{
+                            color: "#000",
+                            textTransform: "none",
+                            backgroundColor: allColor ? "#ACACAC" : null,
+                            marginRight: "10px",
+                            "&:hover": {
+                                backgroundColor: "#ACACAC",
+                            }
+                        }}>
+                        All
+                    </Button>
+                    <Button
+                        size="small"
                         onClick={current}
-
                         sx={{
                             color: "#000",
                             textTransform: "none",
@@ -75,7 +109,7 @@ const AllTenants = () => {
                                 backgroundColor: "#ACACAC",
                             }
                         }}>
-                        Current(0)
+                        Current
                     </Button>
 
                     <Button
@@ -91,9 +125,8 @@ const AllTenants = () => {
                                 backgroundColor: "#ACACAC",
                             }
                         }}>
-                        Past(0)
+                        Past
                     </Button>
-
                     <Button
                         size="small"
                         onClick={upcoming}
@@ -105,7 +138,7 @@ const AllTenants = () => {
                                 backgroundColor: "#ACACAC",
                             }
                         }}>
-                        Upcoming(0)
+                        Upcoming
                     </Button>
                 </Box>
                 <Box sx={{
@@ -113,20 +146,6 @@ const AllTenants = () => {
                     alignItems: "center",
                 }}>
 
-                    <Box
-                        sx={{
-                            padding: "0px 10px",
-                            borderBottom: "1px solid #ACACAC",
-                            marginLeft: "10px",
-                        }}>
-                        <InputBase
-                            placeholder='Search'
-                            fullWidth={true}
-                            endAdornment={<Search sx={{
-                                color: "#ACACAC",
-                            }} />}
-                        />
-                    </Box>
                 </Box>
             </Box>
             <Outlet />
