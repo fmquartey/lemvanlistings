@@ -10,6 +10,7 @@ import { apilink } from '../../Helper';
 const MyListings = () => {
     const {
         setTitle,
+        token,
         userId,
         setAllCol,
         setPublishedCol,
@@ -45,7 +46,7 @@ const MyListings = () => {
 
     const getListings = () => {
         setLoading(true);
-        Axios.get(`${apilink}/api/listings${userId}`)
+        Axios.get(`${apilink}/api/listings${token}`)
             .then((res) => {
                 setLoading(false);
                 setListings(res.data);
@@ -120,7 +121,7 @@ const MyListings = () => {
                                         <TableCell align="center">Property type</TableCell>
                                         <TableCell align="center">Amount </TableCell>
                                         <TableCell align="center">Location</TableCell>
-                                        <TableCell align="center">Verified</TableCell>
+                                        <TableCell align="center">Status</TableCell>
                                         <TableCell align="center">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -131,10 +132,9 @@ const MyListings = () => {
                                         <TableCell component="th" scope="row">
                                             {listings.property_type}
                                         </TableCell>
-
                                         <TableCell align="center">{listings.amount}</TableCell>
                                         <TableCell align="center">{listings.location}</TableCell>
-                                        <TableCell align="center">Pending</TableCell>
+                                        <TableCell align="center">{listings.status}</TableCell>
                                         <TableCell align="center">
                                             <Button
                                                 onClick={handleMenuClick}
@@ -150,7 +150,6 @@ const MyListings = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-
                     )
                 }
             </Box>

@@ -129,13 +129,13 @@ function App() {
           <Route exact path="/app/landlord" element={<Landlord />}>
             <Route exact path="" element={<Home />} />
             <Route exact path="listings" element={<Listings />}>
-              <Route path="" element={<AllListings />}>
-                <Route path="" element={<MyListings />} />
+              <Route path="" element={<AllListings />}/>
+                {/* <Route path="" element={<MyListings />} />
                 <Route path="published" element={<Published />} />
                 <Route path="draft" element={<Draft />} />
                 <Route path="editdraft/:id" element={<EditDraft />} />
                 <Route path="hidden" element={<Hidden />} />
-              </Route>
+              </Route> */}
 
               <Route exact path="create" element={<CreateListing />} />
               <Route path="edit/:id" element={<Editlisting />} />
@@ -145,12 +145,12 @@ function App() {
             <Route exact path="appointments" element={<Appointments />} />
 
             <Route path="tenants" element={<Tenants />}>
-              <Route path="" element={<AllTenants />} >
-                <Route path="" element={<MyTenants />} />
+              <Route path="" element={<AllTenants />} />
+                {/* <Route path="" element={<MyTenants />} />
                 <Route path="current" element={<Current />} />
                 <Route path="past" element={<Past />} />
                 <Route path="upcoming" element={<Upcoming />} />
-              </Route>
+              </Route> */}
             </Route>
 
 

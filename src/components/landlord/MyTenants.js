@@ -101,7 +101,7 @@ const MyTenants = () => {
                                 <TableCell align="center">Phone</TableCell>
                                 <TableCell align="center">Property type</TableCell>
                                 <TableCell align="center">Location</TableCell>
-                                <TableCell align="center">No. years</TableCell>
+                                <TableCell align="center">Duration</TableCell>
                                 <TableCell align="center">Start date</TableCell>
                                 <TableCell align="center">End date</TableCell>
                                 <TableCell align="center">Actions</TableCell>

@@ -7,6 +7,7 @@ import AlertDialog from "../AlertDialog";
 import MsgBox from "../Alert";
 import { UserContext } from "../../context/UserContext";
 import _ from "lodash";
+import { useNavigate } from "react-router-dom";
 
 const ListingForms = () => {
     const { token } = useContext(UserContext);
@@ -16,6 +17,7 @@ const ListingForms = () => {
     const [openMsgBox, setOpenMsgBox] = useState(false);
     const [msgBoxTitle, setMsgBoxTitle] = useState("");
     const [msgBoxMessage, setMsgBoxMessage] = useState("");
+    const [status, setStatus] = useState(0);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState("");
     const [property_type_id, setPropertyType_id] = useState("");
@@ -43,6 +45,7 @@ const ListingForms = () => {
     const [toilet, setToilet] = useState([]);
     const [bedroom, setBedroom] = useState([]);
     const [other_images, setOther_images] = useState([]);
+    const navigate = useNavigate();
 
     const toolTipTitle = "Please upload images of the property such as Front, Rear, Kitchen, Bathroom, Bedrooom, Toilet, Bed eye view. NB: Only 4 images are allowed for each upload"
     const openMsg = () => {
@@ -63,6 +66,7 @@ const ListingForms = () => {
                 setOpenAlert(true);
             } else {
                 setOpenAlert(false);
+                navigate("/app/landlord/listings");
             }
         }, 3000);
     }
@@ -89,6 +93,15 @@ const ListingForms = () => {
         }
     }
 
+    const listingStatus = (e) => {
+        setStatus(e.target.value)
+        if (status === 1) {
+            setStatus(2);
+        } else {
+            setStatus(1);
+        }
+    }
+
     const authAxios = Axios.create({
         baseURL: apilink,
         headers: {
@@ -98,15 +111,6 @@ const ListingForms = () => {
     });
 
 
-    const texting = () => {
-        const formData = new FormData();
-        for (let o = 0; o < other_images.length; o++) {
-            formData.append("other_images", other_images[o]);
-        }
-        console.log(other_images)
-    }
-
-
     const handlechange = (e) => {
         const formData = new FormData();
         _.forEach(e.target.files, front => {
@@ -114,288 +118,278 @@ const ListingForms = () => {
         })
     }
 
-    const publishListing = () => {
-
-
-        if (
-            property_type_id === "" &&
-            propertyTitle === "" &&
-            amount === "" &&
-            period === "" &&
-            number_of_bedrooms === "" &&
-            number_of_bathrooms === "" &&
-            number_of_toilets === "" &&
-            number_of_kitchens === "" &&
-            location === "" &&
-            region === "" &&
-            full_property_description === ""
-        ) {
-            setOpenMsgBox(true);
-            setMsgBoxTitle("Error");
-            setMsgBoxMessage("Please provide property tittle, number of bedrooms, no of bathrooms,number of toilets, price of property, duration, region, location");
-        } else {
-            if (property_type_id === "") {
+    const submitListing = () => {
+        if (status === 1) {
+            if (
+                property_type_id === "" &&
+                propertyTitle === "" &&
+                amount === "" &&
+                period === "" &&
+                number_of_bedrooms === "" &&
+                number_of_bathrooms === "" &&
+                number_of_toilets === "" &&
+                number_of_kitchens === "" &&
+                location === "" &&
+                region === "" &&
+                full_property_description === ""
+            ) {
                 setOpenMsgBox(true);
                 setMsgBoxTitle("Error");
-                setMsgBoxMessage("Please select the Type of Property")
-            } else if (propertyTitle === "") {
-                setOpenMsgBox(true);
-                setMsgBoxTitle("Error");
-                setMsgBoxMessage("Property title is required")
-            } else if (amount === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Price of property is required")
-                setMsgBoxTitle("Error");
-            } else if (period === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide period for the rent")
-                setMsgBoxTitle("Error");
-            } else if (number_of_bedrooms === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide number of bedrooms")
-                setMsgBoxTitle("Error");
-            } else if (number_of_bathrooms === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide number of bathrooms")
-                setMsgBoxTitle("Error");
-            } else if (number_of_toilets === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide number of toilets in the property")
-                setMsgBoxTitle("Error");
-            } else if (location === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please location of property is required")
-                setMsgBoxTitle("Error");
-            } else if (region === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please region is required")
-                setMsgBoxTitle("Error");
-            } else if (full_property_description === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Property description is required")
-                setMsgBoxTitle("Error");
+                setMsgBoxMessage("Please provide property tittle, number of bedrooms, no of bathrooms,number of toilets, price of property, duration, region, location");
             } else {
-                if (front.length > 3 || rear.length > 3 || bird_eye_view.length > 3 || kitchen.length > 3 || bathroom.length > 3 || toilet.length > 3 || bedroom.length > 3 || other_images.length > 3) {
+                if (property_type_id === "") {
                     setOpenMsgBox(true);
-                    setMsgBoxMessage("Please images cannot be more than 3")
+                    setMsgBoxTitle("Error");
+                    setMsgBoxMessage("Please select the Type of Property")
+                } else if (propertyTitle === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxTitle("Error");
+                    setMsgBoxMessage("Property title is required")
+                } else if (amount === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Price of property is required")
+                    setMsgBoxTitle("Error");
+                } else if (period === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Please provide period for the rent")
+                    setMsgBoxTitle("Error");
+                } else if (number_of_bedrooms === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Please provide number of bedrooms")
+                    setMsgBoxTitle("Error");
+                } else if (number_of_bathrooms === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Please provide number of bathrooms")
+                    setMsgBoxTitle("Error");
+                } else if (number_of_toilets === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Please provide number of toilets in the property")
+                    setMsgBoxTitle("Error");
+                } else if (location === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Please location of property is required")
+                    setMsgBoxTitle("Error");
+                } else if (region === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Please region is required")
+                    setMsgBoxTitle("Error");
+                } else if (full_property_description === "") {
+                    setOpenMsgBox(true);
+                    setMsgBoxMessage("Property description is required")
                     setMsgBoxTitle("Error");
                 } else {
-                    setOpenAlert(true);
-                    setLoading(true);
-                    const price = amount + " / " + period;
-                    const formData = new FormData();
-                    formData.append("property_type_id", property_type_id);
-                    formData.append("property_title", propertyTitle);
-                    formData.append("amount", price);
-                    // formData.append("period", period);
-                    formData.append("number_of_bedrooms", number_of_bedrooms);
-                    formData.append("number_of_bathrooms", number_of_bathrooms);
-                    formData.append("number_of_toilets", number_of_toilets);
-                    formData.append("has_kitchen", has_kitchen);
-                    formData.append("number_of_kitchens", number_of_kitchens);
-                    formData.append("has_water", has_water);
-                    formData.append("has_electricity", has_electricity);
-                    formData.append("is_furnished", is_furnished);
-                    formData.append("furnished_with", furnished_with);
-                    formData.append("location", location);
-                    formData.append("region", region);
-                    formData.append("full_property_description", full_property_description);
-                    formData.append("is_verified", is_verified);
+                    if (front.length > 3 || rear.length > 3 || bird_eye_view.length > 3 || kitchen.length > 3 || bathroom.length > 3 || toilet.length > 3 || bedroom.length > 3 || other_images.length > 3) {
+                        setOpenMsgBox(true);
+                        setMsgBoxMessage("Please images cannot be more than 3")
+                        setMsgBoxTitle("Error");
+                    } else {
+                        setOpenAlert(true);
+                        setLoading(true);
+                        const price = amount + " / " + period;
+                        const formData = new FormData();
+                        formData.append("property_type_id", property_type_id);
+                        formData.append("property_title", propertyTitle);
+                        formData.append("amount", price);
+                        formData.append("number_of_bedrooms", number_of_bedrooms);
+                        formData.append("number_of_bathrooms", number_of_bathrooms);
+                        formData.append("number_of_toilets", number_of_toilets);
+                        formData.append("has_kitchen", has_kitchen);
+                        formData.append("number_of_kitchens", number_of_kitchens);
+                        formData.append("has_water", has_water);
+                        formData.append("has_electricity", has_electricity);
+                        formData.append("is_furnished", is_furnished);
+                        formData.append("furnished_with", furnished_with);
+                        formData.append("location", location);
+                        formData.append("region", region);
+                        formData.append("full_property_description", full_property_description);
+                        formData.append("is_verified", is_verified);
 
+                        // formData.append("rear", rear);
+                        for (let r = 0; r < rear.length; r++) {
+                            formData.append("rear[]", rear[r]);
+                        }
 
+                        // formData.append("front", front);
+                        for (let f = 0; f < front.length; f++) {
+                            formData.append("front[]", front[f]);
+                        }
 
+                        // formData.append("bird_eye_view", bird_eye_view);
+                        for (let b = 0; b < bird_eye_view.length; b++) {
+                            formData.append("bird_eye_view[]", bird_eye_view[b]);
+                        }
 
-                    // formData.append("rear", rear);
-                    for (let r = 0; r < rear.length; r++) {
-                        formData.append("rear[]", rear[r]);
+                        // formData.append("kitchen", kitchen);
+                        for (let k = 0; k < kitchen.length; k++) {
+                            formData.append("kitchen[]", kitchen[k]);
+                        }
+
+                        // formData.append("toilet", toilet);
+                        for (let t = 0; t < toilet.length; t++) {
+                            formData.append("toilet[]", toilet[t]);
+                        }
+
+                        // formData.append("bathroom", bathroom);
+                        for (let c = 0; c < bathroom.length; c++) {
+                            formData.append("bathroom[]", bathroom[c]);
+                        }
+
+                        // formData.append("bedroom", bedroom);
+                        for (let d = 0; d < bedroom.length; d++) {
+                            formData.append("bedroom[]", bedroom[d]);
+                        }
+
+                        // formData.append("other_images", other_images);
+                        for (let o = 0; o < other_images.length; o++) {
+                            formData.append("other_images[]", other_images[o]);
+                        }
+                        formData.append("status", status);
+
+                        authAxios.post("/api/listings", formData).then(res => {
+                            setAlertType("success");
+                            setAlertMessage(res.data.data.message)
+                            setTimeout(() => {
+                                setLoading(false)
+                                closeAlert()
+                            }, 2000);
+                            // setPropertyType("")
+                            setPropertyTitle("")
+                            setAmount("")
+                            setPeriod("")
+                            setNumber_of_bedrooms("")
+                            setNumber_of_bathrooms("")
+                            setNumber_of_toilets("")
+                            setHas_kitchen(0)
+                            setNumber_of_kitchens("")
+                            setHas_water(0)
+                            setHas_electricity(0)
+                            setIs_furnished(0)
+                            setFurnished_with("")
+                            setLocation("")
+                            setRegion("")
+                            setFull_property_description("")
+                            setIs_verified(0)
+                            setRear([])
+                            setFront([])
+                            setBird_eye_view([])
+                            setKitchen([])
+                            setBathroom([])
+                            setToilet([])
+                            setBedroom([])
+                            setOther_images([])
+                        }).catch(err => {
+                            console.log(err);
+                            setTimeout(() => {
+                                setLoading(false)
+                                closeAlert()
+                            }, 2000);
+                        })
                     }
-
-
-                    // formData.append("front", front);
-                    for (let f = 0; f < front.length; f++) {
-                        formData.append("front[]", front[f]);
-                    }
-
-                    // formData.append("bird_eye_view", bird_eye_view);
-                    for (let b = 0; b < bird_eye_view.length; b++) {
-                        formData.append("bird_eye_view[]", bird_eye_view[b]);
-                    }
-
-                    // formData.append("kitchen", kitchen);
-                    for (let k = 0; k < kitchen.length; k++) {
-                        formData.append("kitchen[]", kitchen[k]);
-                    }
-
-                    // formData.append("toilet", toilet);
-                    for (let t = 0; t < toilet.length; t++) {
-                        formData.append("toilet[]", toilet[t]);
-                    }
-
-                    // formData.append("bathroom", bathroom);
-                    for (let c = 0; c < bathroom.length; c++) {
-                        formData.append("bathroom[]", bathroom[c]);
-                    }
-
-                    // formData.append("bedroom", bedroom);
-                    for (let d = 0; d < bedroom.length; d++) {
-                        formData.append("bedroom[]", bedroom[d]);
-                    }
-
-                    // formData.append("other_images", other_images);
-                    for (let o = 0; o < other_images.length; o++) {
-                        formData.append("other_images[]", other_images[o]);
-                    }
-
-                    authAxios.post("/api/listings", formData).then(res => {
-                        setAlertType("success");
-                        setAlertMessage(res.data.data.message)
-                        setTimeout(() => {
-                            setLoading(false)
-                            closeAlert()
-                        }, 2000);
-                        // setPropertyType("")
-                        setPropertyTitle("")
-                        setAmount("")
-                        setPeriod("")
-                        setNumber_of_bedrooms("")
-                        setNumber_of_bathrooms("")
-                        setNumber_of_toilets("")
-                        setHas_kitchen(0)
-                        setNumber_of_kitchens("")
-                        setHas_water(0)
-                        setHas_electricity(0)
-                        setIs_furnished(0)
-                        setFurnished_with("")
-                        setLocation("")
-                        setRegion("")
-                        setFull_property_description("")
-                        is_verified(0)
-                        setRear([])
-                        setFront([])
-                        setBird_eye_view([])
-                        setKitchen([])
-                        setBathroom([])
-                        setToilet([])
-                        setBedroom([])
-                        setOther_images([])
-                    }).catch(err => {
-                        console.log(err);
-                        setTimeout(() => {
-                            setLoading(false)
-                            closeAlert()
-                        }, 2000);
-                    })
                 }
             }
-        }
-    }
+        } else {
+            setOpenAlert(true);
+            setLoading(true);
+            const price = amount + " / " + period;
+            const formData = new FormData();
+            formData.append("property_type_id", property_type_id);
+            formData.append("property_title", propertyTitle);
+            formData.append("amount", price);
+            // formData.append("period", period);
+            formData.append("number_of_bedrooms", number_of_bedrooms);
+            formData.append("number_of_bathrooms", number_of_bathrooms);
+            formData.append("number_of_toilets", number_of_toilets);
+            formData.append("has_kitchen", has_kitchen);
+            formData.append("number_of_kitchens", number_of_kitchens);
+            formData.append("has_water", has_water);
+            formData.append("has_electricity", has_electricity);
+            formData.append("is_furnished", is_furnished);
+            formData.append("furnished_with", furnished_with);
+            formData.append("location", location);
+            formData.append("region", region);
+            formData.append("full_property_description", full_property_description);
+            formData.append("is_verified", is_verified);
 
-    const draftListings = () => {
+            for (let r = 0; r < rear.length; r++) {
+                formData.append("rear[]", rear[r]);
+            }
+            // formData.append("front", front);
+            for (let f = 0; f < front.length; f++) {
+                formData.append("front[]", front[f]);
+            }
 
-        setOpenAlert(true);
-        setLoading(true);
-        const price = amount + " / " + period;
-        const formData = new FormData();
-        formData.append("property_type_id", property_type_id);
-        formData.append("property_title", propertyTitle);
-        formData.append("amount", price);
-        // formData.append("period", period);
-        formData.append("number_of_bedrooms", number_of_bedrooms);
-        formData.append("number_of_bathrooms", number_of_bathrooms);
-        formData.append("number_of_toilets", number_of_toilets);
-        formData.append("has_kitchen", has_kitchen);
-        formData.append("number_of_kitchens", number_of_kitchens);
-        formData.append("has_water", has_water);
-        formData.append("has_electricity", has_electricity);
-        formData.append("is_furnished", is_furnished);
-        formData.append("furnished_with", furnished_with);
-        formData.append("location", location);
-        formData.append("region", region);
-        formData.append("full_property_description", full_property_description);
-        formData.append("is_verified", is_verified);
+            // formData.append("bird_eye_view", bird_eye_view);
+            for (let b = 0; b < bird_eye_view.length; b++) {
+                formData.append("bird_eye_view[]", bird_eye_view[b]);
+            }
 
-        // formData.append("rear", rear);
-        for (let r = 0; r < rear.length; r++) {
-            formData.append("rear[]", rear[r]);
-        }
+            // formData.append("kitchen", kitchen);
+            for (let k = 0; k < kitchen.length; k++) {
+                formData.append("kitchen[]", kitchen[k]);
+            }
 
+            // formData.append("toilet", toilet);
+            for (let t = 0; t < toilet.length; t++) {
+                formData.append("toilet[]", toilet[t]);
+            }
 
-        // formData.append("front", front);
-        for (let f = 0; f < front.length; f++) {
-            formData.append("front[]", front[f]);
-        }
+            // formData.append("bathroom", bathroom);
+            for (let c = 0; c < bathroom.length; c++) {
+                formData.append("bathroom[]", bathroom[c]);
+            }
 
-        // formData.append("bird_eye_view", bird_eye_view);
-        for (let b = 0; b < bird_eye_view.length; b++) {
-            formData.append("bird_eye_view[]", bird_eye_view[b]);
-        }
+            // formData.append("bedroom", bedroom);
+            for (let d = 0; d < bedroom.length; d++) {
+                formData.append("bedroom[]", bedroom[d]);
+            }
 
-        // formData.append("kitchen", kitchen);
-        for (let k = 0; k < kitchen.length; k++) {
-            formData.append("kitchen[]", kitchen[k]);
-        }
+            // formData.append("other_images", other_images);
+            for (let o = 0; o < other_images.length; o++) {
+                formData.append("other_images[]", other_images[o]);
+            }
 
-        // formData.append("toilet", toilet);
-        for (let t = 0; t < toilet.length; t++) {
-            formData.append("toilet[]", toilet[t]);
-        }
+            formData.append("status", status);
+            authAxios.post("/api/listings", formData).then(res => {
+                console.log(res);
+                setAlertType("success");
+                setAlertMessage(res.data.data.message)
+                setTimeout(() => {
+                    setLoading(false)
+                    closeAlert()
+                }, 2000);
 
-        // formData.append("bathroom", bathroom);
-        for (let c = 0; c < bathroom.length; c++) {
-            formData.append("bathroom[]", bathroom[c]);
-        }
-
-        // formData.append("bedroom", bedroom);
-        for (let d = 0; d < bedroom.length; d++) {
-            formData.append("bedroom[]", bedroom[d]);
-        }
-
-        // formData.append("other_images", other_images);
-        for (let o = 0; o < other_images.length; o++) {
-            formData.append("other_images[]", other_images[o]);
-        }
-
-        authAxios.post("/api/draft-listings", formData).then(res => {
-            console.log(res);
-            setAlertType("success");
-            setAlertMessage(res.data.data.message)
-            setTimeout(() => {
+                setPropertyTitle("")
+                setAmount("")
+                setPeriod("")
+                setNumber_of_bedrooms("")
+                setNumber_of_bathrooms("")
+                setNumber_of_toilets("")
+                has_kitchen(0)
+                setNumber_of_kitchens("")
+                setHas_water(0)
+                setHas_electricity(0)
+                setIs_furnished(0)
+                setFurnished_with("")
+                setLocation("")
+                setRegion("")
+                setFull_property_description("")
+                is_verified(0)
+                setRear([])
+                setFront([])
+                setBird_eye_view([])
+                setKitchen([])
+                setBathroom([])
+                setToilet([])
+                setBedroom([])
+                setOther_images([])
+            }).catch(err => {
+                console.log(err);
                 setLoading(false)
                 closeAlert()
-            }, 2000);
-            // setPropertyType("")
-            setPropertyTitle("")
-            setAmount("")
-            setPeriod("")
-            setNumber_of_bedrooms("")
-            setNumber_of_bathrooms("")
-            setNumber_of_toilets("")
-            has_kitchen(0)
-            setNumber_of_kitchens("")
-            setHas_water(0)
-            setHas_electricity(0)
-            setIs_furnished(0)
-            setFurnished_with("")
-            setLocation("")
-            setRegion("")
-            setFull_property_description("")
-            is_verified(0)
-            setRear([])
-            setFront([])
-            setBird_eye_view([])
-            setKitchen([])
-            setBathroom([])
-            setToilet([])
-            setBedroom([])
-            setOther_images([])
-        }).catch(err => {
-            console.log(err);
-            setLoading(false)
-            closeAlert()
-        })
-
-
+            })
+        }
     }
+
 
     // const getPropertyType = () => {
     //     Axios.get(`${apilink}/api/property/types`).then((res) => {
@@ -976,14 +970,56 @@ const ListingForms = () => {
                                 sx={{
                                     width: "100%",
                                     display: "flex",
+                                    alignItems: "center",
                                     justifyContent: "space-between",
                                     marginTop: "20px",
                                 }}>
 
+                                <FormControl>
+                                    <FormLabel
+                                        id="status_label"
+                                        focused={false} >Save as</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        name="status"
+                                        aria-labelledby="status_label"
+                                        value={status}
+                                        onChange={listingStatus}>
+                                        <FormControlLabel
+                                            value={2}
+                                            control={<Radio
+                                                sx={{
+                                                    '& .MuiSvgIcon-root': {
+                                                        fontSize: 18,
+                                                    },
+                                                    '&.Mui-checked': {
+                                                        color: "#35BF43",
+                                                    },
+                                                }
+                                                }
+                                            />}
+                                            label="Draft" />
+                                        <FormControlLabel
+                                            value={1}
+                                            control={<Radio
+                                                sx={{
+                                                    '& .MuiSvgIcon-root': {
+                                                        fontSize: 18,
+                                                    },
+                                                    '&.Mui-checked': {
+                                                        color: "#35BF43",
+                                                    },
+                                                }
+                                                }
+                                            />}
+                                            label="Publish" />
+                                    </RadioGroup>
+                                </FormControl>
                                 <Button
                                     size="small"
                                     variant="contained"
-                                    onClick={draftListings}
+                                    onClick={submitListing}
+                                    disabled={false}
                                     sx={{
                                         width: "150px",
                                         textTransform: "none",
@@ -995,24 +1031,7 @@ const ListingForms = () => {
                                         }
                                     }}
                                 >
-                                    Save to Draft
-                                </Button>
-                                <Button
-                                    size="small"
-                                    variant="contained"
-                                    onClick={publishListing}
-                                    sx={{
-                                        width: "150px",
-                                        textTransform: "none",
-                                        fontSize: "14px",
-                                        backgroundColor: "#35BF43",
-                                        color: "#fff",
-                                        "&:hover": {
-                                            backgroundColor: "#35BF43",
-                                        }
-                                    }}
-                                >
-                                    Publish
+                                    Save
                                 </Button>
                             </Box>
                         </Box>
