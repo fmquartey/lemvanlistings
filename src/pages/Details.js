@@ -18,11 +18,12 @@ import hse5 from "../img/hse5.jpg";
 
 import { UserContext } from "../context/UserContext";
 import { apilink } from "../Helper";
+import ApplyListings from "../components/ApplyListings";
 
 
 const Details = () => {
+  const { token } = useContext(UserContext);
   const { id } = useParams();
-
   const [checked, setChecked] = useState(false);
   const [inspectionType, setInspectionType] = useState("Physical")
   const [showTag, setShowTag] = useState(false);
@@ -36,10 +37,20 @@ const Details = () => {
   const [loading, setLoading] = useState(false);
   const [similarLoading, setSimilarLoading] = useState(false);
   const [listing, setListing] = useState([]);
-  const [data, setData] = useState([]);
   const [similarListing, setSimilarListing] = useState([]);
+  const [name, setName] = useState("");
   const backendurl = apilink;
+  const [openApply, setOpenApply] = useState(false);
 
+
+
+  const authAxios = Axios.create({
+    baseURL: apilink,
+    headers: {
+      Authorization: "Bearer " + token,
+      "content-type": 'multipart/form-data'
+    },
+  });
 
   const getListing = () => {
     setLoading(true);
@@ -55,6 +66,7 @@ const Details = () => {
         setIsFurnished(res.data.data.is_furnished);
         setHasWater(res.data.data.has_water);
         similarListings();
+        setName(res.data.data.user.firstname + " " + res.data.data.user.lastname)
       })
       .catch((err) => {
         console.log(err);
@@ -66,17 +78,34 @@ const Details = () => {
       .then((res) => {
         setSimilarLoading(false);
         setSimilarListing(res.data.data);
+        
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  
 
+  const handleClose = () => {
+    setOpenApply(false)
+  }
+
+  const handleOpenApply = () => {
+    setOpenApply(true)
+  }
+
+  const applyListing = () => {
+    const formdata = new FormData();
+    formdata.append("listing_id", id);
+    
+  authAxios.post(`/api/listings/${id}/apply`).then((res) => { 
+
+  }).catch((err) => { })
+  }
 
   useEffect(() => {
     getListing();
-   
   }, [id]);
 
 
@@ -812,7 +841,7 @@ const Details = () => {
                         sx={{
                           fontWeight: "600",
                           fontSize: "1.2rem",
-                        }}>GHC300 / month</Typography>
+                        }}>GHC{listing.amount}</Typography>
                       <Divider sx={{
                         width: "100%",
                         height: "2px",
@@ -852,7 +881,7 @@ const Details = () => {
                             <Typography variant="body1"
                               sx={{
                                 fontSize: "14px",
-                              }}>Francis Quartey</Typography>
+                                }}>{name}</Typography>
                             <CheckCircle sx={{
                               fontSize: "18px",
                               marginLeft: "0.4rem",
@@ -1038,6 +1067,7 @@ const Details = () => {
                       >
                         <Button
                           fullWidth={true}
+                          onClick={handleOpenApply}
                           variant="contained"
                           sx={{
                             backgroundColor: "#35BF43",
@@ -1087,7 +1117,7 @@ const Details = () => {
                   }}>Similar Listings</Typography>
 
                 {
-                    similarLoading ? (
+                  similarLoading ? (
                     <Box
                       sx={{
                         width: "100%",
@@ -1140,23 +1170,23 @@ const Details = () => {
                         }}>
                         <Slider ref={sliderRef} {...settings}>
                           {
-                                similarListing.map((similar, index) => (
-                                  <SimilarListings
-                                    key={index}
-                                    image={similar.image}
-                                    image1={similar.image}
-                                    image2={similar.image}
-                                    image3={similar.image}
-                                    image4={similar.image}
-                                    id={similar.id}
-                                    showTag={showTag}
-                                    amount={similar.amount}
-                                    property_type={similar.property_type.type}
-                                    number_of_bathrooms={similar.number_of_bathrooms}
-                                    number_of_bedrooms={similar.number_of_bedrooms}
-                                    location={similar.location}
-                                    region={similar.region}
-                                  />
+                            similarListing.map((similar, index) => (
+                              <SimilarListings
+                                key={index}
+                                image={similar.image}
+                                image1={similar.image}
+                                image2={similar.image}
+                                image3={similar.image}
+                                image4={similar.image}
+                                id={similar.id}
+                                showTag={showTag}
+                                amount={similar.amount}
+                                property_type={similar.property_type.type}
+                                number_of_bathrooms={similar.number_of_bathrooms}
+                                number_of_bedrooms={similar.number_of_bedrooms}
+                                location={similar.location}
+                                region={similar.region}
+                              />
                             ))
                           }
 
@@ -1189,6 +1219,7 @@ const Details = () => {
           )
         }
       </Container>
+      <ApplyListings openAlert={openApply} handleClose={handleClose} />
     </Box>
   );
 };

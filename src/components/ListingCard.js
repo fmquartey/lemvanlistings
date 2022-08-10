@@ -19,7 +19,7 @@ const ListingCard = (props) => {
 
   return (
     <Box
-      key={props.key}
+      
       sx={{
         padding: "2px",
       }}

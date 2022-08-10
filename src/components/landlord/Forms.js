@@ -75,7 +75,7 @@ const ListingForms = () => {
         setPropertyType_id(e.target.value);
     }
 
-    const hasKitchen = (e) => {
+      const hasKitchen = (e) => {
         setHas_kitchen(e.target.value)
         if (has_kitchen === 1) {
             setHas_kitchen(0);
@@ -110,13 +110,6 @@ const ListingForms = () => {
         },
     });
 
-
-    const handlechange = (e) => {
-        const formData = new FormData();
-        _.forEach(e.target.files, front => {
-            formData.append("front", front);
-        })
-    }
 
     const submitListing = () => {
         if (status === 1) {
