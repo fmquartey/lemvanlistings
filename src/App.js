@@ -64,6 +64,7 @@ function App() {
   const [upcomingcolor, setUpcomingColor] = useState(false);
   const [searchParam, setsearchParam] = useState("");
   const [title, setTitle] = useState("")
+  const [movedListing, setMovedListing] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const navigate = useNavigate();
 
@@ -117,7 +118,9 @@ function App() {
           pastcolor,
           setPastColor,
           upcomingcolor,
-          setUpcomingColor
+          setUpcomingColor,
+          movedListing,
+          setMovedListing
         }}
       >
         {showNav ? <TopBar /> : null}
@@ -130,27 +133,17 @@ function App() {
             <Route exact path="" element={<Home />} />
             <Route exact path="listings" element={<Listings />}>
               <Route path="" element={<AllListings />}/>
-                {/* <Route path="" element={<MyListings />} />
-                <Route path="published" element={<Published />} />
-                <Route path="draft" element={<Draft />} />
-                <Route path="editdraft/:id" element={<EditDraft />} />
-                <Route path="hidden" element={<Hidden />} />
-              </Route> */}
-
+               
               <Route exact path="create" element={<CreateListing />} />
               <Route path="edit/:id" element={<Editlisting />} />
             </Route>
 
 
+            <Route exact path="saved" element={<savedListings />} />
             <Route exact path="appointments" element={<Appointments />} />
 
             <Route path="tenants" element={<Tenants />}>
               <Route path="" element={<AllTenants />} />
-                {/* <Route path="" element={<MyTenants />} />
-                <Route path="current" element={<Current />} />
-                <Route path="past" element={<Past />} />
-                <Route path="upcoming" element={<Upcoming />} />
-              </Route> */}
             </Route>
 
 

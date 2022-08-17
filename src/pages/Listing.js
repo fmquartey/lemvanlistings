@@ -10,19 +10,35 @@ import { apilink } from "../Helper";
 
 const Listing = () => {
   // const user = JSON.parse(localStorage.getItem("user-info"));
-  const backendurl = apilink;
-  const { setShowNav } = useContext(UserContext);
+  const { setShowNav, token } = useContext(UserContext);
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [showTag, setShowTag] = useState(true);
+  const [favorite, setFavorite] = useState(false);
+  const [bookmark, setBookmark] = useState([]);
+  const [action, setAction] = useState(1)
+
+
+
+  const authAxios = Axios.create({
+    baseURL: apilink,
+    headers: {
+      Authorization: "Bearer " + token,
+      "content-type": 'multipart/form-data'
+    },
+  });
 
   const getListings = () => {
     setLoading(true);
-    Axios.get(`${backendurl}/api/listings`)
+    authAxios.get(`/api/listings`)
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
+        console.log(res.data.data);
+        setBookmark(res.data.data.bookmark);
+        console.log(res.data.data.bookmark.action);
+        action === 1 ? setFavorite(true) : setFavorite(false);
       })
       .catch((err) => {
         console.log(err);
@@ -32,7 +48,7 @@ const Listing = () => {
   const searchListings = (e) => {
     setSearch(e.target.value);
     setLoading(true);
-    Axios.get(`${backendurl}/api/listings/search/${search}`)
+    authAxios.get(`/api/listings/search/${search}`)
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
@@ -41,6 +57,25 @@ const Listing = () => {
         console.log(err);
       });
   };
+
+  // const addFavorite = (id) => {
+
+  //   authAxios.get(`/api/listings/wishList/add/${id}`).then((res) => {
+  //     console.log(action)
+  //     console.log(res.data.data)
+  //     setAction(0)
+  //   }).catch((err) => {
+  //     console.log(err)
+  //   });
+  //   // } else {
+  //   //   authAxios.get(`/api/listings/wishList/remove/${id}`).then((res) => {
+  //   //     console.log(res.data.data)
+  //   //     setAction(1)
+  //   //   }).catch((err) => {
+  //   //     console.log(err)
+  //   //   });
+  //   // }
+  // }
 
   const handlePageClick = (e) => {
     console.log(e.selected);
@@ -261,6 +296,7 @@ const Listing = () => {
                           image2={data.image}
                           image3={data.image}
                           image4={data.image}
+                          favorite={favorite}
                           showTag={showTag}
                           amount={data.amount}
                           property_type={data.property_type.type}
@@ -357,6 +393,6 @@ const Listing = () => {
       </Container>
     </Box>
   );
-};
+}
 
 export default Listing;

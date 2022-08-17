@@ -61,7 +61,7 @@ const SideBar = () => {
                             <Link
                                 style={{
                                     textDecoration: "none",
-                                    color: "inherit",
+                                    color:"#000",
                                 }}
                                 key={index}
                                 to={nav.path}>

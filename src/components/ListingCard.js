@@ -6,7 +6,6 @@ import Slider from "react-slick";
 
 const ListingCard = (props) => {
   const sliderRef = useRef(null);
-
   var settings = {
     dots: false,
     infinite: true,
@@ -19,7 +18,7 @@ const ListingCard = (props) => {
 
   return (
     <Box
-      
+
       sx={{
         padding: "2px",
       }}
@@ -64,10 +63,9 @@ const ListingCard = (props) => {
               style={{
                 textDecoration: "none",
                 color: "#000000",
-               
+
               }}
               to={`/listing/${props.id}`}
-             
             >
               <img
                 src={props.image}
@@ -96,9 +94,7 @@ const ListingCard = (props) => {
                     width: "100%",
                     height: "100%",
                     borderRadius: "10px",
-
                     backgroundSize: "cover",
-
                   }}
                 />
               </Link>
@@ -194,7 +190,6 @@ const ListingCard = (props) => {
                   md: "2.5rem",
                   lg: "2.5rem",
                 },
-
                 color: "#fff",
               }}
             />
@@ -229,26 +224,97 @@ const ListingCard = (props) => {
               }}
             />
           </IconButton>
+
+          {/* Favourite buttom */}
           {
+            props.favourite ? (
+              <Favorite
+                sx={{
+                  color: "#FF5F05",
+                  position: "absolute",
+                  top: "3px",
+                  right: "3px",
+                  zIndex: "3",
+                }} />
+            ) : (
+              <FavoriteBorder
+                sx={{
+                  color: "#fff",
+                  position: "absolute",
+                  top: "3px",
+                  right: "3px",
+                  zIndex: "3",
+                }}
+              />
+            )
+          }
+          {/* <Checkbox
+            onChange={props.handleFav}
+            sx={{
+              position: "absolute",
+              top: "0",
+              right: "0",
+              zIndex: "3",
+            }}
+            icon={
+              <FavoriteBorder
+                sx={{
+                  color: "#fff",
+                }}
+              />}
+            checkedIcon={
+              <Favorite
+                sx={{
+                  color: "#FF5F05"
+                }} />}
+          /> */}
+
+          {/* <IconButton
+            onClick={props.handleFavourite}
+            sx={{
+              position: "absolute",
+              top: "0",
+              right: "0",
+              zIndex: "3",
+            }}
+          >
+            {
+              props.addFav ? <Favorite
+                sx={{
+                  color: "#FF5F05",
+                }} /> : <FavoriteBorder
+                sx={{
+                  color: "#FFF"
+                }} />
+            }
+          </IconButton> */}
+
+          {/* {
             props.showTag ? (
               <Checkbox
+                checked={props.addFav}
+                onChange={props.handleFav}
                 sx={{
                   position: "absolute",
                   top: "0",
                   right: "0",
                   zIndex: "3",
                 }}
-                icon={<FavoriteBorder
+                icon={
+                  <FavoriteBorder
                   sx={{
                     color: "#fff",
                   }}
                 />}
-                checkedIcon={<Favorite sx={{
+                checkedIcon={
+                  <Favorite
+                    sx={{
                   color: "#FF5F05"
                 }} />}
               />
             ) : null
-          }
+          } */}
+
 
           {/* Verified tag */}
           {

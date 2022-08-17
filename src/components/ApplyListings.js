@@ -1,20 +1,64 @@
 import { TaskAlt } from '@mui/icons-material';
 import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, MenuItem, Stack, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import Axios from 'axios';
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../context/UserContext';
+import { apilink } from '../Helper';
 
 const ApplyListings = (props) => {
+    const { token, userId } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
+    const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const [duration, setDuration] = useState("");
+    const [email, setEmail] = useState("");
     const [number, setNumber] = useState("");
     const [period, setPeriod] = useState("");
+    const [duration, setDuration] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+
+
+    const authAxios = Axios.create({
+        baseURL: apilink,
+        headers: {
+            Authorization: "Bearer " + token,
+            "content-type": 'multipart/form-data'
+        },
+    });
 
     const handleChange = (e) => {
         setPeriod(e.target.value);
     }
+    const id = props.id;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        const formData = new FormData();
+
+        setName(`${firstname} ${lastname}`);
+        setDuration(`${number}/${period}`);
+        console.log(name, duration, startDate, endDate, email, phone, id, token, userId);
+        formData.append("name", name);
+        formData.append("phone", phone);
+        formData.append("email", email);
+        formData.append("duration", duration);
+        formData.append("start_date", startDate);
+        formData.append("end_date", endDate);
+        formData.append("listing_id", id);
+        formData.append("user_id", userId);
+        authAxios.post('/api/tenants', formData).then(res => {
+            setLoading(false);
+            console.log(res.data.data);
+            props.handleClose();
+        }).catch(err => {
+            setLoading(false);
+            console.log(err);
+        });
+    }
+
 
     return (
         <Dialog
@@ -55,6 +99,16 @@ const ApplyListings = (props) => {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         label="Phone Number"
+                        required={true}
+                    />
+                    <TextField
+                        color="success"
+                        fullWidth={true}
+                        size="small"
+                        type="phone"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label="Email"
                         required={true}
                     />
                     <Box
@@ -183,6 +237,7 @@ const ApplyListings = (props) => {
                         >Cancel
                         </Button>
                         <Button
+                            onClick={handleSubmit}
                             size="small"
                             variant="contained"
                             sx={{
@@ -194,7 +249,12 @@ const ApplyListings = (props) => {
                                     backgroundColor: "#35BF43",
                                 }
                             }}
-                        >Apply</Button>
+                            disabled={loading ? true : false}
+                        >
+                            {
+                                loading ? <CircularProgress size={23} color="success" /> : "Submit"
+                            }
+                        </Button>
                     </Stack>
                 </Box>
             </DialogContent>

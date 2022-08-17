@@ -6,12 +6,16 @@ import { UserContext } from '../../context/UserContext';
 import Axios from "axios";
 import { apilink } from '../../Helper';
 import { data } from '../../listingData';
+import MoveListing from '../../components/landlord/MoveListing';
 
 
 const AllListings = () => {
     const [listings, setListings] = useState([]);
     const [search, setSearch] = useState("");
+    const [listingId, setListingId] = useState("")
+    const [openAlert, setOpenAlert] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [statusMsg, setStatusMsg] = useState("");
     const navigate = useNavigate();
 
     const {
@@ -25,6 +29,8 @@ const AllListings = () => {
         setHiddenCol,
         draftCol,
         setDraftCol,
+        movedListing,
+        setMovedListing,
     } = useContext(UserContext);
 
     const createNewListing = () => {
@@ -70,8 +76,13 @@ const AllListings = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
-    const handleMenuClick = (e) => {
-        setAnchorEl(e.currentTarget);
+
+    // const handleMenuClick = (e) => {
+    //     setAnchorEl(e.currentTarget);
+    // };
+
+    const handleClose = () => {
+        setOpenAlert(false);
     };
 
     const handleCloseMenu = () => {
@@ -98,20 +109,24 @@ const AllListings = () => {
         },
     });
 
-    
     const getListings = () => {
         setLoading(true);
-        authAxios.get(`${apilink}/api/auth/listings`)
+        authAxios.get(`${apilink}/api/landlord/listings`)
             .then((res) => {
                 setLoading(false);
                 setListings(res.data.data);
-                console.log(listings)
             })
             .catch((err) => {
                 console.log(err);
                 setLoading(false);
             });
     };
+
+    const moveListing = (id) => {
+        setOpenAlert(true);
+        setMovedListing(false);
+        handleCloseMenu();
+    }
 
     useEffect(() => {
         setAllCol(true);
@@ -120,7 +135,7 @@ const AllListings = () => {
         setDraftCol(false);
         getListings();
         setTitle("");
-    }, [])
+    }, [movedListing])
 
     return (
         <Box
@@ -288,9 +303,19 @@ const AllListings = () => {
                         </Box>
                     ) : (
 
-                        listings.length === 0 ? (<Box>
-                            "No Listings found"
-                        </Box>) : (
+                        listings.length === 0 ? (
+                            <Box sx={{
+                                width: "100%",
+                                height: "auto",
+                                marginTop: "10px",
+                            }}>
+                                <Typography align="center" variant="body1" sx={{
+                                    fontSize: "14px",
+                                }}>
+                                    No Listings found
+                                </Typography>
+                            </Box>
+                        ) : (
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
@@ -317,11 +342,15 @@ const AllListings = () => {
                                                     <TableCell align="center">{row.amount}</TableCell>
                                                     <TableCell align="center">{row.location}</TableCell>
                                                     <TableCell align="center">{
-                                                        row.status === 2 ? "Draft" : row.status === 1? "Published": "Hidden"
+                                                        row.status === 2 ? "Draft" : row.status === 1 ? "Published" : "Hidden"
                                                     }</TableCell>
                                                     <TableCell align="center">
                                                         <Button
-                                                            onClick={handleMenuClick}
+                                                            onClick={(e) => {
+                                                                setAnchorEl(e.currentTarget)
+                                                                setListingId(row.id)
+                                                                setStatusMsg(row.status === 1 ? "Published" : row.status === 2 ? "Draft" : "Hidden")
+                                                            }}
                                                             variant="text"
                                                             sx={{
                                                                 textTransform: "none",
@@ -356,11 +385,11 @@ const AllListings = () => {
                     Edit
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={() => deleteListing(12)}>
+                <MenuItem onClick={moveListing}>
                     <ListItemIcon>
                         <VisibilityOff fontSize="inherit" />
                     </ListItemIcon>
-                    Hide
+                    Move
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => deleteListing(12)}>
@@ -370,6 +399,7 @@ const AllListings = () => {
                     Delete
                 </MenuItem>
             </Menu>
+            <MoveListing openAlert={openAlert} id={listingId} handleClose={handleClose} statusMsg={statusMsg}/>
         </Box>
     )
 }

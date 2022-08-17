@@ -58,6 +58,7 @@ const Details = () => {
       .then((res) => {
         setLoading(false);
         setListing(res.data.data);
+        console.log(res.data.data)
         setSelectedImg(res.data.data.images[0]);
         setImgs(res.data.data.images);
         setHasKitchen(res.data.data.has_kitchen);
@@ -78,14 +79,14 @@ const Details = () => {
       .then((res) => {
         setSimilarLoading(false);
         setSimilarListing(res.data.data);
-        
+
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  
+
 
   const handleClose = () => {
     setOpenApply(false)
@@ -98,10 +99,10 @@ const Details = () => {
   const applyListing = () => {
     const formdata = new FormData();
     formdata.append("listing_id", id);
-    
-  authAxios.post(`/api/listings/${id}/apply`).then((res) => { 
 
-  }).catch((err) => { })
+    authAxios.post(`/api/listings/${id}/apply`).then((res) => {
+
+    }).catch((err) => { })
   }
 
   useEffect(() => {
@@ -251,11 +252,23 @@ const Details = () => {
     setInspectionType(e.target.value);
   }
 
-  const saveFavorite = () => {
+  const saveFavorite = (id) => {
     if (!checked) {
       setChecked(true);
+      authAxios.get(`/api/listings/wishList/add/${id}`).then((res) => {
+        console.log(res.data.data);
+        console.log("Saved");
+      }).catch((err) => {
+        console.log(err)
+      })
     } else {
       setChecked(false);
+      authAxios.get(`/api/listings/wishList/remove/${id}`).then((res) => {
+        console.log(res.data.data)
+        console.log("Removed");
+      }).catch((err) => {
+        console.log(err)
+      });
     }
   }
 
@@ -342,7 +355,7 @@ const Details = () => {
                   {/* Save button */}
                   <Button
                     size="small"
-                    onClick={saveFavorite}
+                    onClick={() => saveFavorite(listing.id)}
                     variant="contained"
                     startIcon={checked ? <Favorite /> : <FavoriteBorder />}
                     disableFocusRipple={true}
@@ -881,7 +894,7 @@ const Details = () => {
                             <Typography variant="body1"
                               sx={{
                                 fontSize: "14px",
-                                }}>{name}</Typography>
+                              }}>{name}</Typography>
                             <CheckCircle sx={{
                               fontSize: "18px",
                               marginLeft: "0.4rem",
@@ -1219,7 +1232,7 @@ const Details = () => {
           )
         }
       </Container>
-      <ApplyListings openAlert={openApply} handleClose={handleClose} />
+      <ApplyListings openAlert={openApply} handleClose={handleClose} id={listing.id} />
     </Box>
   );
 };
