@@ -1,20 +1,20 @@
 import { TaskAlt } from '@mui/icons-material';
-import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import Axios from 'axios';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { apilink } from '../../Helper';
 
-const MoveListing = (props) => {
+const MoveTenants = (props) => {
+
     const {
         token,
-        setMovedListing,
+        setMovedTenants,
         userId
     } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState("");
-    const navigate = useNavigate();
 
 
 
@@ -39,14 +39,13 @@ const MoveListing = (props) => {
             setLoading(false);
             console.log(res.data.data);
             props.handleClose();
-            setMovedListing(true);
+            setMovedTenants(true);
             setStatus("");
         }).catch(err => {
             setLoading(false);
             console.log(err);
         });
     }
-
 
     return (
         <Dialog
@@ -57,18 +56,18 @@ const MoveListing = (props) => {
             aria-labelledby="alert-dialog-title"
         >
             <DialogTitle id="alert-dialog-title">
-                Move Listing
+                Move tenant
             </DialogTitle>
             <DialogContent>
-                <Stack spacing={2}>
+                <Stack spacing={1}>
                     <Typography align="center" variant="body1" sx={{
-                        fontSize: "14px"
+                        fontSize: "14px",
                     }}>
                         Move from {props.statusMsg}
                     </Typography>
 
                     <Typography align="center" variant="body1" sx={{
-                        fontSize: "14px"
+                        fontSize: "14px",
                     }}>
                         To
                     </Typography>
@@ -84,9 +83,9 @@ const MoveListing = (props) => {
                             marginTop: "3px"
                         }}
                     >
-                        {props.statusMsg === "Published" ? null : <MenuItem value="1">Publish</MenuItem>}
-                        {props.statusMsg === "Draft" ? null : <MenuItem value="2">Draft</MenuItem>}
-                        {props.statusMsg === "Hidden" ? null : <MenuItem value="3">Hide</MenuItem>}
+                        {props.statusMsg === "Upcoming" ? null : <MenuItem value="0">Upcoming</MenuItem>}
+                        {props.statusMsg === "Current" ? null : <MenuItem value="1">Current</MenuItem>}
+                        {props.statusMsg === "Past" ? null : props.statusMsg === "Upcoming" ? null : <MenuItem value="2">Past</MenuItem>}
                     </TextField>
                 </Stack>
                 <Box sx={{
@@ -139,4 +138,4 @@ const MoveListing = (props) => {
     )
 }
 
-export default MoveListing
+export default MoveTenants

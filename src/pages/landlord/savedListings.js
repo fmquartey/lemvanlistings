@@ -1,9 +1,10 @@
 import { Box, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import { useContext } from 'react';
+
 import { Outlet } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext';
 
-const savedListings = () => {
+const SavedListings = () => {
     const { title, setTitle, openSidebar } = useContext(UserContext);
 
     return (
@@ -39,4 +40,4 @@ const savedListings = () => {
     )
 }
 
-export default savedListings
+export default SavedListings

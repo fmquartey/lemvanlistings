@@ -6,11 +6,13 @@ import Axios from "axios";
 import AlertDialog from "../AlertDialog";
 import MsgBox from "../Alert";
 import { UserContext } from "../../context/UserContext";
-
+import { useParams } from "react-router-dom";
+import hse1 from "../../img/hse1.jpg";
 
 const UpdateListing = () => {
+    const {id} = useParams();
     const { token } = useContext(UserContext);
-    const [propertyType, setPropertyType] = useState([]);
+    const [propertyType, setPropertyType] = useState("");
     const [openAlert, setOpenAlert] = useState(false);
     const [loading, setLoading] = useState(false);
     const [openMsgBox, setOpenMsgBox] = useState(false);
@@ -18,7 +20,7 @@ const UpdateListing = () => {
     const [msgBoxMessage, setMsgBoxMessage] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState("");
-    const [property_type_id, setPropertyType_id] = useState("");
+    // const [property_type_id, setPropertyType_id] = useState("");
     const [propertyTitle, setPropertyTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [period, setPeriod] = useState("month");
@@ -106,7 +108,7 @@ const UpdateListing = () => {
         //     closeAlert()
         // }, 2000);
         if (
-            property_type_id === "" &&
+            propertyType === "" &&
             propertyTitle === "" &&
             amount === "" &&
             period === "" &&
@@ -122,7 +124,7 @@ const UpdateListing = () => {
             setMsgBoxTitle("Error");
             setMsgBoxMessage("Please provide property tittle, number of bedrooms, no of bathrooms,number of toilets, price of property, duration, region, location");
         } else {
-            if (property_type_id === "") {
+            if (propertyType === "") {
                 setOpenMsgBox(true);
                 setMsgBoxTitle("Error");
                 setMsgBoxMessage("Please select the Type of Property")
@@ -172,7 +174,7 @@ const UpdateListing = () => {
                     setLoading(true);
                     const price = amount + " / " + period;
                     const formData = new FormData();
-                    formData.append("property_type_id", property_type_id);
+                    formData.append("property_type_id", propertyType);
                     formData.append("property_title", propertyTitle);
                     formData.append("amount", price);
                     formData.append("period", period);
@@ -197,7 +199,8 @@ const UpdateListing = () => {
                     formData.append("toilet", toilet);
                     formData.append("bedroom", bedroom);
                     formData.append("other_images", other_images);
-                    authAxios.post("/api/listings", formData).then(res => {
+
+                    authAxios.post(`/api/landlord/listings/${id}`, formData).then(res => {
                         setAlertType("success");
                         setAlertMessage(res.data.data.message)
                         setTimeout(() => {
@@ -237,17 +240,17 @@ const UpdateListing = () => {
         }
     }
 
-    const getPropertyType = () => {
-        Axios.get(`${apilink}/api/property/types`).then((res) => {
-            setPropertyType(res.data.data);
-            console.log(propertyType);
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
+    // const getPropertyType = () => {
+    //     Axios.get(`${apilink}/api/property/types`).then((res) => {
+    //         setPropertyType(res.data.data);
+    //         console.log(propertyType);
+    //     }).catch((err) => {
+    //         console.log(err)
+    //     })
+    // }
 
     useEffect(() => {
-        getPropertyType();
+        // getPropertyType();
     }, []);
 
     return (
@@ -302,19 +305,16 @@ const UpdateListing = () => {
                                 select
                                 fullWidth={true}
                                 size="small"
-                                value={setPropertyType_id}
+                                value={propertyType}
                                 onChange={handleChange}
                                 label="Property Type"
                                 sx={{
                                     marginTop: "3px"
                                 }}
                             >
-                                {
-                                    propertyType.map((data, i) => (
-                                        <MenuItem key={1} value={data.id}>{data.type}</MenuItem>
-                                    ))}
+                                <MenuItem value="1">Apartment</MenuItem>
+                                <MenuItem value="2">Single Room</MenuItem>
                             </TextField>
-
 
                             <TextField
                                 color="success"
@@ -324,8 +324,6 @@ const UpdateListing = () => {
                                 onChange={(e) => setPropertyTitle(e.target.value)}
                                 label="Property Title"
                             />
-
-
 
                             <TextField
                                 color="success"
@@ -613,6 +611,7 @@ const UpdateListing = () => {
                         </Stack>
 
                         <Box mt={3}>
+
                             <Divider />
                             <Stack mt={2} spacing={2} direction="row"
                                 sx={{
@@ -636,6 +635,26 @@ const UpdateListing = () => {
                                     </IconButton>
                                 </Tooltip>
                             </Stack>
+
+                            <Box mt={2}>
+                                <Typography variant="body1" sx={{
+                                    fontSize: "16px",
+                                }}>
+                                    Front Image(s)
+                                </Typography>
+                                <Box sx={{
+                                    width:"100%",
+                                    height:"auto"
+                                }}>
+                                    <Box sx={{
+                                        width: "200px",
+                                        height: "auto",
+                                    }}>
+                                        <img src={hse1} alt="" />
+                                    </Box>
+                                </Box>
+                            </Box>
+
                             <Stack mt={2} spacing={1}>
                                 <Stack spacing={1} direction="row" sx={{
                                     alignItems: "center",

@@ -1,4 +1,4 @@
-import { AccountCircle, Alarm, Chat, FavoriteBorder, Home, ListAlt, PeopleAlt, Settings } from "@mui/icons-material";
+import { AccountCircle, Alarm, Chat, Favorite, FavoriteBorder, Home, ListAlt, PeopleAlt, Settings } from "@mui/icons-material";
 
 export const navigation = [
     {
@@ -16,16 +16,16 @@ export const navigation = [
         }} />,
     },
     {
-        name: " Saved Listings",
-        path: "/app/landlord/saved",
-        icon: <FavoriteBorder sx={{
+        name: "Tenants",
+        path: "/app/landlord/tenants",
+        icon: <PeopleAlt sx={{
             fontSize: "20px",
         }} />,
     },
     {
-        name: "Tenants",
-        path: "/app/landlord/tenants",
-        icon: <PeopleAlt sx={{
+        name: " Saved Listings",
+        path: "/app/landlord/saved",
+        icon: <Favorite sx={{
             fontSize: "20px",
         }} />,
     },
@@ -34,7 +34,6 @@ export const navigation = [
         path: "/app/landlord/appointments",
         icon: <Alarm sx={{
             fontSize: "20px",
-
         }} />,
     },
     {

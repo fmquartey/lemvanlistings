@@ -1,4 +1,4 @@
-import { Delete, Edit, Search, VisibilityOff } from '@mui/icons-material'
+import { Delete, Edit, Forward, Forward10, Search, VisibilityOff } from '@mui/icons-material'
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const AllListings = () => {
     const [listings, setListings] = useState([]);
     const [search, setSearch] = useState("");
     const [listingId, setListingId] = useState("")
-    const [openAlert, setOpenAlert] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const [loading, setLoading] = useState(false);
     const [statusMsg, setStatusMsg] = useState("");
     const navigate = useNavigate();
@@ -82,7 +82,7 @@ const AllListings = () => {
     // };
 
     const handleClose = () => {
-        setOpenAlert(false);
+        setOpenDialog(false);
     };
 
     const handleCloseMenu = () => {
@@ -90,14 +90,9 @@ const AllListings = () => {
     };
 
     // const navigate = useNavigate();
-    const editListing = (id) => {
-        navigate(`/app/landlord/listings/edit/${id}`);
+    const editListing = () => {
+        navigate(`/app/landlord/listings/edit/${listingId}`);
         setTitle("\\ Edit listing")
-        handleCloseMenu();
-    }
-
-    const deleteListing = (id) => {
-        console.log(id);
         handleCloseMenu();
     }
 
@@ -108,6 +103,21 @@ const AllListings = () => {
             "content-type": 'multipart/form-data'
         },
     });
+
+    const deleteListing = () => {
+        authAxios.delete(`/api/landlord/listings/${listingId}`).then((res) => {
+            setStatusMsg(res.data.message);
+            console.log(res.data.message);
+            setLoading(false);
+            setListings(listings.filter(listing => listing.id !== listingId));
+            handleCloseMenu();
+        }).catch((err) => {
+            setStatusMsg(err.response.data.message);
+            console.log(err.response.data.message);
+            setLoading(false);
+            handleCloseMenu();
+        })
+    }
 
     const getListings = () => {
         setLoading(true);
@@ -122,8 +132,8 @@ const AllListings = () => {
             });
     };
 
-    const moveListing = (id) => {
-        setOpenAlert(true);
+    const moveListing = () => {
+        setOpenDialog(true);
         setMovedListing(false);
         handleCloseMenu();
     }
@@ -378,7 +388,7 @@ const AllListings = () => {
                 open={openMenu}
                 onClose={handleCloseMenu}
             >
-                <MenuItem onClick={() => editListing(12)}>
+                <MenuItem onClick={editListing}>
                     <ListItemIcon>
                         <Edit fontSize="inherit" />
                     </ListItemIcon>
@@ -387,19 +397,19 @@ const AllListings = () => {
                 <Divider />
                 <MenuItem onClick={moveListing}>
                     <ListItemIcon>
-                        <VisibilityOff fontSize="inherit" />
+                        <Forward fontSize="inherit" />
                     </ListItemIcon>
                     Move
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={() => deleteListing(12)}>
+                <MenuItem onClick={deleteListing}>
                     <ListItemIcon>
                         <Delete fontSize="inherit" />
                     </ListItemIcon>
                     Delete
                 </MenuItem>
             </Menu>
-            <MoveListing openAlert={openAlert} id={listingId} handleClose={handleClose} statusMsg={statusMsg}/>
+            <MoveListing openDialog={openDialog} id={listingId} handleClose={handleClose} statusMsg={statusMsg} />
         </Box>
     )
 }

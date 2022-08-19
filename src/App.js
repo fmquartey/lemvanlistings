@@ -43,6 +43,8 @@ import Upcoming from "./components/landlord/Upcoming";
 import Past from "./components/landlord/Past";
 import MyListings from "./components/landlord/MyListing";
 import MyTenants from "./components/landlord/MyTenants";
+import SavedListings from "./pages/landlord/savedListings";
+import Tenant from "./pages/Tenant";
 
 
 
@@ -52,6 +54,7 @@ function App() {
   const [userName, setUserName] = useState("");
   const [userAvater, setUserAvater] = useState("");
   const [token, setToken] = useState();
+  const [accountType, setAccountType] = useState();
   const [showNav, setShowNav] = useState(true);
   const [openSidebar, setOpenSideBar] = useState(true);
   const [allCol, setAllCol] = useState(false);
@@ -65,6 +68,7 @@ function App() {
   const [searchParam, setsearchParam] = useState("");
   const [title, setTitle] = useState("")
   const [movedListing, setMovedListing] = useState(false);
+  const [movedTenants, setMovedTenants] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const navigate = useNavigate();
 
@@ -76,6 +80,7 @@ function App() {
       setUserName(userInfo.firstname);
       setUserAvater(userInfo.avatar);
       setToken(userInfo.access_token);
+      setAccountType(userInfo.account_type);
     } else {
       setUser(false);
       // navigate("/welcome");
@@ -95,6 +100,7 @@ function App() {
           setUserAvater,
           token,
           setToken,
+          accountType,
           showNav,
           setShowNav,
           openSidebar,
@@ -120,57 +126,60 @@ function App() {
           upcomingcolor,
           setUpcomingColor,
           movedListing,
-          setMovedListing
+          setMovedListing,
+          movedTenants,
+          setMovedTenants
         }}
       >
         {showNav ? <TopBar /> : null}
         <Routes>
-          <Route exact path="/welcome" element={<LandingPage />} />
-          <Route exact path="/" element={<Listing />} />
-          <Route exact path="/listing/:id" element={<Details />} />
+          <Route path="/welcome" element={<LandingPage />} />
+          <Route path="/" element={<Listing />} />
+          <Route path="/listing/:id" element={<Details />} />
 
-          <Route exact path="/app/landlord" element={<Landlord />}>
-            <Route exact path="" element={<Home />} />
-            <Route exact path="listings" element={<Listings />}>
-              <Route path="" element={<AllListings />}/>
-               
-              <Route exact path="create" element={<CreateListing />} />
+          <Route path="/app/landlord" element={<Landlord />}>
+            <Route path="" element={<Home />} />
+            <Route path="listings" element={<Listings />}>
+              <Route path="" element={<AllListings />} />
+
+              <Route path="create" element={<CreateListing />} />
               <Route path="edit/:id" element={<Editlisting />} />
             </Route>
 
 
-            <Route exact path="saved" element={<savedListings />} />
-            <Route exact path="appointments" element={<Appointments />} />
+            <Route path="saved" element={<SavedListings />} />
+            <Route path="appointments" element={<Appointments />} />
 
             <Route path="tenants" element={<Tenants />}>
               <Route path="" element={<AllTenants />} />
             </Route>
 
-
             <Route path="profile" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
             <Route path="settings" element={<Settings />} />
           </Route>
-          <Route exact path="/:token/:email" element={<Resetpwd />} />
-          <Route exact path="/verified" element={<Verified />} />
-          <Route exact path="/login" element={<Login />} />
+
+          <Route path="/app/tenant" element={<Tenant />} />
+
+          <Route path="/:token/:email" element={<Resetpwd />} />
+          <Route path="/verified" element={<Verified />} />
+          <Route path="/login" element={<Login />} />
           <Route
-            exact
+
             path="/register/accounttype/:account_type"
             element={<Register />}
           />
-          <Route exact path="/sociallogin" element={<SocialAuth />} />
-          <Route exact path="/facebooklogin" element={<FacebookAuth />} />
-          <Route exact path="/users/password/forgot" element={<ForgotPwd />} />
-          <Route exact path="/email/verify/:id/:hash" element={<Verify />} />
+          <Route path="/sociallogin" element={<SocialAuth />} />
+          <Route path="/facebooklogin" element={<FacebookAuth />} />
+          <Route path="/users/password/forgot" element={<ForgotPwd />} />
+          <Route path="/email/verify/:id/:hash" element={<Verify />} />
           <Route
-            exact
+
             path="/register/:successmessage/:email"
             element={<RegSuccess />}
           />
 
           <Route
-            exact
             path="/resetpassword/:successmessage"
             element={<PwdResetSuccess />}
           />

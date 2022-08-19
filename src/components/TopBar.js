@@ -28,7 +28,7 @@ import Axios from "axios";
 import { apilink } from "../Helper";
 
 const TopBar = () => {
-  const { user, setUser, userName, userAvater, token } = useContext(UserContext);
+  const { user, accountType, setUser, userName, userAvater, token } = useContext(UserContext);
   const navigate = useNavigate();
   const userinfo = JSON.parse(localStorage.getItem("user-info"));
   const backendurl = apilink;
@@ -44,7 +44,8 @@ const TopBar = () => {
   };
 
   const openDashboard = () => {
-    navigate("/app/landlord");
+    accountType === 1 ? navigate("/app/landlord") : navigate("/app/tenant");
+    // navigate("/app/landlord");
     handleCloseMenu();
   }
 

@@ -5,13 +5,16 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import Axios from "axios";
 import { apilink } from '../../Helper';
+import MoveTenants from '../../components/landlord/MoveTenants';
 
 const AllTenants = () => {
     const { token } = useContext(UserContext);
     const [tenants, setTenants] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
-
+    const [tenantsId, setTenantsId] = useState("")
+    const [openDialog, setOpenDialog] = useState(false);
+    const [statusMsg, setStatusMsg] = useState("");
 
     const navigate = useNavigate();
     const {
@@ -23,7 +26,9 @@ const AllTenants = () => {
         pastcolor,
         setPastColor,
         upcomingcolor,
-        setUpcomingColor
+        setUpcomingColor,
+        movedTenants,
+        setMovedTenants,
     } = useContext(UserContext);
 
 
@@ -41,7 +46,6 @@ const AllTenants = () => {
         setUpcomingColor(false)
         setPastColor(false);
         setSearch("");
-
     }
 
     const past = () => {
@@ -51,20 +55,25 @@ const AllTenants = () => {
         setUpcomingColor(false)
         setSearch("2");
     }
+
     const upcoming = () => {
         setUpcomingColor(true)
         setAllColor(false);
         setCurrentColor(false)
         setPastColor(false);
         setSearch("0");
-        // navigate("/app/landlord/tenants/upcoming");
     }
 
 
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
-    const handleMenuClick = (e) => {
-        setAnchorEl(e.currentTarget);
+
+    // const handleMenuClick = (e) => {
+    //     setAnchorEl(e.currentTarget);
+    // };
+
+    const handleClose = () => {
+        setOpenDialog(false);
     };
 
     const handleCloseMenu = () => {
@@ -72,8 +81,9 @@ const AllTenants = () => {
     };
 
 
-    const moveToPast = (id) => {
-        console.log(id);
+    const moveTenant = () => {
+        setMovedTenants(false);
+        setOpenDialog(true);
         handleCloseMenu();
     }
 
@@ -96,6 +106,7 @@ const AllTenants = () => {
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
             });
     };
 
@@ -106,7 +117,8 @@ const AllTenants = () => {
         setCurrentColor(false)
         setUpcomingColor(false)
         setPastColor(false);
-    }, [])
+    }, [movedTenants])
+
 
     return (
         <Box
@@ -247,55 +259,73 @@ const AllTenants = () => {
 
                             </Box>
                         ) : (
+                            tenants.length === 0 ? (
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
+                                    marginTop: "10px",
+                                }}>
+                                    <Typography align="center" variant="body1" sx={{
+                                        fontSize: "14px",
+                                    }}>
+                                        No Tenants found
+                                    </Typography>
+                                </Box>
+                            ) : (
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="center">Name</TableCell>
+                                                <TableCell align="center">Phone</TableCell>
+                                                <TableCell align="center">Email</TableCell>
+                                                <TableCell align="center">Property type</TableCell>
+                                                <TableCell align="center">Location</TableCell>
+                                                <TableCell align="center">Duration</TableCell>
+                                                <TableCell align="center">Start date</TableCell>
+                                                <TableCell align="center">End date</TableCell>
+                                                <TableCell align="center">Action</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                tenants.filter((item, index) => {
+                                                    return item.name.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search.toLowerCase()) || item.name.toLowerCase() === "" ? item : item.status.toString().includes(search.toString()) || item.name.toLowerCase() === "" ? item : item.location.toLowerCase().includes(search.toLowerCase()) || item.name.toLowerCase() === "" ? item : item.property_type.toLowerCase().includes(search.toLowerCase())
+                                                }).map((item, index) => (
+                                                    <TableRow
+                                                        key={index}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                        <TableCell align="center">{item.name}</TableCell>
+                                                        <TableCell align="center">{item.phone}</TableCell>
+                                                        <TableCell align="center">{item.email}</TableCell>
+                                                        <TableCell align="center">{item.property_type}</TableCell>
+                                                        <TableCell align="center">{item.location}</TableCell>
+                                                        <TableCell align="center">{item.duration}</TableCell>
+                                                        <TableCell align="center">{item.start_date}</TableCell>
+                                                        <TableCell align="center">{item.end_date}</TableCell>
+                                                        <TableCell align="center">
+                                                            <Button
+                                                                onClick={(e) => {
+                                                                    setAnchorEl(e.currentTarget)
+                                                                    setTenantsId(item.id)
+                                                                    setStatusMsg(item.status === 1 ? "Current" : item.status === 2 ? "Past" : "Upcoming")
+                                                                }}
+                                                                variant="text"
+                                                                sx={{
+                                                                    textTransform: "none",
+                                                                    fontSize: "14px",
+                                                                    fontWeight: "600",
+                                                                    color: "#35BF43",
+                                                                }}>Options</Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            }
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            )
 
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="center">Name</TableCell>
-                                            <TableCell align="center">Phone</TableCell>
-                                            <TableCell align="center">Email</TableCell>
-                                            <TableCell align="center">Property type</TableCell>
-                                            <TableCell align="center">Location</TableCell>
-                                            <TableCell align="center">Duration</TableCell>
-                                            <TableCell align="center">Start date</TableCell>
-                                            <TableCell align="center">End date</TableCell>
-                                            <TableCell align="center">Action</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {
-                                            tenants.filter((item, index) => {
-                                                return item.name.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search.toLowerCase()) || item.name.toLowerCase() === "" ? item : item.status.toString().includes(search.toString()) || item.name.toLowerCase() === "" ? item : item.location.toLowerCase().includes(search.toLowerCase()) || item.name.toLowerCase() === "" ? item : item.property_type.toLowerCase().includes(search.toLowerCase())
-                                            }).map((item, index) => (
-                                                <TableRow
-                                                    key={index}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                    <TableCell align="center">{item.name}</TableCell>
-                                                    <TableCell align="center">{item.phone}</TableCell>
-                                                    <TableCell align="center">{item.email}</TableCell>
-                                                    <TableCell align="center">{item.property_type}</TableCell>
-                                                    <TableCell align="center">{item.location}</TableCell>
-                                                    <TableCell align="center">{item.duration}</TableCell>
-                                                    <TableCell align="center">{item.start_date}</TableCell>
-                                                    <TableCell align="center">{item.end_date}</TableCell>
-                                                    <TableCell align="center">
-                                                        <Button
-                                                            onClick={handleMenuClick}
-                                                            variant="text"
-                                                            sx={{
-                                                                textTransform: "none",
-                                                                fontSize: "14px",
-                                                                fontWeight: "600",
-                                                                color: "#35BF43",
-                                                            }}>Options</Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
                         )
                 }
             </Box>
@@ -312,13 +342,14 @@ const AllTenants = () => {
                     Edit
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={() => moveToPast(12)}>
+                <MenuItem onClick={moveTenant}>
                     <ListItemIcon>
                         <Forward fontSize="inherit" />
                     </ListItemIcon>
                     Move
                 </MenuItem>
             </Menu>
+            <MoveTenants openDialog={openDialog} id={tenantsId} handleClose={handleClose} statusMsg={statusMsg} />
         </Box>
     )
 }
