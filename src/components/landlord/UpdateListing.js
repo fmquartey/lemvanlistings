@@ -1,5 +1,5 @@
 import { CloudUpload, HelpOutlineOutlined } from "@mui/icons-material";
-import { Box, Button, Divider, FormControl, FormControlLabel, FormLabel, IconButton, MenuItem, Paper, Radio, RadioGroup, Stack, TextField, Tooltip, Typography } from "@mui/material"
+import { Box, Button, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, MenuItem, Paper, Radio, RadioGroup, Stack, TextField, Tooltip, Typography } from "@mui/material"
 import React, { useContext, useEffect, useState } from "react";
 import { apilink } from "../../Helper";
 import Axios from "axios";
@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import hse1 from "../../img/hse1.jpg";
 
 const UpdateListing = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const { token } = useContext(UserContext);
     const [propertyType, setPropertyType] = useState("");
     const [openAlert, setOpenAlert] = useState(false);
@@ -98,147 +98,145 @@ const UpdateListing = () => {
         },
     });
 
+
+    const getListing = () => {
+        setLoading(true);
+        authAxios.get(`/api/landlord/listings/${id}`)
+            .then((res) => {
+                setLoading(false);
+                console.log(res.data.data);
+                setPropertyType(res.data.data.property_type.type);
+                setPropertyTitle(res.data.data.property_title);
+                setNumber_of_bedrooms(res.data.data.number_of_bedrooms);
+                setNumber_of_bathrooms(res.data.data.number_of_bathrooms);
+                setNumber_of_toilets(res.data.data.number_of_toilets);
+                setHas_kitchen(res.data.data.has_kitchen);
+                setNumber_of_kitchens(res.data.data.number_of_kitchens);
+                setHas_water(res.data.data.has_water);
+                setHas_electricity(res.data.data.has_electricity);
+                setIs_furnished(res.data.data.is_furnished);
+                setFurnished_with(res.data.data.furnished_with);
+                setLocation(res.data.data.location);
+                setRegion(res.data.data.region);
+                setFull_property_description(res.data.data.full_property_description);
+                setAmount(res.data.data.amount);
+                setFront(res.data.data.front);
+                setRear(res.data.data.rear);
+                setBird_eye_view(res.data.data.bird_eye_view);
+                setKitchen(res.data.data.kitchen);
+                setBathroom(res.data.data.bathroom);
+                setToilet(res.data.data.toilet);
+                setBedroom(res.data.data.bedroom);
+                setOther_images(res.data.data.other_images);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            });
+    };
+
     const formSubmit = () => {
+        setOpenAlert(true);
+        setLoading(true);
+        const price = amount + " / " + period;
+        const formData = new FormData();
+        formData.append("property_type_id", propertyType);
+        formData.append("property_title", propertyTitle);
+        formData.append("amount", price);
+        formData.append("number_of_bedrooms", number_of_bedrooms);
+        formData.append("number_of_bathrooms", number_of_bathrooms);
+        formData.append("number_of_toilets", number_of_toilets);
+        formData.append("has_kitchen", has_kitchen);
+        formData.append("number_of_kitchens", number_of_kitchens);
+        formData.append("has_water", has_water);
+        formData.append("has_electricity", has_electricity);
+        formData.append("is_furnished", is_furnished);
+        formData.append("furnished_with", furnished_with);
+        formData.append("location", location);
+        formData.append("region", region);
+        formData.append("full_property_description", full_property_description);
+        formData.append("is_verified", is_verified);
 
-
-        // setOpenAlert(true);
-        // setLoading(true);
-        // setTimeout(() => {
-        //     setLoading(false)
-        //     closeAlert()
-        // }, 2000);
-        if (
-            propertyType === "" &&
-            propertyTitle === "" &&
-            amount === "" &&
-            period === "" &&
-            number_of_bedrooms === "" &&
-            number_of_bathrooms === "" &&
-            number_of_toilets === "" &&
-            number_of_kitchens === "" &&
-            location === "" &&
-            region === "" &&
-            full_property_description === ""
-        ) {
-            setOpenMsgBox(true);
-            setMsgBoxTitle("Error");
-            setMsgBoxMessage("Please provide property tittle, number of bedrooms, no of bathrooms,number of toilets, price of property, duration, region, location");
-        } else {
-            if (propertyType === "") {
-                setOpenMsgBox(true);
-                setMsgBoxTitle("Error");
-                setMsgBoxMessage("Please select the Type of Property")
-            } else if (propertyTitle === "") {
-                setOpenMsgBox(true);
-                setMsgBoxTitle("Error");
-                setMsgBoxMessage("Property title is required")
-            } else if (amount === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Price of property is required")
-                setMsgBoxTitle("Error");
-            } else if (period === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide period for the rent")
-                setMsgBoxTitle("Error");
-            } else if (number_of_bedrooms === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide number of bedrooms")
-                setMsgBoxTitle("Error");
-            } else if (number_of_bathrooms === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide number of bathrooms")
-                setMsgBoxTitle("Error");
-            } else if (number_of_toilets === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please provide number of toilets in the property")
-                setMsgBoxTitle("Error");
-            } else if (location === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please location of property is required")
-                setMsgBoxTitle("Error");
-            } else if (region === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Please region is required")
-                setMsgBoxTitle("Error");
-            } else if (full_property_description === "") {
-                setOpenMsgBox(true);
-                setMsgBoxMessage("Property description is required")
-                setMsgBoxTitle("Error");
-            } else {
-                if (front.length > 3 || rear.length > 3 || bird_eye_view.length > 3 || kitchen.length > 3 || bathroom.length > 3 || toilet.length > 3 || bedroom.length > 3 || other_images.length > 3) {
-                    setOpenMsgBox(true);
-                    setMsgBoxMessage("Please images cannot be more than 3")
-                    setMsgBoxTitle("Error");
-                } else {
-                    setOpenAlert(true);
-                    setLoading(true);
-                    const price = amount + " / " + period;
-                    const formData = new FormData();
-                    formData.append("property_type_id", propertyType);
-                    formData.append("property_title", propertyTitle);
-                    formData.append("amount", price);
-                    formData.append("period", period);
-                    formData.append("number_of_bedrooms", number_of_bedrooms);
-                    formData.append("number_of_bathrooms", number_of_bathrooms);
-                    formData.append("number_of_toilets", number_of_toilets);
-                    formData.append("has_kitchen", has_kitchen);
-                    formData.append("number_of_kitchens", number_of_kitchens);
-                    formData.append("has_water", has_water);
-                    formData.append("has_electricity", has_electricity);
-                    formData.append("is_furnished", is_furnished);
-                    formData.append("furnished_with", furnished_with);
-                    formData.append("location", location);
-                    formData.append("region", region);
-                    formData.append("full_property_description", full_property_description);
-                    formData.append("is_verified", is_verified);
-                    formData.append("rear", rear);
-                    formData.append("front", front);
-                    formData.append("bird_eye_view", bird_eye_view);
-                    formData.append("kitchen", kitchen);
-                    formData.append("bathroom", bathroom);
-                    formData.append("toilet", toilet);
-                    formData.append("bedroom", bedroom);
-                    formData.append("other_images", other_images);
-
-                    authAxios.post(`/api/landlord/listings/${id}`, formData).then(res => {
-                        setAlertType("success");
-                        setAlertMessage(res.data.data.message)
-                        setTimeout(() => {
-                            setLoading(false)
-                            closeAlert()
-                        }, 2000);
-                        setPropertyType("")
-                        setPropertyTitle("")
-                        setAmount("")
-                        setPeriod("")
-                        setNumber_of_bedrooms("")
-                        setNumber_of_bathrooms("")
-                        setNumber_of_toilets("")
-                        has_kitchen(0)
-                        setNumber_of_kitchens("")
-                        setHas_water(0)
-                        setHas_electricity(0)
-                        setIs_furnished(0)
-                        setFurnished_with("")
-                        setLocation("")
-                        setRegion("")
-                        setFull_property_description("")
-                        is_verified(0)
-                        setRear([])
-                        setFront([])
-                        setBird_eye_view([])
-                        setKitchen([])
-                        setBathroom([])
-                        setToilet([])
-                        setBedroom([])
-                        setOther_images([])
-                    }).catch(err => {
-                        console.log(err);
-                    })
-                }
-            }
+        for (let r = 0; r < rear.length; r++) {
+            formData.append("rear[]", rear[r]);
         }
+        // formData.append("front", front);
+        for (let f = 0; f < front.length; f++) {
+            formData.append("front[]", front[f]);
+        }
+
+        // formData.append("bird_eye_view", bird_eye_view);
+        for (let b = 0; b < bird_eye_view.length; b++) {
+            formData.append("bird_eye_view[]", bird_eye_view[b]);
+        }
+
+        // formData.append("kitchen", kitchen);
+        for (let k = 0; k < kitchen.length; k++) {
+            formData.append("kitchen[]", kitchen[k]);
+        }
+
+        // formData.append("toilet", toilet);
+        for (let t = 0; t < toilet.length; t++) {
+            formData.append("toilet[]", toilet[t]);
+        }
+
+        // formData.append("bathroom", bathroom);
+        for (let c = 0; c < bathroom.length; c++) {
+            formData.append("bathroom[]", bathroom[c]);
+        }
+
+        // formData.append("bedroom", bedroom);
+        for (let d = 0; d < bedroom.length; d++) {
+            formData.append("bedroom[]", bedroom[d]);
+        }
+
+        // formData.append("other_images", other_images);
+        for (let o = 0; o < other_images.length; o++) {
+            formData.append("other_images[]", other_images[o]);
+        }
+
+        // formData.append("status", status);
+        authAxios.put(`/api/landlord/listings/${id}`, formData).then(res => {
+            console.log(res);
+            setAlertType("success");
+            setAlertMessage(res.data.data.message)
+            setTimeout(() => {
+                setLoading(false)
+                closeAlert()
+            }, 2000);
+
+            setPropertyTitle("")
+            setAmount("")
+            setPeriod("")
+            setNumber_of_bedrooms("")
+            setNumber_of_bathrooms("")
+            setNumber_of_toilets("")
+            has_kitchen(0)
+            setNumber_of_kitchens("")
+            setHas_water(0)
+            setHas_electricity(0)
+            setIs_furnished(0)
+            setFurnished_with("")
+            setLocation("")
+            setRegion("")
+            setFull_property_description("")
+            is_verified(0)
+            setRear([])
+            setFront([])
+            setBird_eye_view([])
+            setKitchen([])
+            setBathroom([])
+            setToilet([])
+            setBedroom([])
+            setOther_images([])
+        }).catch(err => {
+            console.log(err);
+            setLoading(false)
+            closeAlert()
+        })
     }
+
+
 
     // const getPropertyType = () => {
     //     Axios.get(`${apilink}/api/property/types`).then((res) => {
@@ -251,6 +249,7 @@ const UpdateListing = () => {
 
     useEffect(() => {
         // getPropertyType();
+        getListing();
     }, []);
 
     return (
@@ -312,8 +311,8 @@ const UpdateListing = () => {
                                     marginTop: "3px"
                                 }}
                             >
-                                <MenuItem value="1">Apartment</MenuItem>
-                                <MenuItem value="2">Single Room</MenuItem>
+                                <MenuItem value="Apartment">Apartment</MenuItem>
+                                <MenuItem value="Single Room">Single Room</MenuItem>
                             </TextField>
 
                             <TextField
@@ -592,10 +591,10 @@ const UpdateListing = () => {
                                 size="small"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
-                                label="Amount(GHC)"
+                                label="Amount(GHC)/Period"
                             />
 
-                            <TextField
+                            {/* <TextField
                                 color="success"
                                 select
                                 fullWidth={true}
@@ -607,11 +606,10 @@ const UpdateListing = () => {
                                 <MenuItem value="week">Week</MenuItem>
                                 <MenuItem value="month">Month</MenuItem>
                                 <MenuItem value="year">Year</MenuItem>
-                            </TextField>
+                            </TextField> */}
                         </Stack>
 
                         <Box mt={3}>
-
                             <Divider />
                             <Stack mt={2} spacing={2} direction="row"
                                 sx={{
@@ -621,7 +619,7 @@ const UpdateListing = () => {
                                     variant="body1"
                                     sx={{
                                         fontSize: "16px",
-                                    }}>Upload Images
+                                    }}>Images
                                 </Typography>
 
                                 <Tooltip title={toolTipTitle}>
@@ -636,200 +634,558 @@ const UpdateListing = () => {
                                 </Tooltip>
                             </Stack>
 
-                            <Box mt={2}>
-                                <Typography variant="body1" sx={{
-                                    fontSize: "16px",
-                                }}>
-                                    Front Image(s)
-                                </Typography>
+                            {/* image */}
+                            <Stack mt={1} spacing={1}>
+                                {/* front images */}
                                 <Box sx={{
-                                    width:"100%",
-                                    height:"auto"
+                                    width: "100%",
+                                    height: "auto",
                                 }}>
-                                    <Box sx={{
-                                        width: "200px",
-                                        height: "auto",
-                                    }}>
-                                        <img src={hse1} alt="" />
+                                    <Box>
+                                        <Typography variant="body1" sx={{
+                                            fontSize: "16px",
+                                        }}>
+                                            Front Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                front.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Front Image(s) found
+                                                    </Typography>
+                                                ) : (
+                                                        <Grid
+                                                            container
+                                                            columnSpacing={2}
+                                                            rowSpacing={4}>
+                                                            {
+                                                                front.map((image, index) => (
+                                                                    <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                        <Box sx={{
+                                                                            width: "100%",
+                                                                            height: "auto",
+                                                                        }}>
+                                                                            <img src={image} alt=""
+                                                                                style={{
+                                                                                    width: "100%",
+                                                                                    height: "auto"
+                                                                                }} />
+                                                                        </Box>
+                                                                    </Grid>
+                                                                ))
+                                                            }
+                                                        </Grid>
+                                                )
+                                            }
+                                            
+                                        </Box>
                                     </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input hidden accept="image/*" type="file" multiple
+                                                onChange={(e) => setFront(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                front.length === 0 ? "Front" : "Front: " + front.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
                                 </Box>
-                            </Box>
 
-                            <Stack mt={2} spacing={1}>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
+                                {/* rear images */}
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
                                 }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
-                                            onChange={(e) => setFront(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            front.length === 0 ? "Front" : "Front: " + front.length + " files selected"
-                                        }
-                                    </Typography>
-                                </Stack>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
-                                }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
-                                            onChange={(e) => setRear(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            rear.length === 0 ? "Rear" : "Rear: " + rear.length + " files selected"
-                                        }
-                                    </Typography>
-                                </Stack>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
-                                }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
-                                            onChange={(e) => setBird_eye_view(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            bird_eye_view.length === 0 ? "Bed eye view" : "Bed eye view: " + bird_eye_view.length + " files selected"
-                                        }
-                                    </Typography>
-                                </Stack>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
-                                }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
-                                            onChange={(e) => setKitchen(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            kitchen.length === 0 ? "Kitchen" : "Kitchen: " + kitchen.length + " files selected"
-                                        }
-                                    </Typography>
-                                </Stack>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
-                                }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
-                                            onChange={(e) => setBedroom(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            bedroom.length === 0 ? "Bedroom" : "Bedroom: " + bedroom.length + " files selected"
-                                        }
-                                    </Typography>
-                                </Stack>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
-                                }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
-                                            onChange={(e) => setBathroom(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            bathroom.length === 0 ? "Bathroom" : "Bathroom: " + bathroom.length + " files selected"
-                                        }
-                                    </Typography>
-                                </Stack>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
-                                }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input hidden accept="image/*" type="file" multiple
-                                            onChange={(e) => setToilet(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            toilet.length === 0 ? "Toilet" : "Toilet: " + toilet.length + " files selected"
-                                        }
-                                    </Typography>
-                                </Stack>
-                                <Stack spacing={1} direction="row" sx={{
-                                    alignItems: "center",
-                                }}>
-                                    <IconButton
-                                        component="label"
-                                        sx={{
-                                            textTransform: "none",
-                                            fontSize: "14px",
-                                            color: "#000",
-                                        }}
-                                    >
-                                        <CloudUpload />
-                                        <input
-                                            hidden
-                                            accept="image/*"
-                                            type="file"
-                                            multiple
-                                            onChange={(e) => setOther_images(e.target.files)}
-                                        />
-                                    </IconButton>
-                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                        {
-                                            other_images.length === 0 ? "Other images" : "Other Images: " + other_images.length + " files selected"
-                                        }
+                                    <Box>
+                                        <Typography variant="body1" sx={{ fontSize: "16px" }}>
+                                            Rear Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                rear.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Rear Images(s) found
+                                                    </Typography>
+                                                ) : (
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            rear.map((rear, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={rear} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
+                                                )
+                                            }
 
-                                    </Typography>
-                                </Stack>
+                                        </Box>
+                                    </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input hidden accept="image/*" type="file" multiple
+                                                onChange={(e) => setRear(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                rear.length === 0 ? "Rear" : "Rear: " + rear.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
+                                </Box>
+
+                                {/* Bird_eye_view */}
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
+                                }}>
+                                    <Box>
+                                        <Typography variant="body1" sx={{ fontSize: "16px" }}>
+                                            Bed Eye View Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                bird_eye_view.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Bird Eye View Image(s) found
+                                                    </Typography>
+                                                ) : (
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            bird_eye_view.map((bedeye, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={bedeye} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
+                                                )
+                                            }
+
+                                        </Box>
+                                    </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input hidden accept="image/*" type="file" multiple
+                                                onChange={(e) => setBird_eye_view(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                bird_eye_view.length === 0 ? "Bed Eye View" : "Bed Eye View: " + bird_eye_view.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
+                                </Box>
+
+                                {/* Kitchen */}
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
+                                }}>
+                                    <Box>
+                                        <Typography variant="body1" sx={{ fontSize: "16px" }}>
+                                            Kitchen Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                kitchen.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No kitchen image(s) found
+                                                    </Typography>
+                                                ) : (
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            kitchen.map((kitchenimg, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={kitchenimg} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
+                                                )
+                                            }
+
+                                        </Box>
+                                    </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input hidden accept="image/*" type="file" multiple
+                                                onChange={(e) => setKitchen(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                kitchen.length === 0 ? "Kitchen" : "Kitchen: " + kitchen.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
+                                </Box>
+
+                                {/* Bedroom */}
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
+                                }}>
+                                    <Box>
+                                        <Typography variant="body1" sx={{ fontSize: "16px" }}>
+                                            Bedroom Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                bedroom.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Bedroom Image(s) found
+                                                    </Typography>
+                                                ) : (
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            bedroom.map((bedroomimg, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={bedroomimg} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
+                                                )
+                                            }
+
+                                        </Box>
+                                    </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input hidden accept="image/*" type="file" multiple
+                                                onChange={(e) => setBedroom(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                bedroom.length === 0 ? "Bedroom" : "Bedroom: " + bedroom.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
+                                </Box>
+
+                                {/* Bathroom */}
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
+                                }}>
+                                    <Box>
+                                        <Typography variant="body1" sx={{ fontSize: "16px" }}>
+                                            Bathroom Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                bathroom.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Bathroom Image(s) found
+                                                    </Typography>
+                                                ) : (
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            bathroom.map((bathroomimg, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={bathroomimg} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
+                                                )
+                                            }
+
+                                        </Box>
+                                    </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input hidden accept="image/*" type="file" multiple
+                                                onChange={(e) => setBathroom(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                bathroom.length === 0 ? "Bathroom" : "Bathroom: " + bathroom.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
+                                </Box>
+
+                                {/* toilet */}
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
+                                }}>
+                                    <Box>
+                                        <Typography variant="body1" sx={{ fontSize: "16px" }}>
+                                            Toilet Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                toilet.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Toilet Image(s) found
+                                                    </Typography>
+                                                ) : (
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            toilet.map((toiletimg, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={toiletimg} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
+                                                )
+                                            }
+
+                                        </Box>
+                                    </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input hidden accept="image/*" type="file" multiple
+                                                onChange={(e) => setToilet(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                toilet.length === 0 ? "Toilet" : "Toilet: " + toilet.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
+                                </Box>
+
+                                {/* other images */}
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "auto",
+                                }}>
+                                    <Box>
+                                        <Typography variant="body1" sx={{ fontSize: "16px" }}>
+                                            Other Image(s)
+                                        </Typography>
+                                        <Box sx={{
+                                            width: "100%",
+                                            height: "auto"
+                                        }}>
+                                            {
+                                                other_images.length === 0 ? (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Other Image(s) found
+                                                    </Typography>
+                                                ) : (
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            other_images.map((otherimg, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={otherimg} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
+                                                )
+                                            }
+
+                                        </Box>
+                                    </Box>
+                                    <Stack spacing={1} direction="row" sx={{
+                                        alignItems: "center",
+                                    }}>
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                fontSize: "14px",
+                                                color: "#000",
+                                            }}
+                                        >
+                                            <CloudUpload />
+                                            <input
+                                                hidden
+                                                accept="image/*"
+                                                type="file"
+                                                multiple
+                                                onChange={(e) => setOther_images(e.target.files)}
+                                            />
+                                        </IconButton>
+                                        <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                            {
+                                                other_images.length === 0 ? "Other images" : "Other Images: " + other_images.length + " files selected"
+                                            }
+                                        </Typography>
+                                    </Stack>
+                                </Box>
+
                             </Stack>
                             <Divider sx={{
                                 margin: "20px 0",

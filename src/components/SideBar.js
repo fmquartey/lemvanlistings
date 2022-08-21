@@ -1,13 +1,5 @@
 import {
-    Drawer,
     Box,
-    Button,
-    CircularProgress,
-    Divider,
-    IconButton,
-    Paper,
-    Stack,
-    TextField,
     Typography,
 } from "@mui/material";
 import _ from "lodash";
@@ -18,7 +10,6 @@ import { navigation } from "./landlord/Navigations.js";
 
 const SideBar = () => {
     const { openSidebar } = useContext(UserContext);
-    const [selected, setSelected] = useState(false)
 
     return (
         <Box

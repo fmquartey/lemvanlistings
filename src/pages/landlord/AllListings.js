@@ -1,4 +1,4 @@
-import { Delete, Edit, Forward, Forward10, Search, VisibilityOff } from '@mui/icons-material'
+import { Delete, Edit, Forward, Forward10, Search, VisibilityOff, VisibilityRounded } from '@mui/icons-material'
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -93,6 +93,11 @@ const AllListings = () => {
     const editListing = () => {
         navigate(`/app/landlord/listings/edit/${listingId}`);
         setTitle("\\ Edit listing")
+        handleCloseMenu();
+    }
+
+    const viewListing = () => {
+        navigate(`/listing/${listingId}`);
         handleCloseMenu();
     }
 
@@ -388,6 +393,13 @@ const AllListings = () => {
                 open={openMenu}
                 onClose={handleCloseMenu}
             >
+                <MenuItem onClick={viewListing}>
+                    <ListItemIcon>
+                        <VisibilityRounded fontSize="inherit" />
+                    </ListItemIcon>
+                    View
+                </MenuItem>
+                <Divider />
                 <MenuItem onClick={editListing}>
                     <ListItemIcon>
                         <Edit fontSize="inherit" />
