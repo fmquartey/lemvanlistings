@@ -11,7 +11,7 @@ export const TenantData = [
     },
     {
         name: "Rentals",
-        path: "/app/tenant/rentals",
+        path: "/app/tenant",
         icon: <Apartment sx={{
             fontSize: "20px",
         }} />,
@@ -19,7 +19,7 @@ export const TenantData = [
     },
     {
         name: " Favorites",
-        path: "/app/tenant/favorite",
+        path: "/app/tenant/favorites",
         icon: <Favorite sx={{
             fontSize: "20px",
         }} />,
@@ -35,7 +35,7 @@ export const TenantData = [
     },
     {
         name: "Profile",
-        path: "/app/landlord/profile",
+        path: "/app/tenant/profile",
         icon: <AccountCircle sx={{
             fontSize: "20px",
         }} />,
@@ -43,7 +43,7 @@ export const TenantData = [
     },
     {
         name: "Settings",
-        path: "/app/landlord/settings",
+        path: "/app/tenant/settings",
         icon: <Settings sx={{
             fontSize: "20px",
         }} />,

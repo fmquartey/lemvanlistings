@@ -1,12 +1,14 @@
 import { Add, CameraAlt, Edit } from '@mui/icons-material';
 import { Avatar, Box, Button, Divider, IconButton, Paper, Stack, Typography } from '@mui/material';
+import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import EditProfile from '../../components/EditProfile';
 import Toast from '../../components/Toast';
 import { UserContext } from '../../context/UserContext';
+import { apilink } from '../../Helper';
 
-const Profile = () => {
+const TenantProfile = () => {
     const {
         title,
         userAvater,
@@ -14,7 +16,7 @@ const Profile = () => {
         openSidebar,
         userId,
         setUser,
-
+        token,
         userLastName,
         userPhone,
         userEmail, } = useContext(UserContext);
@@ -22,6 +24,7 @@ const Profile = () => {
     const [avater, setAvater] = useState("")
     const [statusMsg, setStatusMsg] = useState("");
     const [openToast, setOpenToast] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleOpenDialog = () => {
         setOpenDialog(true)
@@ -29,6 +32,14 @@ const Profile = () => {
     const handleClose = () => {
         setOpenDialog(false)
     }
+
+    const authAxios = axios.create({
+        baseURL: apilink,
+        headers: {
+            Authorization: "Bearer " + token,
+            "content-type": 'multipart/form-data'
+        },
+    });
 
     const closeToast = (e, r) => {
         if (e === 'clickaway') {
@@ -42,6 +53,7 @@ const Profile = () => {
         setAvater(e.target.files[0])
         setStatusMsg("Profile updated successfully");
         setOpenToast(true);
+
         // setLoading(true);
         // authAxios.get(`/api/landlord/listings`)
         //     .then((res) => {
@@ -53,7 +65,6 @@ const Profile = () => {
         //         setLoading(false);
         //     });
     }
-
 
     return (
         <Box
@@ -88,8 +99,8 @@ const Profile = () => {
                 width: {
                     xs: "100%",
                     sm: "100%",
-                    md: "80%",
-                    lg: "80%",
+                    md: "100%",
+                    lg: "100%",
                 },
                 height: "auto",
                 margin: "20px auto",
@@ -342,14 +353,17 @@ const Profile = () => {
                                     }} />
                                 </IconButton>
                             </Box>
+
                         </Stack>
+
+
                     </Box>
                 </Paper>
             </Box>
             <EditProfile openDialog={openDialog} handleClose={handleClose} />
             <Toast open={openToast} close={closeToast} message={statusMsg} />
         </Box >
-    );
+    )
 }
 
-export default Profile;
+export default TenantProfile

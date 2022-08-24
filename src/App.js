@@ -45,6 +45,11 @@ import MyListings from "./components/landlord/MyListing";
 import MyTenants from "./components/landlord/MyTenants";
 import SavedListings from "./pages/landlord/savedListings";
 import Tenant from "./pages/Tenant";
+import Rentals from "./pages/tenant/Rentals";
+import FavoriteListings from "./pages/tenant/FavoriteListings";
+import TenantProfile from "./pages/tenant/TenantProfile";
+import TenantChat from "./pages/tenant/Chat";
+import TenantSettings from "./pages/tenant/Settings";
 
 
 
@@ -147,6 +152,7 @@ function App() {
           <Route path="/" element={<Listing />} />
           <Route path="/listing/:id" element={<Details />} />
 
+          {/* landlord */}
           <Route path="/app/landlord" element={<Landlord />}>
             <Route path="" element={<Home />} />
             <Route path="listings" element={<Listings />}>
@@ -157,7 +163,7 @@ function App() {
             </Route>
 
 
-            <Route path="saved" element={<SavedListings />} />
+            {/* <Route path="saved" element={<SavedListings />} /> */}
             <Route path="appointments" element={<Appointments />} />
 
             <Route path="tenants" element={<Tenants />}>
@@ -169,7 +175,14 @@ function App() {
             <Route path="settings" element={<Settings />} />
           </Route>
 
-          <Route path="/app/tenant" element={<Tenant />} />
+          {/* tenants */}
+          <Route path="/app/tenant" element={<Tenant />}>
+            <Route path="" element={<Rentals />} />
+            <Route path="favorites" element={<FavoriteListings />} />
+            <Route path="chat" element={<TenantChat />} />
+            <Route path="profile" element={<TenantProfile />} />
+            <Route path="settings" element={<TenantSettings />} />
+          </Route>
 
           <Route path="/:token/:email" element={<Resetpwd />} />
           <Route path="/verified" element={<Verified />} />

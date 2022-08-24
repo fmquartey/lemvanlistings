@@ -73,18 +73,6 @@ const Pages = () => {
                         display: "flex",
                         alignItems: "center",
                     }}>
-                    <Box
-                        sx={{
-                            marginRight: "20px",
-                        }}>
-                        <Link to="/"
-                            style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                            }}>
-                            Listings
-                        </Link>
-                    </Box>
                     <IconButton
                         onClick={handleLogout}>
                         <Logout

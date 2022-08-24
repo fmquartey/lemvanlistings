@@ -268,6 +268,7 @@ const AllListings = () => {
             <Box
                 sx={{
                     width: "100%",
+                    height:"auto",
                     marginTop: "10px",
                 }}>
                 <Box
