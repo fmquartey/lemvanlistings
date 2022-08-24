@@ -3,7 +3,7 @@ import { AccountCircle, Apartment, Chat, Favorite, ListAlt, Settings } from "@mu
 export const TenantData = [
     {
         name: "Browse Listings",
-        path: "/app/landlord",
+        path: "/",
         icon: <ListAlt sx={{
             fontSize: "20px",
         }} />,
@@ -11,7 +11,7 @@ export const TenantData = [
     },
     {
         name: "Rentals",
-        path: "/app/landlord/listings",
+        path: "/app/tenant/rentals",
         icon: <Apartment sx={{
             fontSize: "20px",
         }} />,
@@ -19,15 +19,15 @@ export const TenantData = [
     },
     {
         name: " Favorites",
-        path: "/app/landlord/saved",
+        path: "/app/tenant/favorite",
         icon: <Favorite sx={{
             fontSize: "20px",
         }} />,
         active: false
     },
     {
-        name: "Chats",
-        path: "/app/landlord/chat",
+        name: "Chat",
+        path: "/app/tenant/chat",
         icon: <Chat sx={{
             fontSize: "20px",
         }} />,

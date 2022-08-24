@@ -6,7 +6,7 @@ import Axios from "axios";
 import AlertDialog from "../AlertDialog";
 import MsgBox from "../Alert";
 import { UserContext } from "../../context/UserContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import hse1 from "../../img/hse1.jpg";
 
 const UpdateListing = () => {
@@ -20,7 +20,7 @@ const UpdateListing = () => {
     const [msgBoxMessage, setMsgBoxMessage] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState("");
-    // const [property_type_id, setPropertyType_id] = useState("");
+    const [property_type_id, setPropertyType_id] = useState([]);
     const [propertyTitle, setPropertyTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [period, setPeriod] = useState("month");
@@ -37,15 +37,25 @@ const UpdateListing = () => {
     const [region, setRegion] = useState("");
     const [full_property_description, setFull_property_description] = useState("");
     const [is_verified, setIs_verified] = useState(0);
+    const [rearU, setRearU] = useState([]);
     const [rear, setRear] = useState([]);
+    const [frontU, setFrontU] = useState([]);
     const [front, setFront] = useState([]);
-    const [bird_eye_view, setBird_eye_view] = useState([]);
+    const [kitchenU, setKitchenU] = useState([]);
     const [kitchen, setKitchen] = useState([]);
+    const [bird_eye_viewU, setBird_eye_viewU] = useState([]);
+    const [bird_eye_view, setBird_eye_view] = useState([]);
+    const [bathroomU, setBathroomU] = useState([]);
     const [bathroom, setBathroom] = useState([]);
     const [toilet, setToilet] = useState([]);
+    const [toiletU, setToiletU] = useState([]);
     const [bedroom, setBedroom] = useState([]);
+    const [bedroomU, setBedroomU] = useState([]);
     const [other_images, setOther_images] = useState([]);
+    const [other_imagesU, setOther_imagesU] = useState([]);
+    const [status, setStatus] = useState(0);
 
+    const navigate = useNavigate();
     const toolTipTitle = "Please upload images of the property such as Front, Rear, Kitchen, Bathroom, Bedrooom, Toilet, Bed eye view. NB: Only 4 images are allowed for each upload"
     const openMsg = () => {
         setOpenMsgBox(true)
@@ -65,9 +75,11 @@ const UpdateListing = () => {
                 setOpenAlert(true);
             } else {
                 setOpenAlert(false);
+                navigate("/app/landlord/listings")
             }
         }, 3000);
     }
+
 
     const handleChange = (e) => {
         setPropertyType(e.target.value);
@@ -98,6 +110,14 @@ const UpdateListing = () => {
         },
     });
 
+    const listingStatus = (e) => {
+        setStatus(e.target.value)
+        if (status === 1) {
+            setStatus(2);
+        } else {
+            setStatus(1);
+        }
+    }
 
     const getListing = () => {
         setLoading(true);
@@ -105,7 +125,7 @@ const UpdateListing = () => {
             .then((res) => {
                 setLoading(false);
                 console.log(res.data.data);
-                setPropertyType(res.data.data.property_type.type);
+                setPropertyType(res.data.data.property_type.id);
                 setPropertyTitle(res.data.data.property_title);
                 setNumber_of_bedrooms(res.data.data.number_of_bedrooms);
                 setNumber_of_bathrooms(res.data.data.number_of_bathrooms);
@@ -128,6 +148,8 @@ const UpdateListing = () => {
                 setToilet(res.data.data.toilet);
                 setBedroom(res.data.data.bedroom);
                 setOther_images(res.data.data.other_images);
+                setIs_verified(res.data.data.is_verified);
+                setStatus(res.data.data.status);
             })
             .catch((err) => {
                 console.log(err);
@@ -136,13 +158,16 @@ const UpdateListing = () => {
     };
 
     const formSubmit = () => {
+
+
+
+
         setOpenAlert(true);
         setLoading(true);
-        const price = amount + " / " + period;
         const formData = new FormData();
         formData.append("property_type_id", propertyType);
         formData.append("property_title", propertyTitle);
-        formData.append("amount", price);
+        formData.append("amount", amount);
         formData.append("number_of_bedrooms", number_of_bedrooms);
         formData.append("number_of_bathrooms", number_of_bathrooms);
         formData.append("number_of_toilets", number_of_toilets);
@@ -157,46 +182,101 @@ const UpdateListing = () => {
         formData.append("full_property_description", full_property_description);
         formData.append("is_verified", is_verified);
 
-        for (let r = 0; r < rear.length; r++) {
-            formData.append("rear[]", rear[r]);
+
+        // rear images
+        if (rearU.length > 0) {
+            for (let r = 0; r < rearU.length; r++) {
+                formData.append("rear[]", rearU[r]);
+            }
+        } else {
+            for (let r = 0; r < rear.length; r++) {
+                formData.append("rear[]", rear[r]);
+            }
         }
+
         // formData.append("front", front);
-        for (let f = 0; f < front.length; f++) {
-            formData.append("front[]", front[f]);
+        if (frontU.length > 0) {
+            for (let f = 0; f < frontU.length; f++) {
+                formData.append("front[]", frontU[f]);
+            }
+        } else {
+            for (let f = 0; f < front.length; f++) {
+                formData.append("front[]", front[f]);
+            }
         }
+
 
         // formData.append("bird_eye_view", bird_eye_view);
-        for (let b = 0; b < bird_eye_view.length; b++) {
-            formData.append("bird_eye_view[]", bird_eye_view[b]);
+        if (bird_eye_viewU.length > 0) {
+            for (let b = 0; b < bird_eye_viewU.length; b++) {
+                formData.append("bird_eye_view[]", bird_eye_viewU[b]);
+            }
+        } else {
+            for (let b = 0; b < bird_eye_view.length; b++) {
+                formData.append("bird_eye_view[]", bird_eye_view[b]);
+            }
         }
 
+
         // formData.append("kitchen", kitchen);
-        for (let k = 0; k < kitchen.length; k++) {
-            formData.append("kitchen[]", kitchen[k]);
+        if (kitchenU.length > 0) {
+            for (let k = 0; k < kitchenU.length; k++) {
+                formData.append("kitchen[]", kitchenU[k]);
+            }
+        } else {
+            for (let k = 0; k < kitchen.length; k++) {
+                formData.append("kitchen[]", kitchen[k]);
+            }
         }
 
         // formData.append("toilet", toilet);
-        for (let t = 0; t < toilet.length; t++) {
-            formData.append("toilet[]", toilet[t]);
+        if (toiletU.length > 0) {
+            for (let t = 0; t < toiletU.length; t++) {
+                formData.append("toilet[]", toiletU[t]);
+            }
+        } else {
+            for (let t = 0; t < toilet.length; t++) {
+                formData.append("toilet[]", toilet[t]);
+            }
         }
 
         // formData.append("bathroom", bathroom);
-        for (let c = 0; c < bathroom.length; c++) {
-            formData.append("bathroom[]", bathroom[c]);
+        if (bathroomU.length > 0) {
+            for (let b = 0; b < bathroomU.length; b++) {
+                formData.append("bathroom[]", bathroomU[b]);
+            }
+        } else {
+            for (let c = 0; c < bathroom.length; c++) {
+                formData.append("bathroom[]", bathroom[c]);
+            }
         }
 
         // formData.append("bedroom", bedroom);
-        for (let d = 0; d < bedroom.length; d++) {
-            formData.append("bedroom[]", bedroom[d]);
+        if (bedroomU.length > 0) {
+            for (let b = 0; b < bedroomU.length; b++) {
+                formData.append("bedroom[]", bedroomU[b]);
+            }
+        } else {
+            for (let d = 0; d < bedroom.length; d++) {
+                formData.append("bedroom[]", bedroom[d]);
+            }
         }
 
         // formData.append("other_images", other_images);
-        for (let o = 0; o < other_images.length; o++) {
-            formData.append("other_images[]", other_images[o]);
+        if (other_imagesU.length > 0) {
+            for (let o = 0; o < other_imagesU.length; o++) {
+                formData.append("other_images[]", other_imagesU[o]);
+            }
+        } else {
+            for (let o = 0; o < other_images.length; o++) {
+                formData.append("other_images[]", other_images[o]);
+            }
         }
 
-        // formData.append("status", status);
-        authAxios.put(`/api/landlord/listings/${id}`, formData).then(res => {
+
+        formData.append("status", status);
+        formData.append("_method", "PUT");
+        authAxios.post(`/api/landlord/listings/${id}`, formData).then(res => {
             console.log(res);
             setAlertType("success");
             setAlertMessage(res.data.data.message)
@@ -211,7 +291,7 @@ const UpdateListing = () => {
             setNumber_of_bedrooms("")
             setNumber_of_bathrooms("")
             setNumber_of_toilets("")
-            has_kitchen(0)
+            setHas_kitchen(0)
             setNumber_of_kitchens("")
             setHas_water(0)
             setHas_electricity(0)
@@ -220,7 +300,7 @@ const UpdateListing = () => {
             setLocation("")
             setRegion("")
             setFull_property_description("")
-            is_verified(0)
+            setIs_verified(0)
             setRear([])
             setFront([])
             setBird_eye_view([])
@@ -231,25 +311,26 @@ const UpdateListing = () => {
             setOther_images([])
         }).catch(err => {
             console.log(err);
-            setLoading(false)
+            setLoading(false);
             closeAlert()
         })
     }
 
 
 
-    // const getPropertyType = () => {
-    //     Axios.get(`${apilink}/api/property/types`).then((res) => {
-    //         setPropertyType(res.data.data);
-    //         console.log(propertyType);
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     })
-    // }
+    const getPropertyType = () => {
+        Axios.get(`${apilink}/api/property/types`).then((res) => {
+            setPropertyType_id(res.data.data);
+            console.log(res.data.data)
+            // console.log(property_type_id);
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     useEffect(() => {
-        // getPropertyType();
         getListing();
+        getPropertyType();
     }, []);
 
     return (
@@ -311,8 +392,14 @@ const UpdateListing = () => {
                                     marginTop: "3px"
                                 }}
                             >
-                                <MenuItem value="Apartment">Apartment</MenuItem>
-                                <MenuItem value="Single Room">Single Room</MenuItem>
+                                {
+                                    property_type_id.map((item, index) => (
+                                        <MenuItem key={index} value={item.id}>{item.type}</MenuItem>
+                                    ))
+                                }
+
+                                {/* <MenuItem value="1">Apartment</MenuItem>
+                                <MenuItem value="2">Single Room</MenuItem> */}
                             </TextField>
 
                             <TextField
@@ -497,7 +584,7 @@ const UpdateListing = () => {
                             <FormControl>
                                 <FormLabel
                                     id="has_funished_label"
-                                    focused={false} >Is funished?</FormLabel>
+                                    focused={false}>Is funished?</FormLabel>
                                 <RadioGroup
                                     row
                                     name="has_funished"
@@ -561,7 +648,6 @@ const UpdateListing = () => {
                                 rows={8}
                             />
 
-
                             <TextField
                                 color="success"
                                 fullWidth={true}
@@ -571,9 +657,9 @@ const UpdateListing = () => {
                                 label="Region"
                                 select
                             >
-                                <MenuItem value="Greater Accra Region">Greater Accra</MenuItem>
-                                <MenuItem value="Eastern Region">Eastern Region</MenuItem>
-                                <MenuItem value="Central Region">House</MenuItem>
+                                <MenuItem value="Accra">Greater Accra</MenuItem>
+                                <MenuItem value="Eastern">Eastern Region</MenuItem>
+                                <MenuItem value="Central">House</MenuItem>
                             </TextField>
 
                             <TextField
@@ -657,30 +743,30 @@ const UpdateListing = () => {
                                                         No Front Image(s) found
                                                     </Typography>
                                                 ) : (
-                                                        <Grid
-                                                            container
-                                                            columnSpacing={2}
-                                                            rowSpacing={4}>
-                                                            {
-                                                                front.map((image, index) => (
-                                                                    <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
-                                                                        <Box sx={{
-                                                                            width: "100%",
-                                                                            height: "auto",
-                                                                        }}>
-                                                                            <img src={image} alt=""
-                                                                                style={{
-                                                                                    width: "100%",
-                                                                                    height: "auto"
-                                                                                }} />
-                                                                        </Box>
-                                                                    </Grid>
-                                                                ))
-                                                            }
-                                                        </Grid>
+                                                    <Grid
+                                                        container
+                                                        columnSpacing={2}
+                                                        rowSpacing={4}>
+                                                        {
+                                                            front.map((image, index) => (
+                                                                <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        height: "auto",
+                                                                    }}>
+                                                                        <img src={image} alt=""
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "auto"
+                                                                            }} />
+                                                                    </Box>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
                                                 )
                                             }
-                                            
+
                                         </Box>
                                     </Box>
                                     <Stack spacing={1} direction="row" sx={{
@@ -695,12 +781,12 @@ const UpdateListing = () => {
                                         >
                                             <CloudUpload />
                                             <input hidden accept="image/*" type="file" multiple
-                                                onChange={(e) => setFront(e.target.files)}
+                                                onChange={(e) => setFrontU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                front.length === 0 ? "Front" : "Front: " + front.length + " files selected"
+                                                frontU.length === 0 ? "Front" : "Front: " + frontU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -763,12 +849,12 @@ const UpdateListing = () => {
                                         >
                                             <CloudUpload />
                                             <input hidden accept="image/*" type="file" multiple
-                                                onChange={(e) => setRear(e.target.files)}
+                                                onChange={(e) => setRearU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                rear.length === 0 ? "Rear" : "Rear: " + rear.length + " files selected"
+                                                rearU.length === 0 ? "Rear" : "Rear: " + rearU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -831,12 +917,12 @@ const UpdateListing = () => {
                                         >
                                             <CloudUpload />
                                             <input hidden accept="image/*" type="file" multiple
-                                                onChange={(e) => setBird_eye_view(e.target.files)}
+                                                onChange={(e) => setBird_eye_viewU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                bird_eye_view.length === 0 ? "Bed Eye View" : "Bed Eye View: " + bird_eye_view.length + " files selected"
+                                                bird_eye_viewU.length === 0 ? "Bed Eye View" : "Bed Eye View: " + bird_eye_viewU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -899,12 +985,12 @@ const UpdateListing = () => {
                                         >
                                             <CloudUpload />
                                             <input hidden accept="image/*" type="file" multiple
-                                                onChange={(e) => setKitchen(e.target.files)}
+                                                onChange={(e) => setKitchenU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                kitchen.length === 0 ? "Kitchen" : "Kitchen: " + kitchen.length + " files selected"
+                                                kitchenU.length === 0 ? "Kitchen" : "Kitchen: " + kitchenU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -967,12 +1053,12 @@ const UpdateListing = () => {
                                         >
                                             <CloudUpload />
                                             <input hidden accept="image/*" type="file" multiple
-                                                onChange={(e) => setBedroom(e.target.files)}
+                                                onChange={(e) => setBedroomU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                bedroom.length === 0 ? "Bedroom" : "Bedroom: " + bedroom.length + " files selected"
+                                                bedroomU.length === 0 ? "Bedroom" : "Bedroom: " + bedroomU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -1035,12 +1121,12 @@ const UpdateListing = () => {
                                         >
                                             <CloudUpload />
                                             <input hidden accept="image/*" type="file" multiple
-                                                onChange={(e) => setBathroom(e.target.files)}
+                                                onChange={(e) => setBathroomU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                bathroom.length === 0 ? "Bathroom" : "Bathroom: " + bathroom.length + " files selected"
+                                                bathroomU.length === 0 ? "Bathroom" : "Bathroom: " + bathroomU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -1103,12 +1189,12 @@ const UpdateListing = () => {
                                         >
                                             <CloudUpload />
                                             <input hidden accept="image/*" type="file" multiple
-                                                onChange={(e) => setToilet(e.target.files)}
+                                                onChange={(e) => setToiletU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                toilet.length === 0 ? "Toilet" : "Toilet: " + toilet.length + " files selected"
+                                                toiletU.length === 0 ? "Toilet" : "Toilet: " + toiletU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -1128,11 +1214,8 @@ const UpdateListing = () => {
                                             height: "auto"
                                         }}>
                                             {
-                                                other_images.length === 0 ? (
-                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
-                                                        No Other Image(s) found
-                                                    </Typography>
-                                                ) : (
+                                                other_images !== null ? (
+
                                                     <Grid
                                                         container
                                                         columnSpacing={2}
@@ -1154,6 +1237,11 @@ const UpdateListing = () => {
                                                             ))
                                                         }
                                                     </Grid>
+
+                                                ) : (
+                                                    <Typography variant="body1" sx={{ fontSize: "14px" }}>
+                                                        No Other Image(s) found
+                                                    </Typography>
                                                 )
                                             }
 
@@ -1175,12 +1263,12 @@ const UpdateListing = () => {
                                                 accept="image/*"
                                                 type="file"
                                                 multiple
-                                                onChange={(e) => setOther_images(e.target.files)}
+                                                onChange={(e) => setOther_imagesU(e.target.files)}
                                             />
                                         </IconButton>
                                         <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                             {
-                                                other_images.length === 0 ? "Other images" : "Other Images: " + other_images.length + " files selected"
+                                                other_imagesU.length === 0 ? "Other images" : "Other Images: " + other_imagesU.length + " files selected"
                                             }
                                         </Typography>
                                     </Stack>
@@ -1195,14 +1283,56 @@ const UpdateListing = () => {
                                 sx={{
                                     width: "100%",
                                     display: "flex",
+                                    alignItems: "center",
                                     justifyContent: "flex-end",
                                     marginTop: "20px",
                                 }}>
 
+                                {/* <FormControl>
+                                    <FormLabel
+                                        id="status_label"
+                                        focused={false} >Save as</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        name="status"
+                                        aria-labelledby="status_label"
+                                        value={status}
+                                        onChange={listingStatus}>
+                                        <FormControlLabel
+                                            value={2}
+                                            control={<Radio
+                                                sx={{
+                                                    '& .MuiSvgIcon-root': {
+                                                        fontSize: 18,
+                                                    },
+                                                    '&.Mui-checked': {
+                                                        color: "#35BF43",
+                                                    },
+                                                }
+                                                }
+                                            />}
+                                            label="Draft" />
+                                        <FormControlLabel
+                                            value={1}
+                                            control={<Radio
+                                                sx={{
+                                                    '& .MuiSvgIcon-root': {
+                                                        fontSize: 18,
+                                                    },
+                                                    '&.Mui-checked': {
+                                                        color: "#35BF43",
+                                                    },
+                                                }
+                                                }
+                                            />}
+                                            label="Publish" />
+                                    </RadioGroup>
+                                </FormControl> */}
                                 <Button
                                     size="small"
                                     variant="contained"
                                     onClick={formSubmit}
+                                    disabled={false}
                                     sx={{
                                         width: "150px",
                                         textTransform: "none",
@@ -1217,6 +1347,7 @@ const UpdateListing = () => {
                                     Submit
                                 </Button>
                             </Box>
+                            
                         </Box>
                     </Box >
                 </Box >

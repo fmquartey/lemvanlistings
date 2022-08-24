@@ -53,8 +53,11 @@ function App() {
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
   const [userAvater, setUserAvater] = useState("");
-  const [token, setToken] = useState();
-  const [accountType, setAccountType] = useState();
+  const [userPhone, setUserPhone] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userLastName, setUSerLastName] = useState("")
+  const [token, setToken] = useState("");
+  const [accountType, setAccountType] = useState(0);
   const [showNav, setShowNav] = useState(true);
   const [openSidebar, setOpenSideBar] = useState(true);
   const [allCol, setAllCol] = useState(false);
@@ -78,9 +81,13 @@ function App() {
       setUser(true);
       setUserId(userInfo.id);
       setUserName(userInfo.firstname);
+      setUSerLastName(userInfo.lastname)
+      setUserEmail(userInfo.email)
       setUserAvater(userInfo.avatar);
       setToken(userInfo.access_token);
       setAccountType(userInfo.account_type);
+      setUserPhone(userInfo.phone)
+
     } else {
       setUser(false);
       // navigate("/welcome");
@@ -96,6 +103,9 @@ function App() {
           setUser,
           userName,
           setUserName,
+          userLastName,
+          userPhone,
+          userEmail,
           userAvater,
           setUserAvater,
           token,

@@ -1,13 +1,15 @@
 import { Menu, Logout } from '@mui/icons-material'
-import { Box, Button, ListItemIcon, Divider, MenuItem, IconButton, Paper, Typography } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
-import Axios from "axios";
-import { apilink } from "../Helper";
+import { UserContext } from "../../context/UserContext";
 
-const Pages = () => {
-    const { setUser, token, openSidebar, setOpenSideBar } = useContext(UserContext);
+import Axios from "axios";
+import { apilink } from "../../Helper";
+
+const TenantPages = () => {
+    const { user, setUser, userName, userAvater, token, openSidebar, setOpenSideBar } = useContext(UserContext);
+
     const navigate = useNavigate();
 
 
@@ -99,4 +101,4 @@ const Pages = () => {
     )
 }
 
-export default Pages
+export default TenantPages

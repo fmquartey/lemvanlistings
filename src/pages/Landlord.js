@@ -1,16 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import {
-    Alert,
     Box,
-    Button,
-    CircularProgress,
-    Divider,
-    IconButton,
-    Paper,
-    Stack,
-    TextField,
-    Typography,
 } from "@mui/material";
 import SideBar from "../components/SideBar";
 import Pages from "../components/Pages";

@@ -22,7 +22,7 @@ import ApplyListings from "../components/ApplyListings";
 
 
 const Details = () => {
-  const { token } = useContext(UserContext);
+  const { token, setShowNav } = useContext(UserContext);
   const { id } = useParams();
   const [checked, setChecked] = useState(false);
   const [inspectionType, setInspectionType] = useState("Physical")
@@ -107,6 +107,7 @@ const Details = () => {
 
   useEffect(() => {
     getListing();
+    setShowNav(true);
   }, [id]);
 
 

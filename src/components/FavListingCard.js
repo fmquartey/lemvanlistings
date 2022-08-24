@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 
-const ListingCard = (props) => {
+const FavListingCard = (props) => {
   const sliderRef = useRef(null);
   var settings = {
     dots: false,
@@ -18,7 +18,6 @@ const ListingCard = (props) => {
 
   return (
     <Box
-
       sx={{
         padding: "2px",
       }}
@@ -49,12 +48,13 @@ const ListingCard = (props) => {
             width: "100%",
             height: {
               xs: "93px",
-              sm: "140px",
-              md: "110px",
-              lg: "158px",
+              sm: "100px",
+              md: "100px",
+              lg: "145px",
             },
             overflow: "hidden",
             borderRadius: "10px",
+            
           }}
         >
           {/* Slider */}
@@ -227,7 +227,7 @@ const ListingCard = (props) => {
 
           {/* Favourite buttom */}
           {
-            props.favourite ? (
+            props.favorite ? (
               <Favorite
                 sx={{
                   color: "#FF5F05",
@@ -470,4 +470,4 @@ const ListingCard = (props) => {
   );
 };
 
-export default ListingCard;
+export default FavListingCard;
