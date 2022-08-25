@@ -65,6 +65,8 @@ function App() {
   const [accountType, setAccountType] = useState(0);
   const [showNav, setShowNav] = useState(true);
   const [openSidebar, setOpenSideBar] = useState(true);
+  const [openTenantDrawer, setOpenTenantDrawer] = useState(false);
+  const [openLandlordDrawer, setOpenLandlordDrawer] = useState(false);
   const [allCol, setAllCol] = useState(false);
   const [publishedCol, setPublishedCol] = useState(false);
   const [hiddendCol, setHiddenCol] = useState(false);
@@ -86,13 +88,12 @@ function App() {
       setUser(true);
       setUserId(userInfo.id);
       setUserName(userInfo.firstname);
-      setUSerLastName(userInfo.lastname)
-      setUserEmail(userInfo.email)
+      setUSerLastName(userInfo.lastname);
+      setUserEmail(userInfo.email);
       setUserAvater(userInfo.avatar);
       setToken(userInfo.access_token);
       setAccountType(userInfo.account_type);
-      setUserPhone(userInfo.phone)
-
+      setUserPhone(userInfo.phone);
     } else {
       setUser(false);
       // navigate("/welcome");
@@ -120,6 +121,10 @@ function App() {
           setShowNav,
           openSidebar,
           setOpenSideBar,
+          openTenantDrawer,
+          setOpenTenantDrawer,
+          openLandlordDrawer,
+          setOpenLandlordDrawer,
           searchParam,
           setsearchParam,
           title,

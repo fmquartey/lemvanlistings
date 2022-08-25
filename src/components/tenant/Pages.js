@@ -8,7 +8,17 @@ import Axios from "axios";
 import { apilink } from "../../Helper";
 
 const TenantPages = () => {
-    const { user, setUser, userName, userAvater, token, openSidebar, setOpenSideBar } = useContext(UserContext);
+    const {
+        user,
+        setUser,
+        userName,
+        userAvater,
+        token,
+        openSidebar,
+        setOpenSideBar,
+        openTenantDrawer,
+        setOpenTenantDrawer
+    } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -20,6 +30,15 @@ const TenantPages = () => {
             setOpenSideBar(true);
         }
     }
+
+    const handleOpenTenantDrawer = () => {
+        if (openTenantDrawer) {
+            setOpenTenantDrawer(false);
+        } else {
+            setOpenTenantDrawer(true);
+        }
+    }
+
     const authAxios = Axios.create({
         baseURL: apilink,
         headers: {
@@ -60,7 +79,18 @@ const TenantPages = () => {
                     padding: "0px 20px",
                     position: "sticky",
                 }}>
-                <Box>
+
+                {/* menu larger screens */}
+                <Box sx={{
+                    width: "auto",
+                    height: "auto",
+                    display: {
+                        xs: "none",
+                        sm: "block",
+                        md: "block",
+                        lg: "block",
+                    }
+                }}>
                     <IconButton
                         onClick={handleOpenSidebar}>
                         <Menu
@@ -70,12 +100,35 @@ const TenantPages = () => {
                         />
                     </IconButton>
                 </Box>
+
+                {/* menu smaller screens */}
+                <Box sx={{
+                    width: "auto",
+                    height: "auto",
+                    display: {
+                        xs: "block",
+                        sm: "none",
+                        md: "none",
+                        lg: "none",
+                    }
+                }}>
+                    <IconButton
+                        onClick={handleOpenTenantDrawer}>
+                        <Menu
+                            sx={{
+                                fontSize: "20px",
+                            }}
+                        />
+                    </IconButton>
+                </Box>
+
+                {/* logout */}
                 <Box
                     sx={{
                         display: "flex",
                         alignItems: "center",
                     }}>
-                 
+
                     <IconButton
                         onClick={handleLogout}>
                         <Logout

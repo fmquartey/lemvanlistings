@@ -5,6 +5,7 @@ import {
 } from "@mui/material";
 import SideBar from "../components/SideBar";
 import Pages from "../components/Pages";
+import LandlordDrawer from "../components/landlord/LandlordDrawer";
 
 const Landlord = () => {
     const { setShowNav } = useContext(UserContext);
@@ -21,6 +22,8 @@ const Landlord = () => {
                 alignItems: "center",
                 position: "fixed",
             }}>
+
+            <LandlordDrawer />
             <SideBar />
             <Pages />
         </Box>

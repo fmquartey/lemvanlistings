@@ -1,5 +1,5 @@
 import { Menu, Logout } from '@mui/icons-material'
-import { Box, Button, ListItemIcon, Divider, MenuItem, IconButton, Paper, Typography } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
@@ -7,7 +7,7 @@ import Axios from "axios";
 import { apilink } from "../Helper";
 
 const Pages = () => {
-    const { setUser, token, openSidebar, setOpenSideBar } = useContext(UserContext);
+    const { setUser, token, openSidebar, setOpenSideBar, openLandlordDrawer, setOpenLandlordDrawer } = useContext(UserContext);
     const navigate = useNavigate();
 
 
@@ -24,7 +24,13 @@ const Pages = () => {
             Authorization: "Bearer " + token,
         },
     });
-
+    const handleOpenLandlordDrawer = () => {
+        if (openLandlordDrawer) {
+            setOpenLandlordDrawer(false);
+        } else {
+            setOpenLandlordDrawer(true);
+        }
+    }
     const handleLogout = () => {
 
         authAxios
@@ -58,7 +64,16 @@ const Pages = () => {
                     padding: "0px 20px",
                     position: "sticky",
                 }}>
-                <Box>
+                <Box sx={{
+                    width: "auto",
+                    height: "auto",
+                    display: {
+                        xs: "none",
+                        sm: "block",
+                        md: "block",
+                        lg: "block",
+                    }
+                }}>
                     <IconButton
                         onClick={handleOpenSidebar}>
                         <Menu
@@ -68,6 +83,31 @@ const Pages = () => {
                         />
                     </IconButton>
                 </Box>
+
+                <Box sx={{
+                    width: "auto",
+                    height: "auto",
+                    display: {
+                        xs: "block",
+                        sm: "none",
+                        md: "none",
+                        lg: "none",
+                    }
+                }}>
+                    <IconButton
+                        sx={{
+                            
+                        }}
+                        onClick={handleOpenLandlordDrawer}>
+                        <Menu
+                            sx={{
+                                fontSize: "20px",
+                            }}
+                        />
+                    </IconButton>
+                </Box>
+
+                {/* logout */}
                 <Box
                     sx={{
                         display: "flex",

@@ -5,6 +5,7 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import TenantSideBar from "../components/tenant/Sidebar";
 import TenantPages from "../components/tenant/Pages";
+import TenantDrawer from "../components/tenant/TenantDrawer";
 
 
 const Tenant = () => {
@@ -23,6 +24,8 @@ const Tenant = () => {
                 alignItems: "center",
                 position: "fixed",
             }}>
+            
+            <TenantDrawer />
             <TenantSideBar />
             <TenantPages />
         </Box>

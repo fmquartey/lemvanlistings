@@ -1,5 +1,5 @@
-import { Add, CameraAlt, Edit } from '@mui/icons-material';
-import { Avatar, Box, Button, Divider, IconButton, Paper, Stack, Typography } from '@mui/material';
+import {CameraAlt, Edit } from '@mui/icons-material';
+import { Avatar, Box, Divider, IconButton, Paper, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import EditProfile from '../../components/EditProfile';
@@ -14,7 +14,6 @@ const Profile = () => {
         openSidebar,
         userId,
         setUser,
-
         userLastName,
         userPhone,
         userEmail, } = useContext(UserContext);
@@ -88,8 +87,8 @@ const Profile = () => {
                 width: {
                     xs: "100%",
                     sm: "100%",
-                    md: "80%",
-                    lg: "80%",
+                    md: "100%",
+                    lg: "100%",
                 },
                 height: "auto",
                 margin: "20px auto",
