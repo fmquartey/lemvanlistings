@@ -6,7 +6,7 @@ import { UserContext } from '../context/UserContext';
 import { apilink } from '../Helper';
 
 const ApplyListings = (props) => {
-    const { token, userId } = useContext(UserContext);
+    const { token, user, userId } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
@@ -37,10 +37,8 @@ const ApplyListings = (props) => {
         e.preventDefault();
         setLoading(true);
         const formData = new FormData();
-
         setName(`${firstname} ${lastname}`);
         setDuration(`${number}/${period}`);
-        console.log(name, duration, startDate, endDate, email, phone, id, token, userId);
         formData.append("name", name);
         formData.append("phone", phone);
         formData.append("email", email);
@@ -49,14 +47,21 @@ const ApplyListings = (props) => {
         formData.append("end_date", endDate);
         formData.append("listing_id", id);
         formData.append("user_id", userId);
-        authAxios.post('/api/tenants', formData).then(res => {
+
+        if (user) {
+            authAxios.post('/api/tenants', formData).then(res => {
+                setLoading(false);
+                console.log(res.data.data);
+                props.handleClose();
+            }).catch(err => {
+                setLoading(false);
+                console.log(err);
+            });
+        } else {
+            console.log("Please log in to perform this action")
             setLoading(false);
-            console.log(res.data.data);
-            props.handleClose();
-        }).catch(err => {
-            setLoading(false);
-            console.log(err);
-        });
+        }
+       
     }
 
 

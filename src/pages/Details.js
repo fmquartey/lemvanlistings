@@ -22,7 +22,7 @@ import ApplyListings from "../components/ApplyListings";
 
 
 const Details = () => {
-  const { token, setShowNav } = useContext(UserContext);
+  const { token, setShowNav, user } = useContext(UserContext);
   const { id } = useParams();
   const [checked, setChecked] = useState(false);
   const [inspectionType, setInspectionType] = useState("Physical")
@@ -99,9 +99,7 @@ const Details = () => {
   const applyListing = () => {
     const formdata = new FormData();
     formdata.append("listing_id", id);
-
     authAxios.post(`/api/listings/${id}/apply`).then((res) => {
-
     }).catch((err) => { })
   }
 
@@ -712,10 +710,6 @@ const Details = () => {
                           },
                         }}
                       >
-
-
-
-
 
                         {
                           hasWater === 1 ? (

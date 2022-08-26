@@ -32,18 +32,7 @@ import Appointments from "./pages/landlord/Appointments";
 import AllListings from "./pages/landlord/AllListings";
 import CreateListing from "./pages/landlord/CreateListing";
 import Editlisting from "./pages/landlord/Editlisting";
-import ShowListings from "./components/landlord/Listings";
-import Draft from "./components/landlord/Draft";
-import Published from "./components/landlord/Published";
-import Hidden from "./components/landlord/Hidden";
-import EditDraft from "./components/landlord/EditDraft";
 import AllTenants from "./pages/landlord/AllTenants";
-import Current from "./components/landlord/Current";
-import Upcoming from "./components/landlord/Upcoming";
-import Past from "./components/landlord/Past";
-import MyListings from "./components/landlord/MyListing";
-import MyTenants from "./components/landlord/MyTenants";
-import SavedListings from "./pages/landlord/savedListings";
 import Tenant from "./pages/Tenant";
 import Rentals from "./pages/tenant/Rentals";
 import FavoriteListings from "./pages/tenant/FavoriteListings";
@@ -92,11 +81,11 @@ function App() {
       setUserEmail(userInfo.email);
       setUserAvater(userInfo.avatar);
       setToken(userInfo.access_token);
-      setAccountType(userInfo.account_type);
+      // setAccountType(userInfo.account_type);
       setUserPhone(userInfo.phone);
     } else {
       setUser(false);
-      // navigate("/welcome");
+      navigate("/welcome");
     }
   }, []);
 

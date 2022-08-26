@@ -28,7 +28,7 @@ const Listings = (props) => {
         Axios.get(`${backendurl}/api/listings`)
             .then((res) => {
                 setLoading(false);
-                setListings(res.data.data); 
+                setListings(res.data.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -40,7 +40,7 @@ const Listings = (props) => {
         Axios.get(`${backendurl}/api/listings`)
             .then((res) => {
                 setLoading(false);
-                setListings(res.data.data); 
+                setListings(res.data.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -51,8 +51,8 @@ const Listings = (props) => {
         getListings();
     }, []);
 
-    
-    
+
+
     const handlePageClick = (e) => {
         console.log(e.selected);
     }
@@ -62,8 +62,8 @@ const Listings = (props) => {
         <>
             {
                 loading ? (
-                   
-                        
+
+
                     <Box
                         sx={{
                             width: "100%",
@@ -79,7 +79,7 @@ const Listings = (props) => {
                                 color: "#35BF43",
                             }}
                         />
-                        </Box>
+                    </Box>
 
                 ) : (
                     <>
@@ -93,10 +93,9 @@ const Listings = (props) => {
                                 alignItems: "center",
                             }}>
                             <Grid container columnSpacing={1} rowSpacing={1}>
-                                    {listings.map((data) => (
-                                    <Grid item xs={6} sm={4} md={3} lg={3}>
+                                {listings.map((data) => (
+                                    <Grid key={data.id} item xs={6} sm={4} md={3} lg={3}>
                                         <ListingCard
-                                            key={data.id}
                                             id={data.id}
                                             image={data.image}
                                             image1={data.image}

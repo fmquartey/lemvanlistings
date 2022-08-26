@@ -40,7 +40,7 @@ const Rents = () => {
 
     const getRents = () => {
         setLoading(true);
-        authAxios.get(`/api/landlord/listings`)
+        authAxios.get(`/api/tenants`)
             .then((res) => {
                 setLoading(false);
                 setRents(res.data.data);

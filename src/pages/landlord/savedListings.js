@@ -162,7 +162,8 @@ const SavedListings = () => {
         "image3": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKLSURBVDjLpVNLaBNRFD3vZTKZfCaftmltmghGLHUhVUQoRRApRVyo4M6luBBEQXDTjftu3IhW0IWgCNaN2qrUuGjFUmpR/EORgpbUhk7zaTOdJPN5M76ZVFBXhT44vDsz79w59553ieM42M6i2OYSrt55OymF5ANF1QxvNCxqc0E2HDAe2Fwd47Dt5vMmHBBmmrX1Yn5+YUFIJmKZ86e6o7rpECng+yc7+T8mzb2uW766zlJnhvUGVapW1rBs8mCygHzRgKY7WCzZyJdtLK3ZKKzbUFQHRc2ByYClkoHrzwqoaDqVk5ndVNMZCfgpujqjyL1XsLZhoiNK4OdiRB+BKLgA4kGCUtXAo+kVxFuiaI0HPE201rA8idkdEaQ7oph4p6CimmiLUI8o8kQxiaCsumQFba1RZLsiIJvmUa3Bmt3kB7OpCJKJEEan8h7BJcocJR7fe5VHLBbyzgSFv2zU6k0FhHfHMi1Igo2dXXE8n1OwVGx4eDqrIMPfySIDdSxP2Z/OCjWdwVVjGBZWyioyHTJE0Y9CWcKb+ap3UbozCSyvvsTc93GotQoahoEjvScA56CbwHK4t0QpcXJSRlDyw824qz2EnRyubTOfRvGjksPRw4eQbtmDyW9PkPt6C9VSPy+h/Ounzn3sSQedVIKiJcx4AxnaZYZU1EYnx9SH+9jf0wtGGXo7B8GIib59/dCqLxzB2FhdHLg8kQjI4bAQ8BGBd5Ny+3xcO6UElNfr0wqCn0RwfO85r/QrA7cx/mWER2OEbGWY+i+l66dPHpMsfsmHBu9iOHcWki+Ah4/HGlsaJtuxr81+noEIwfuzSARMf3ztfrpJtjrOfRdTw3y7wCFzqBwjszeWh34DRKkiE0cpxFcAAAAASUVORK5CYII=",
         "image4": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHdSURBVDjLpZNraxpBFIb3a0ggISmmNISWXmOboKihxpgUNGWNSpvaS6RpKL3Ry//Mh1wgf6PElaCyzq67O09nVjdVlJbSDy8Lw77PmfecMwZg/I/GDw3DCo8HCkZl/RlgGA0e3Yfv7+DbAfLrW+SXOvLTG+SHV/gPbuMZRnsyIDL/OASziMxkkKkUQTJJsLaGn8/iHz6nd+8mQv87Ahg2H9Th/BxZqxEkEgSrq/iVCvLsDK9awtvfxb2zjD2ARID+lVVlbabTgWYTv1rFL5fBUtHbbeTJCb3EQ3ovCnRC6xAgzJtOE+ztheYIEkqbFaS3vY2zuIj77AmtYYDusPy8/zuvunJkDKXM7tYWTiyGWFjAqeQnAD6+7ueNx/FLpRGAru7mcoj5ebqzszil7DggeF/DX1nBN82rzPqrzbRayIsLhJqMPT2N83Sdy2GApwFqRN7jFPL0tF+10cDd3MTZ2AjNUkGCoyO6y9cRxfQowFUbpufr1ct4ZoHg+Dg067zduTmEbq4yi/UkYidDe+kaTcP4ObJIajksPd/eyx3c+N2rvPbMDPbUFPZSLKzcGjKPrbJaDsu+dQO3msfZzeGY2TCvKGYQhdSYeeJjUt21dIcjXQ7U7Kv599f4j/oF55W4g/2e3b8AAAAASUVORK5CYII=",
         "image5": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHpSURBVDjLhZNbbxJhEIb3T/RWw78g2fjLvLE2ppe1TYNtvGuNRo6BcA4kIBBOgXCU3QXploCAmNQE/VY55PWbj7CWcPBibuab95l3ZmelZrOJRqOBWq2GarWKSqWCcrmMUqmEYrF4BEA6FFK9XsdyudyKfr8vILlc7iBEos4k6PV6orOu6yaEctwF0un0XohElqmYulGiUCiUptMp5vO5yBMwm80ikUjshEjUdV3IxX+45Z5hGPj29RcykbF463a7SKVSiMfjWxCJOq8tLxYLkPj72MCbEw3nz1WkwytIp9MhF4hEIhsQic/IJpOJKJrNZqKz7aWGm7Mu3l/quDppmxBN08gFAoGACZHy+fwzPiMbj1dFSvVBdL49v8PHq/stiKqq5AJer1dABCWTych8RjYajURRu/EDtmMV7y7+QWzHGj4FV++tVotcwO12H5mzJJNJmc/IhsPhFuSDTcfb0w6uTz/zr7MQLkKhEJxO59ONjfL55FgsxgaDgQm5fKHg+lUbtxdt/Jwaj8UWc4THEY1G5XA4zOgSxeLqD7h5/QW/jbkpdjgcFnOJu44jGAzKfr+f0SWuPzGJeX5DvBdA4fP5rHzTjA5MUZSd4oMACo/HY3W5XIzEdrvdsvOU//e78q5WLn6y7/0viZYv/mL7AwwAAAAASUVORK5CYII="
-    }]
+        }]
+    
     const { title, openSidebar, token } = useContext(UserContext);
     const [listings, setListings] = useState([]);
     const [search, setSearch] = useState("");
@@ -184,24 +185,24 @@ const SavedListings = () => {
     const getListings = () => {
         // const newlisting = [...dumylisting].map((listing) => listing.favorite === 1 ? { ...listing, favorite} : listing)
 
-        // setLoading(true);
-        // authAxios.get(`/api/user/listings`)
-        //     .then((res) => {
-        //         setLoading(false);
-        //         setListings(res.data.data);
-        //         console.log(res.data.data);
-        //         setBookmark(res.data.data.bookmark);
-        //         console.log(res.data.data.bookmark.action);
-        //         setAction(res.data.data.bookmark.action)
-        //         action === 1 ? setFavorite(true) : setFavorite(false);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+        setLoading(true);
+        authAxios.get(`/api/listings`)
+            .then((res) => {
+                setLoading(false);
+                setListings(res.data.data);
+                console.log(res.data.data);
+                // setBookmark(res.data.data.bookmark);
+                // console.log(res.data.data.bookmark.action);
+                // setAction(res.data.data.bookmark.action)
+                // action === 1 ? setFavorite(true) : setFavorite(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
     useEffect(() => {
-        // getListings();
-        setListings(dumylisting)
+        getListings();
+        // setListings(dumylisting)
     }, []);
 
     return (
@@ -243,27 +244,28 @@ const SavedListings = () => {
 
             }}>
                 <Grid container columnSpacing={1} rowSpacing={1}>
-                    {listings.map((data) => (
-                        <Grid item xs={6} sm={4} md={3} lg={3}>
+                    {
+                        listings.map((data) => (
+                        <Grid key={data.id} item xs={6} sm={4} md={3} lg={3}>
                             <FavListingCard
-                                key={data.id}
                                 id={data.id}
-                                image={data.image1}
-                                image1={data.image2}
-                                image2={data.image3}
-                                image3={data.image4}
-                                image4={data.image5}
+                                image={data.image}
+                                image1={data.image}
+                                image2={data.image}
+                                image3={data.image}
+                                image4={data.image}
                                 favorite={favorite}
                                 showTag={showTag}
                                 amount={data.amount}
-                                property_type={data.property_type}
-                                number_of_bathrooms={data.bedroom}
-                                number_of_bedrooms={data.bathroom}
+                                property_type={data.property_type.type}
+                                number_of_bathrooms={data.number_of_bathrooms}
+                                number_of_bedrooms={data.number_of_bedrooms}
                                 location={data.location}
                                 region={data.region}
                             />
                         </Grid>
-                    ))}
+                        ))
+                    }
                 </Grid>
 
             </Box>

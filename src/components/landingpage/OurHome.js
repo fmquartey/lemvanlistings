@@ -18,7 +18,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
+
 import React, { useEffect, useState, useRef } from "react";
 import Slider from "react-slick/lib/slider";
 import IndexListings from "../ListingCard";
@@ -37,6 +38,7 @@ const OurHome = () => {
   const backendurl = apilink;
   const sliderRef = useRef(null);
   const [showTag, setShowTag] = useState(false);
+  const navigate = useNavigate();
 
 
   var settings = {
@@ -129,6 +131,10 @@ const OurHome = () => {
     getListings();
   }, []);
 
+  const allListings=()=>{
+    navigate("/");
+  }
+
   return (
     <Box
       sx={{
@@ -209,6 +215,7 @@ const OurHome = () => {
               </Button>
 
               <Button
+              onClick={allListings}
                 variant="outlined"
                 color="inherit"
                 size="small"

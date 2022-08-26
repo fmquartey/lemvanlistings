@@ -287,9 +287,8 @@ const Listing = () => {
                   }}>
                   <Grid container columnSpacing={1} rowSpacing={1}>
                     {listings.map((data) => (
-                      <Grid item xs={6} sm={4} md={3} lg={3}>
+                      <Grid key={data.id} item xs={6} sm={4} md={3} lg={3}>
                         <ListingCard
-                          key={data.id}
                           id={data.id}
                           image={data.image}
                           image1={data.image}
@@ -328,7 +327,6 @@ const Listing = () => {
                 }}>
                   <Paper
                     elevation={0}
-                    disableGutters={true}
                     sx={{
                       width: {
                         xs: "100%",

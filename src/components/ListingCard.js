@@ -226,7 +226,7 @@ const ListingCard = (props) => {
           </IconButton>
 
           {/* Favourite buttom */}
-          {
+          {/* {
             props.favourite ? (
               <Favorite
                 sx={{
@@ -247,7 +247,7 @@ const ListingCard = (props) => {
                 }}
               />
             )
-          }
+          } */}
           {/* <Checkbox
             onChange={props.handleFav}
             sx={{

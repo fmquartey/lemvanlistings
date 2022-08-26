@@ -44,7 +44,7 @@ const FavoriteListings = () => {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
     const [showTag, setShowTag] = useState(true);
-    const [favorite, setFavorite] = useState(true);
+    const [favorite, setFavorite] = useState(false);
     const [bookmark, setBookmark] = useState([]);
     const [action, setAction] = useState(false)
 
@@ -60,24 +60,24 @@ const FavoriteListings = () => {
     const getListings = () => {
         // const newlisting = [...dumylisting].map((listing) => listing.favorite === 1 ? { ...listing, favorite} : listing)
 
-        // setLoading(true);
-        // authAxios.get(`/api/user/listings`)
-        //     .then((res) => {
-        //         setLoading(false);
-        //         setListings(res.data.data);
-        //         console.log(res.data.data);
-        //         setBookmark(res.data.data.bookmark);
-        //         console.log(res.data.data.bookmark.action);
-        //         setAction(res.data.data.bookmark.action)
-        //         action === 1 ? setFavorite(true) : setFavorite(false);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+        setLoading(true);
+        authAxios.get(`/api/user/listings`)
+            .then((res) => {
+                setLoading(false);
+                setListings(res.data.data);
+                console.log(res.data.data);
+                // setBookmark(res.data.data.bookmark);
+                // console.log(res.data.data.bookmark.action);
+                // setAction(res.data.data.bookmark.action)
+                // action === 1 ? setFavorite(true) : setFavorite(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
     useEffect(() => {
-        // getListings();
-        setListings(dumylisting)
+        getListings();
+        // setListings(dumylisting)
     }, []);
 
 
@@ -125,17 +125,17 @@ const FavoriteListings = () => {
                             <FavListingCard
                                 key={data.id}
                                 id={data.id}
-                                image={data.image1}
-                                image1={data.image2}
-                                image2={data.image3}
-                                image3={data.image4}
-                                image4={data.image5}
+                                image={data.image}
+                                image1={data.image}
+                                image2={data.image}
+                                image3={data.image}
+                                image4={data.image}
                                 favorite={favorite}
                                 showTag={showTag}
                                 amount={data.amount}
-                                property_type={data.property_type}
-                                number_of_bathrooms={data.bedroom}
-                                number_of_bedrooms={data.bathroom}
+                                property_type={data.property_type.type}
+                                number_of_bathrooms={data.number_of_bathrooms}
+                                number_of_bedrooms={data.number_of_bedrooms}
                                 location={data.location}
                                 region={data.region}
                             />
