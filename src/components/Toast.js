@@ -10,7 +10,7 @@ const Toast = (props) => {
             // message={props.message}
             autoHideDuration={6000}
         >
-            <Alert severity="success" sx={{ width: '100%' }}>
+            <Alert severity={props.statusType} sx={{ width: '100%' }}>
                 {props.message}
             </Alert>
         </Snackbar>

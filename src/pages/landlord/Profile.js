@@ -1,10 +1,12 @@
-import {CameraAlt, Edit } from '@mui/icons-material';
+import { CameraAlt, Edit } from '@mui/icons-material';
 import { Avatar, Box, Divider, IconButton, Paper, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
-import { Outlet } from 'react-router-dom';
 import EditProfile from '../../components/EditProfile';
 import Toast from '../../components/Toast';
 import { UserContext } from '../../context/UserContext';
+import Axios from "axios";
+import { apilink } from '../../Helper';
+import Progress from "../../components/Progress";
 
 const Profile = () => {
     const {
@@ -13,14 +15,18 @@ const Profile = () => {
         userName,
         openSidebar,
         userId,
+        token,
         setUser,
         userLastName,
         userPhone,
         userEmail, } = useContext(UserContext);
-    const [openDialog, setOpenDialog] = useState(false)
-    const [avater, setAvater] = useState("")
+    const [openDialog, setOpenDialog] = useState(false);
+    // const [openProgress, setOpenProgress] = useState(false);
+    const [avater, setAvater] = useState("");
     const [statusMsg, setStatusMsg] = useState("");
+    const [aletType, setAletType] = useState("");
     const [openToast, setOpenToast] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleOpenDialog = () => {
         setOpenDialog(true)
@@ -36,23 +42,39 @@ const Profile = () => {
         setOpenToast(false)
     }
 
+
+    const authAxios = Axios.create({
+        baseURL: apilink,
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+
     const updateAvater = (e) => {
         e.preventDefault();
         setAvater(e.target.files[0])
-        setStatusMsg("Profile updated successfully");
-        setOpenToast(true);
-        // setLoading(true);
-        // authAxios.get(`/api/landlord/listings`)
-        //     .then((res) => {
-        //         setLoading(false);
-        //         setStatusMsg(res.data.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         setLoading(false);
-        //     });
-    }
+        setLoading(true);
 
+        const formData = new FormData();
+        formData.append("avatar", avater);
+        formData.append("_method", "PUT");
+
+        authAxios.post(`/api/update/user/${userId}/profile`, formData)
+            .then((res) => {
+                setLoading(false);
+                setStatusMsg(res.data.data);
+                setAletType("success");
+                setStatusMsg("Avatar updated successfully");
+                setOpenToast(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+                setAletType("error");
+                setStatusMsg("Sorry there is an error please try again");
+                setOpenToast(true);
+            });
+    }
 
     return (
         <Box
@@ -346,7 +368,8 @@ const Profile = () => {
                 </Paper>
             </Box>
             <EditProfile openDialog={openDialog} handleClose={handleClose} />
-            <Toast open={openToast} close={closeToast} message={statusMsg} />
+            <Toast open={openToast} close={closeToast} statusType={aletType} message={statusMsg} />
+            <Progress openProgress={loading} />
         </Box >
     );
 }

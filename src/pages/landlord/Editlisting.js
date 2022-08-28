@@ -10,7 +10,6 @@ import { UserContext } from "../../context/UserContext";
 const Editlisting = () => {
     const navigate = useNavigate();
     const { setTitle } = useContext(UserContext);
-
     const listings = () => {
         navigate("/app/landlord/listings")
         setTitle("")
@@ -36,7 +35,6 @@ const Editlisting = () => {
                     }} />
                 </IconButton>
             </Box>
-        
             <UpdateListing />
         </Box>
     )

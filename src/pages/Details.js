@@ -34,6 +34,7 @@ const Details = () => {
   const [isVerified, setIsVerified] = useState();
   const [hasElectricity, setHasElectricity] = useState();
   const [isFurnished, setIsFurnished] = useState();
+  const [furnishedWith, setIsFurnished_with] = useState();
   const [loading, setLoading] = useState(false);
   const [similarLoading, setSimilarLoading] = useState(false);
   const [listing, setListing] = useState([]);
@@ -65,6 +66,7 @@ const Details = () => {
         setHasElectricity(res.data.data.has_electricity);
         setIsVerified(res.data.data.is_verified);
         setIsFurnished(res.data.data.is_furnished);
+        setIsFurnished_with(res.data.data.furnished_with);
         setHasWater(res.data.data.has_water);
         similarListings();
         setName(res.data.data.user.firstname + " " + res.data.data.user.lastname)
@@ -631,40 +633,22 @@ const Details = () => {
                         }}
                       >
                         {
-                          isFurnished ? (
-                            <Grid container spacing={1}>
-                              <Grid item xs={6} sm={6} md={3} lg={3}>
+                            isFurnished === 1 ? (
+                              furnishedWith !== null ? (
                                 <Typography variant="body1"
-                                  sx={{
-                                    fontSize: "14px",
-                                  }}
-                                >Bed</Typography>
-                              </Grid>
-                              <Grid item xs={6} sm={6} md={3} lg={3}>
-                                <Typography variant="body1"
-                                  sx={{
-                                    fontSize: "14px",
-
-                                  }}
-                                >Television</Typography>
-                              </Grid>
-                              <Grid item xs={6} sm={6} md={3} lg={3}>
-                                <Typography variant="body1"
-                                  sx={{
-                                    fontSize: "14px",
-
-                                  }}
-                                >Chairs</Typography>
-                              </Grid>
-                              <Grid item xs={6} sm={6} md={3} lg={3}>
-                                <Typography variant="body1"
-                                  sx={{
-                                    fontSize: "14px",
-
-                                  }}
-                                >Fridge</Typography>
-                              </Grid>
-                            </Grid>
+                                sx={{
+                                  fontSize: "14px",
+                                }}
+                                >{furnishedWith}</Typography>
+                              ) : (
+                                  <Typography variant="body1"
+                                sx={{
+                                  fontSize: "14px",
+                                }}
+                              >
+                                Not Furnished
+                                  </Typography>
+                                )
                           ) : (
                             <Typography variant="body1"
                               sx={{

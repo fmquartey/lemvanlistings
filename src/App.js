@@ -81,7 +81,7 @@ function App() {
       setUserEmail(userInfo.email);
       setUserAvater(userInfo.avatar);
       setToken(userInfo.access_token);
-      // setAccountType(userInfo.account_type);
+      setAccountType(userInfo.account_type);
       setUserPhone(userInfo.phone);
     } else {
       setUser(false);
