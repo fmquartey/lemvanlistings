@@ -1,9 +1,12 @@
 import { Add, CameraAlt, Edit } from '@mui/icons-material';
 import { Avatar, Box, Button, Divider, IconButton, Paper, Stack, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import EditAbout from '../../components/EditAbout';
+import EditAddress from '../../components/EditAddress';
 import EditProfile from '../../components/EditProfile';
+import Progress from '../../components/Progress';
 import Toast from '../../components/Toast';
 import { UserContext } from '../../context/UserContext';
 import { apilink } from '../../Helper';
@@ -12,25 +15,72 @@ const TenantProfile = () => {
     const {
         title,
         userAvater,
+        setUserAvater,
         userName,
         openSidebar,
         userId,
-        setUser,
         token,
+        setUser,
         userLastName,
         userPhone,
-        userEmail, } = useContext(UserContext);
-    const [openDialog, setOpenDialog] = useState(false)
-    const [avater, setAvater] = useState("")
+        userEmail,
+        userAddress,
+        userAbout,
+        setAlert,
+        updatedAvater,
+        setUserAbout,
+        updatedAbout,
+        updatedAddress,
+        setUserPhone,
+        updatedPhone,
+        setUserAddress
+    } = useContext(UserContext);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [openAbout, setOpenAbout] = useState(false);
+    const [openAddress, setOpenAddress] = useState(false);
+
+    const [avater, setAvater] = useState("");
     const [statusMsg, setStatusMsg] = useState("");
+    const [userNewAvatar, setUserNewAvatar] = useState("");
+    const [aletType, setAletType] = useState("");
+
     const [openToast, setOpenToast] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleOpenDialog = () => {
+        setAlert(false)
         setOpenDialog(true)
     }
+
+    const handleOpenAbout = () => {
+        setAlert(false)
+        setOpenAbout(true)
+    }
+
+    const handleOpenAddress = () => {
+        setAlert(false)
+        setOpenAddress(true)
+    }
     const handleClose = () => {
+        setAlert(false)
         setOpenDialog(false)
+    }
+
+    const handleCloseAbout = () => {
+        setAlert(false)
+        setOpenAbout(false)
+    }
+
+    const handleCloseAddress = () => {
+        setAlert(false)
+        setOpenAddress(false)
+    }
+
+    const closeToast = (e, r) => {
+        if (e === 'clickaway') {
+            return;
+        }
+        setOpenToast(false)
     }
 
     const authAxios = axios.create({
@@ -41,30 +91,45 @@ const TenantProfile = () => {
         },
     });
 
-    const closeToast = (e, r) => {
-        if (e === 'clickaway') {
-            return;
+
+
+    const updateAvater = () => {
+        setLoading(true);
+        const formData = new FormData();
+        formData.append("avatar", avater);
+        formData.append("_method", "PUT");
+        authAxios.post(`/api/update/user/${userId}/profile`, formData)
+            .then((res) => {
+                setLoading(false);
+                console.log(res.data.data);
+                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
+                setAletType("success");
+                setStatusMsg("Avatar updated successfully");
+                setOpenToast(true);
+                setTimeout(() => {
+                    setUserAvater(updatedAvater)
+                    setUserAddress(updatedAddress)
+                    setUserPhone(updatedPhone)
+                    setUserAbout(updatedAbout)
+                }, 2000);
+
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+                setAletType("error");
+                setStatusMsg("Sorry there is an error please try again");
+                setOpenToast(true);
+            });
+    }
+
+    useEffect(() => {
+        if (avater !== "") {
+            updateAvater()
+        } else {
+            console.log(avater)
         }
-        setOpenToast(false)
-    }
-
-    const updateAvater = (e) => {
-        e.preventDefault();
-        setAvater(e.target.files[0])
-        setStatusMsg("Profile updated successfully");
-        setOpenToast(true);
-
-        // setLoading(true);
-        // authAxios.get(`/api/landlord/listings`)
-        //     .then((res) => {
-        //         setLoading(false);
-        //         setStatusMsg(res.data.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         setLoading(false);
-        //     });
-    }
+    }, [avater])
 
     return (
         <Box
@@ -174,8 +239,8 @@ const TenantProfile = () => {
                                     justifyContent: "center"
                                 }}>
                                 <CameraAlt sx={{ fontSize: "18px" }} />
-                                <input hidden accept="image/*" type="file" name="avater"
-                                    onChange={updateAvater}
+                                <input hidden accept="image/*" type="file" name="avatar"
+                                    onChange={(e) => setAvater(e.target.files[0])}
                                 />
                             </IconButton>
 
@@ -362,6 +427,9 @@ const TenantProfile = () => {
             </Box>
             <EditProfile openDialog={openDialog} handleClose={handleClose} />
             <Toast open={openToast} close={closeToast} message={statusMsg} />
+            <Progress openProgress={loading} />
+            <EditAbout openAbout={openAbout} handleCloseAbout={handleCloseAbout} />
+            <EditAddress openAddress={openAddress} handleCloseAddress={handleCloseAddress} />
         </Box >
     )
 }

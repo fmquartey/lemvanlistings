@@ -47,10 +47,17 @@ function App() {
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
   const [userAvater, setUserAvater] = useState("");
+  const [updatedAvater, setUpdatedAvater] = useState("");
+  const [userAddress, setUserAddress] = useState("");
+  const [updatedAddress, setUpdatedAddress] = useState("");
+  const [userAbout, setUserAbout] = useState("");
+  const [updatedAbout, setUpdatedAbout] = useState("");
   const [userPhone, setUserPhone] = useState("");
+  const [updatedPhone, setUpdatedPhone] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userLastName, setUSerLastName] = useState("")
   const [token, setToken] = useState("");
+  const [emailVerifiedAt, setEmailVerifiedAt] = useState("");
   const [accountType, setAccountType] = useState(0);
   const [showNav, setShowNav] = useState(true);
   const [openSidebar, setOpenSideBar] = useState(true);
@@ -68,7 +75,9 @@ function App() {
   const [title, setTitle] = useState("")
   const [movedListing, setMovedListing] = useState(false);
   const [movedTenants, setMovedTenants] = useState(false);
+  const [alert, setAlert] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
+  const updatedInfo = JSON.parse(localStorage.getItem("updateduser-info"));
   const navigate = useNavigate();
 
 
@@ -83,6 +92,18 @@ function App() {
       setToken(userInfo.access_token);
       setAccountType(userInfo.account_type);
       setUserPhone(userInfo.phone);
+      setUserAddress(userInfo.address)
+      setUserAbout(userInfo.about)
+      setEmailVerifiedAt(userInfo.email_verified_at)
+      if (localStorage.getItem("updateduser-info")) {
+        setUpdatedAvater(updatedInfo.avatar)
+        setUpdatedAbout(updatedInfo.about)
+        setUpdatedAddress(updatedInfo.address)
+        setUpdatedPhone(updatedInfo.phone)
+      } else {
+
+      }
+
     } else {
       setUser(false);
       navigate("/welcome");
@@ -106,6 +127,12 @@ function App() {
           token,
           setToken,
           accountType,
+          userAddress,
+          setUserAddress,
+          userAbout,
+          setUserAbout,
+          emailVerifiedAt,
+          setEmailVerifiedAt,
           showNav,
           setShowNav,
           openSidebar,
@@ -137,7 +164,18 @@ function App() {
           movedListing,
           setMovedListing,
           movedTenants,
-          setMovedTenants
+          setMovedTenants,
+          alert,
+          setAlert,
+
+          updatedAvater,
+          setUpdatedAvater,
+          updatedAbout,
+          setUpdatedAbout,
+          updatedPhone,
+          setUpdatedPhone,
+          updatedAddress,
+          setUpdatedAddress
         }}
       >
         {showNav ? <TopBar /> : null}

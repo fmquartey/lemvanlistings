@@ -6,40 +6,24 @@ import Toast from './Toast';
 import Progress from './Progress';
 
 import { apilink } from '../Helper';
-
-const EditProfile = (props) => {
-
+const EditAddress = (props) => {
     const {
-        token,
         userId,
-        userPhone,
+        token,
         userAddress,
-        userAbout,
-        setUserAbout,
-        userAvater,
-        setUserAvater,
-        alert,
         setAlert,
-        userName,
-        userLastName,
-        userEmail,
-        updatedAvater,
-        updatedAbout,
         updatedAddress,
-        setUserPhone,
-        updatedPhone,
         setUserAddress
     } = useContext(UserContext);
 
 
     const [statusMsg, setStatusMsg] = useState("");
-    const [aletType, setAletType] = useState('success');
+    const [aletType, setAletType] = useState("");
     const [openToast, setOpenToast] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [firstname, setFirstName] = useState(userName);
-    const [lastname, setLastName] = useState(userLastName);
-    const [phone, setPhone] = useState(userPhone);
-    const [email, setEmail] = useState("");
+    const [address, setAddress] = useState(userAddress);
+    // const [alert, setAlert] = useState(false);
+
 
 
     const closeToast = (e, r) => {
@@ -61,55 +45,55 @@ const EditProfile = (props) => {
     //     id: userId,
     //     firstname: userName,
     //     lastname: userLastName,
-    //     phone: "",
-    //     about: userAbout,
+    //     phone: userPhone,
+    //     about: address,
     //     access_token: token,
     //     account_type: accountType,
     //     address: userAddress,
     //     avatar: userAvater,
     //     email: userEmail,
-    //     email_verified_at: emailVerifiedAt,
-    //     updated: "yes"
+    //     email_verified_at: setEmailVerifiedAt,
     // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
+        setStatusMsg("");
         setAlert(false);
         const formData = new FormData();
-        formData.append("phone", phone);
+
+        formData.append("address", address);
         formData.append("_method", "PUT");
 
         authAxios.post(`/api/update/user/${userId}/profile`, formData)
             .then(res => {
                 setLoading(false);
                 console.log(res.data.data);
-                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
                 setAletType("success");
-                setStatusMsg("Profile updated successfully");
+                setStatusMsg("Address updated successfully");
                 setAlert(true);
+                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
                 setTimeout(() => {
-                    setUserPhone(updatedPhone)
-                }, 2000);
+                    setUserAddress(updatedAddress)
+                }, 1000);
             }).catch(err => {
                 setLoading(false);
                 setAletType("error");
-                setStatusMsg("Sorry there is an error updating profile");
+                setStatusMsg("Sorry there was an error updating profile");
                 setAlert(true);
             });
     }
-
     return (
         <>
             <Dialog
                 maxWidth="xs"
                 fullWidth={true}
-                open={props.openDialog}
+                open={props.openAddress}
                 aria-describedby="alert-dialog-description"
                 aria-labelledby="alert-dialog-title"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Edit Profile
+                    Add/Edit Profile
                 </DialogTitle>
                 <DialogContent>
                     <Stack mt={1} spacing={2}>
@@ -125,38 +109,12 @@ const EditProfile = (props) => {
                             color="success"
                             fullWidth={true}
                             size="small"
-                            value={firstname}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            label="First Name"
-                            disabled={true}
-                        />
-                        <TextField
-                            color="success"
-                            fullWidth={true}
-                            size="small"
-                            value={userLastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            label="Last Name"
-                            disabled={true}
-                        />
-                        <TextField
-                            color="success"
-                            fullWidth={true}
-                            size="small"
-                            type="email"
-                            value={userEmail}
-                            onChange={(e) => setEmail(e.target.value)}
-                            label="Email"
-                            disabled={true}
-                        />
-                        <TextField
-                            color="success"
-                            fullWidth={true}
-                            size="small"
-                            type="phone"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            label="Phone Number"
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            label="Address"
+                            multiline={true}
+                            rows={5}
                         />
 
                     </Stack>
@@ -181,7 +139,7 @@ const EditProfile = (props) => {
                                         backgroundColor: "#35BF43",
                                     }
                                 }}
-                                onClick={props.handleClose}
+                                onClick={props.handleCloseAddress}
                             >Cancel
                             </Button>
                             <Button
@@ -207,10 +165,8 @@ const EditProfile = (props) => {
                     </Box>
                 </DialogContent>
             </Dialog>
-            {/* <Toast open={openToast} close={closeToast} statusType={aletType} message={statusMsg} /> */}
-            {/* <Progress openProgress={loading} /> */}
         </>
-    )
+    );
 }
 
-export default EditProfile
+export default EditAddress;
