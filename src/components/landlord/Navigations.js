@@ -43,13 +43,13 @@ export const navigation = [
             fontSize: "20px",
         }} />,
     },
-    {
-        name: "Chats",
-        path: "/app/landlord/chat",
-        icon: <Chat sx={{
-            fontSize: "20px",
-        }} />,
-    },
+    // {
+    //     name: "Chats",
+    //     path: "/app/landlord/chat",
+    //     icon: <Chat sx={{
+    //         fontSize: "20px",
+    //     }} />,
+    // },
     {
         name: "Profile",
         path: "/app/landlord/profile",

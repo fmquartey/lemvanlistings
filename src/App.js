@@ -77,6 +77,7 @@ function App() {
   const [movedTenants, setMovedTenants] = useState(false);
   const [alert, setAlert] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
+  const userToken = localStorage.getItem("user-token");
   const updatedInfo = JSON.parse(localStorage.getItem("updateduser-info"));
   const navigate = useNavigate();
 
@@ -89,21 +90,13 @@ function App() {
       setUSerLastName(userInfo.lastname);
       setUserEmail(userInfo.email);
       setUserAvater(userInfo.avatar);
-      setToken(userInfo.access_token);
+      setToken(userToken);
       setAccountType(userInfo.account_type);
       setUserPhone(userInfo.phone);
       setUserAddress(userInfo.address)
       setUserAbout(userInfo.about)
       setEmailVerifiedAt(userInfo.email_verified_at)
-      if (localStorage.getItem("updateduser-info")) {
-        setUpdatedAvater(updatedInfo.avatar)
-        setUpdatedAbout(updatedInfo.about)
-        setUpdatedAddress(updatedInfo.address)
-        setUpdatedPhone(updatedInfo.phone)
-      } else {
-
-      }
-
+  
     } else {
       setUser(false);
       navigate("/welcome");

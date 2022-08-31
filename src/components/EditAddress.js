@@ -72,10 +72,7 @@ const EditAddress = (props) => {
                 setAletType("success");
                 setStatusMsg("Address updated successfully");
                 setAlert(true);
-                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
-                setTimeout(() => {
-                    setUserAddress(updatedAddress)
-                }, 1000);
+                localStorage.setItem("user-info", JSON.stringify(res.data.data));
             }).catch(err => {
                 setLoading(false);
                 setAletType("error");

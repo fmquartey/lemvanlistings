@@ -63,6 +63,7 @@ const TopBar = () => {
       .get("/api/logout")
       .then((res) => {
         localStorage.removeItem("user-info");
+        localStorage.removeItem("updateduser-info");
         setUser(false);
         navigate("/");
       })

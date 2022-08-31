@@ -74,10 +74,7 @@ const EditAbout = (props) => {
                 setAletType("success");
                 setStatusMsg("Profile updated successfully");
                 setAlert(true);
-                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
-                setTimeout(() => {
-                    setUserAbout(updatedAbout)
-                }, 2000);
+                localStorage.setItem("user-info", JSON.stringify(res.data.data));
             }).catch((err) => {
                 console.log(err);
                 setLoading(false);

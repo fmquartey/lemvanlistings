@@ -46,6 +46,7 @@ const TenantProfile = () => {
 
     const [openToast, setOpenToast] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const handleOpenDialog = () => {
         setAlert(false)
@@ -102,17 +103,11 @@ const TenantProfile = () => {
             .then((res) => {
                 setLoading(false);
                 console.log(res.data.data);
-                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
+                localStorage.setItem("user-info", JSON.stringify(res.data.data));
                 setAletType("success");
                 setStatusMsg("Avatar updated successfully");
                 setOpenToast(true);
-                setTimeout(() => {
-                    setUserAvater(updatedAvater)
-                    setUserAddress(updatedAddress)
-                    setUserPhone(updatedPhone)
-                    setUserAbout(updatedAbout)
-                }, 2000);
-
+                setRefresh(true);
             })
             .catch((err) => {
                 console.log(err);
@@ -129,7 +124,7 @@ const TenantProfile = () => {
         } else {
             console.log(avater)
         }
-    }, [avater])
+    }, [avater, refresh], )
 
     return (
         <Box
@@ -353,11 +348,13 @@ const TenantProfile = () => {
                                         fontWeight: "550",
                                         color: "#9D9899"
                                     }}>
-                                        -------
+                                        {userAbout}
                                     </Typography>
                                 </Stack>
 
                                 <IconButton
+                                    onClick={handleOpenAbout}
+
                                     sx={{
                                         color: "#9D9899",
                                     }}
@@ -399,11 +396,12 @@ const TenantProfile = () => {
                                         fontWeight: "550",
                                         color: "#9D9899"
                                     }}>
-                                        ------
+                                        {userAddress}
                                     </Typography>
                                 </Stack>
 
                                 <IconButton
+                                    onClick={handleOpenAddress}
                                     sx={{
                                         color: "#9D9899",
                                     }}

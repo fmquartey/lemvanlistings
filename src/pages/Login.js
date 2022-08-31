@@ -85,6 +85,7 @@ const Login = () => {
           setMessage(res.data.message);
           setAlert(false);
           localStorage.setItem("user-info", JSON.stringify(res.data.data));
+          localStorage.setItem("user-token", res.data.data.access_token);
           setUser(true);
           redirect();
         })
@@ -113,6 +114,7 @@ const Login = () => {
       window.open(res.data.data, "_self");
     });
   };
+
 
   return (
     <Box

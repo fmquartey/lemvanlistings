@@ -40,7 +40,7 @@ const Profile = () => {
 
     const [avater, setAvater] = useState("");
     const [statusMsg, setStatusMsg] = useState("");
-    const [aletType, setAletType] = useState("");
+    const [aletType, setAletType] = useState("success");
 
     const [openToast, setOpenToast] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -95,21 +95,6 @@ const Profile = () => {
         },
     });
 
-    // const updatedUser = {
-    //     id: userId,
-    //     firstname: firstname,
-    //     lastname: lastname,
-    //     phone: phone,
-    //     about: about,
-    //     access_token: token,
-    //     account_type: accountType,
-    //     address: address,
-    //     avatar: userNewAvatar,
-    //     email: email,
-    //     email_verified_at: emailVerifiedA,
-    //     updated: "yes"
-    // }
-
     const updateAvater = () => {
         setLoading(true);
         const formData = new FormData();
@@ -119,17 +104,10 @@ const Profile = () => {
             .then((res) => {
                 setLoading(false);
                 console.log(res.data.data);
-                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
+                localStorage.setItem("user-info", JSON.stringify(res.data.data));
                 setAletType("success");
                 setStatusMsg("Avatar updated successfully");
                 setOpenToast(true);
-                setTimeout(() => {
-                    setUserAvater(updatedAvater)
-                    setUserAddress(updatedAddress)
-                    setUserPhone(updatedPhone)
-                    setUserAbout(updatedAbout)
-                }, 2000);
-
             })
             .catch((err) => {
                 console.log(err);

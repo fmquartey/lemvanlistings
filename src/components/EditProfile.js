@@ -84,13 +84,10 @@ const EditProfile = (props) => {
             .then(res => {
                 setLoading(false);
                 console.log(res.data.data);
-                localStorage.setItem("updateduser-info", JSON.stringify(res.data.data));
+                localStorage.setItem("user-info", JSON.stringify(res.data.data));
                 setAletType("success");
                 setStatusMsg("Profile updated successfully");
                 setAlert(true);
-                setTimeout(() => {
-                    setUserPhone(updatedPhone)
-                }, 2000);
             }).catch(err => {
                 setLoading(false);
                 setAletType("error");

@@ -25,14 +25,14 @@ export const TenantData = [
         }} />,
         active: false
     },
-    {
-        name: "Chat",
-        path: "/app/tenant/chat",
-        icon: <Chat sx={{
-            fontSize: "20px",
-        }} />,
-        active: false
-    },
+    // {
+    //     name: "Chat",
+    //     path: "/app/tenant/chat",
+    //     icon: <Chat sx={{
+    //         fontSize: "20px",
+    //     }} />,
+    //     active: false
+    // },
     {
         name: "Profile",
         path: "/app/tenant/profile",
