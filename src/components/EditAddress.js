@@ -12,7 +12,6 @@ const EditAddress = (props) => {
         token,
         userAddress,
         setAlert,
-        updatedAddress,
         setUserAddress
     } = useContext(UserContext);
 
@@ -65,20 +64,20 @@ const EditAddress = (props) => {
         formData.append("address", address);
         formData.append("_method", "PUT");
 
-        authAxios.post(`/api/update/user/${userId}/profile`, formData)
-            .then(res => {
-                setLoading(false);
-                console.log(res.data.data);
-                setAletType("success");
-                setStatusMsg("Address updated successfully");
-                setAlert(true);
-                localStorage.setItem("user-info", JSON.stringify(res.data.data));
-            }).catch(err => {
-                setLoading(false);
-                setAletType("error");
-                setStatusMsg("Sorry there was an error updating profile");
-                setAlert(true);
-            });
+        authAxios.post(`/api/update/user/${userId}/profile`, formData).then(res => {
+            localStorage.setItem("user-info", JSON.stringify(res.data.data));
+            setLoading(false);
+            console.log(res.data.data);
+            setAletType("success");
+            setStatusMsg("Address updated successfully");
+            setAlert(true);
+            setUserAddress(res.data.data.address);
+        }).catch(err => {
+            setLoading(false);
+            setAletType("error");
+            setStatusMsg("Sorry there was an error updating profile");
+            setAlert(true);
+        });
     }
     return (
         <>

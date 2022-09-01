@@ -16,7 +16,7 @@ const EditAbout = (props) => {
         setUserAbout,
         alert,
         setAlert,
-        updatedAbout,
+        
     } = useContext(UserContext);
 
 
@@ -69,12 +69,12 @@ const EditAbout = (props) => {
 
         authAxios.post(`/api/update/user/${userId}/profile`, formData)
             .then(res => {
+                localStorage.setItem("user-info", JSON.stringify(res.data.data));
                 setLoading(false);
-                console.log(res.data.data);
                 setAletType("success");
                 setStatusMsg("Profile updated successfully");
                 setAlert(true);
-                localStorage.setItem("user-info", JSON.stringify(res.data.data));
+                setUserAbout(res.data.data.about)
             }).catch((err) => {
                 console.log(err);
                 setLoading(false);

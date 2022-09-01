@@ -19,20 +19,12 @@ const Profile = () => {
         openSidebar,
         userId,
         token,
-        setUser,
         userLastName,
         userPhone,
         userEmail,
         userAddress,
         userAbout,
         setAlert,
-        updatedAvater,
-        setUserAbout,
-        updatedAbout,
-        updatedAddress,
-        setUserPhone,
-        updatedPhone,
-        setUserAddress
     } = useContext(UserContext);
     const [openDialog, setOpenDialog] = useState(false);
     const [openAbout, setOpenAbout] = useState(false);
@@ -44,8 +36,6 @@ const Profile = () => {
 
     const [openToast, setOpenToast] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [updated, setUpdated] = useState(false)
-    const userInfo = JSON.parse(localStorage.getItem("user-info"));
 
 
 
@@ -74,6 +64,7 @@ const Profile = () => {
     const handleCloseAbout = () => {
         setAlert(false)
         setOpenAbout(false)
+
     }
 
     const handleCloseAddress = () => {
@@ -100,22 +91,21 @@ const Profile = () => {
         const formData = new FormData();
         formData.append("avatar", avater);
         formData.append("_method", "PUT");
-        authAxios.post(`/api/update/user/${userId}/profile`, formData)
-            .then((res) => {
-                setLoading(false);
-                console.log(res.data.data);
-                localStorage.setItem("user-info", JSON.stringify(res.data.data));
-                setAletType("success");
-                setStatusMsg("Avatar updated successfully");
-                setOpenToast(true);
-            })
-            .catch((err) => {
-                console.log(err);
-                setLoading(false);
-                setAletType("error");
-                setStatusMsg("Sorry there is an error please try again");
-                setOpenToast(true);
-            });
+        authAxios.post(`/api/update/user/${userId}/profile`, formData).then((res) => {
+            localStorage.setItem("user-info", JSON.stringify(res.data.data));
+            setLoading(false);
+            console.log(res.data.data);
+            setAletType("success");
+            setStatusMsg("Avatar updated successfully");
+            setOpenToast(true);
+            setUserAvater(res.data.data.avatar)
+        }).catch((err) => {
+            console.log(err);
+            setLoading(false);
+            setAletType("error");
+            setStatusMsg("Sorry there is an error please try again");
+            setOpenToast(true);
+        });
     }
 
     useEffect(() => {

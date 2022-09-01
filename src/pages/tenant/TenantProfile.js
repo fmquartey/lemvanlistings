@@ -20,20 +20,12 @@ const TenantProfile = () => {
         openSidebar,
         userId,
         token,
-        setUser,
         userLastName,
         userPhone,
         userEmail,
         userAddress,
         userAbout,
         setAlert,
-        updatedAvater,
-        setUserAbout,
-        updatedAbout,
-        updatedAddress,
-        setUserPhone,
-        updatedPhone,
-        setUserAddress
     } = useContext(UserContext);
     const [openDialog, setOpenDialog] = useState(false);
     const [openAbout, setOpenAbout] = useState(false);
@@ -41,12 +33,10 @@ const TenantProfile = () => {
 
     const [avater, setAvater] = useState("");
     const [statusMsg, setStatusMsg] = useState("");
-    const [userNewAvatar, setUserNewAvatar] = useState("");
     const [aletType, setAletType] = useState("");
 
     const [openToast, setOpenToast] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [refresh, setRefresh] = useState(false);
 
     const handleOpenDialog = () => {
         setAlert(false)
@@ -101,13 +91,13 @@ const TenantProfile = () => {
         formData.append("_method", "PUT");
         authAxios.post(`/api/update/user/${userId}/profile`, formData)
             .then((res) => {
+                localStorage.setItem("user-info", JSON.stringify(res.data.data));
                 setLoading(false);
                 console.log(res.data.data);
-                localStorage.setItem("user-info", JSON.stringify(res.data.data));
                 setAletType("success");
                 setStatusMsg("Avatar updated successfully");
                 setOpenToast(true);
-                setRefresh(true);
+                setUserAvater(res.data.data.avatar)
             })
             .catch((err) => {
                 console.log(err);
@@ -124,7 +114,7 @@ const TenantProfile = () => {
         } else {
             console.log(avater)
         }
-    }, [avater, refresh], )
+    }, [avater], )
 
     return (
         <Box

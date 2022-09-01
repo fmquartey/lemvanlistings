@@ -86,6 +86,7 @@ const Login = () => {
           setAlert(false);
           localStorage.setItem("user-info", JSON.stringify(res.data.data));
           localStorage.setItem("user-token", res.data.data.access_token);
+          localStorage.setItem("lemvan", res.data.data.id);
           setUser(true);
           redirect();
         })

@@ -57,11 +57,11 @@ export const navigation = [
             fontSize: "20px",
         }} />,
     },
-    {
-        name: "Settings",
-        path: "/app/landlord/settings",
-        icon: <Settings sx={{
-            fontSize: "20px",
-        }} />,
-    },
+    // {
+    //     name: "Settings",
+    //     path: "/app/landlord/settings",
+    //     icon: <Settings sx={{
+    //         fontSize: "20px",
+    //     }} />,
+    // },
 ]

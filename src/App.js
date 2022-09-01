@@ -76,16 +76,18 @@ function App() {
   const [movedListing, setMovedListing] = useState(false);
   const [movedTenants, setMovedTenants] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [refresh, setRefesh] = useState(0);
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const userToken = localStorage.getItem("user-token");
-  const updatedInfo = JSON.parse(localStorage.getItem("updateduser-info"));
+  const id = localStorage.getItem("lemvan");
   const navigate = useNavigate();
+  
 
 
   useEffect(() => {
     if (localStorage.getItem("user-info")) {
       setUser(true);
-      setUserId(userInfo.id);
+      setUserId(id);
       setUserName(userInfo.firstname);
       setUSerLastName(userInfo.lastname);
       setUserEmail(userInfo.email);
@@ -114,6 +116,7 @@ function App() {
           setUserName,
           userLastName,
           userPhone,
+          setUserPhone,
           userEmail,
           userAvater,
           setUserAvater,
@@ -168,7 +171,9 @@ function App() {
           updatedPhone,
           setUpdatedPhone,
           updatedAddress,
-          setUpdatedAddress
+          setUpdatedAddress,
+          refresh,
+          setRefesh
         }}
       >
         {showNav ? <TopBar /> : null}

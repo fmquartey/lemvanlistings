@@ -13,22 +13,12 @@ const EditProfile = (props) => {
         token,
         userId,
         userPhone,
-        userAddress,
-        userAbout,
-        setUserAbout,
-        userAvater,
-        setUserAvater,
+        setUserPhone,
         alert,
         setAlert,
         userName,
         userLastName,
         userEmail,
-        updatedAvater,
-        updatedAbout,
-        updatedAddress,
-        setUserPhone,
-        updatedPhone,
-        setUserAddress
     } = useContext(UserContext);
 
 
@@ -39,7 +29,7 @@ const EditProfile = (props) => {
     const [firstname, setFirstName] = useState(userName);
     const [lastname, setLastName] = useState(userLastName);
     const [phone, setPhone] = useState(userPhone);
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(userEmail);
 
 
     const closeToast = (e, r) => {
@@ -57,43 +47,30 @@ const EditProfile = (props) => {
         },
     });
 
-    // const updatedUser = {
-    //     id: userId,
-    //     firstname: userName,
-    //     lastname: userLastName,
-    //     phone: "",
-    //     about: userAbout,
-    //     access_token: token,
-    //     account_type: accountType,
-    //     address: userAddress,
-    //     avatar: userAvater,
-    //     email: userEmail,
-    //     email_verified_at: emailVerifiedAt,
-    //     updated: "yes"
-    // }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
+        setStatusMsg("");
         setAlert(false);
         const formData = new FormData();
         formData.append("phone", phone);
         formData.append("_method", "PUT");
 
-        authAxios.post(`/api/update/user/${userId}/profile`, formData)
-            .then(res => {
-                setLoading(false);
-                console.log(res.data.data);
-                localStorage.setItem("user-info", JSON.stringify(res.data.data));
-                setAletType("success");
-                setStatusMsg("Profile updated successfully");
-                setAlert(true);
-            }).catch(err => {
-                setLoading(false);
-                setAletType("error");
-                setStatusMsg("Sorry there is an error updating profile");
-                setAlert(true);
-            });
+        authAxios.post(`/api/update/user/${userId}/profile`, formData).then(res => {
+            localStorage.setItem("user-info", JSON.stringify(res.data.data));
+            setLoading(false);
+            setAlert(true);
+            console.log(res.data.data);
+            setAletType("success");
+            setStatusMsg("Profile updated successfully");
+            setUserPhone(res.data.data.phone);
+        }).catch((err) => {
+            console.log(err);
+            setLoading(false);
+            setAletType("error");
+            setStatusMsg("Sorry there is an error please try again");
+            setAlert(true);
+        });
     }
 
     return (

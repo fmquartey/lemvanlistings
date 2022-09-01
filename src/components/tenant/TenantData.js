@@ -41,12 +41,12 @@ export const TenantData = [
         }} />,
         active: false
     },
-    {
-        name: "Settings",
-        path: "/app/tenant/settings",
-        icon: <Settings sx={{
-            fontSize: "20px",
-        }} />,
-        active: false
-    },
+    // {
+    //     name: "Settings",
+    //     path: "/app/tenant/settings",
+    //     icon: <Settings sx={{
+    //         fontSize: "20px",
+    //     }} />,
+    //     active: false
+    // },
 ]
