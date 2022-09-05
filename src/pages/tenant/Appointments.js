@@ -4,12 +4,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
-const Appointments = () => {
+const TenantsAppointments = () => {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
     const [appointments, setAppointments] = useState([]);
     const [appointmentID, setAppointmentID] = useState("");
-    const [statusMsg, setStatusMsg] = useState(""); 
+    const [statusMsg, setStatusMsg] = useState("");
 
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
@@ -101,13 +101,12 @@ const Appointments = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        mt: 2
                     }}>
-                    <Box sx={{
+                    {/* <Box sx={{
                         display: "flex",
                         alignItems: "center",
-                    }}>
-                        <Button
+                    }}> */}
+                        {/* <Button
                             size="small"
                             onClick={allAppoinments}
                             sx={{
@@ -120,7 +119,7 @@ const Appointments = () => {
                                 }
                             }}>
                             All
-                        </Button>
+                        </Button> */}
 
                         {/* <Button
                             size="small"
@@ -136,9 +135,10 @@ const Appointments = () => {
                             }}>
                             Accepted
                         </Button> */}
-                        <Button
+                        {/* <Button
                             size="small"
                             onClick={pendingAppointments}
+
                             sx={{
                                 color: "#000",
                                 textTransform: "none",
@@ -149,9 +149,9 @@ const Appointments = () => {
                                 }
                             }}>
                             Pending
-                        </Button>
+                        </Button> */}
 
-                        <Button
+                        {/* <Button
                             size="small"
                             onClick={completedAppointments}
                             sx={{
@@ -165,8 +165,8 @@ const Appointments = () => {
                                 }
                             }}>
                             Completed
-                        </Button>
-                    </Box>
+                        </Button> */}
+                    {/* </Box> */}
                 </Box>
 
                 <Box
@@ -240,7 +240,7 @@ const Appointments = () => {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell align="center">Type</TableCell>
-                                                <TableCell align="center">Landlord</TableCell>
+                                                <TableCell align="center">Name</TableCell>
                                                 <TableCell align="center">Date</TableCell>
                                                 <TableCell align="center">Time</TableCell>
                                                 <TableCell align="center">Status</TableCell>
@@ -313,4 +313,4 @@ const Appointments = () => {
     )
 }
 
-export default Appointments
+export default TenantsAppointments

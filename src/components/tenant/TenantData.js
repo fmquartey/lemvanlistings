@@ -1,4 +1,4 @@
-import { AccountCircle, Apartment, Chat, Favorite, ListAlt, Settings } from "@mui/icons-material";
+import { AccountCircle, Alarm, Apartment, Chat, Favorite, ListAlt, Settings } from "@mui/icons-material";
 
 export const TenantData = [
     {
@@ -25,14 +25,14 @@ export const TenantData = [
         }} />,
         active: false
     },
-    // {
-    //     name: "Chat",
-    //     path: "/app/tenant/chat",
-    //     icon: <Chat sx={{
-    //         fontSize: "20px",
-    //     }} />,
-    //     active: false
-    // },
+    {
+        name: "Appointments",
+        path: "/app/tenant/appointments",
+        icon: <Alarm sx={{
+            fontSize: "20px",
+        }} />,
+        active: false
+    },
     {
         name: "Profile",
         path: "/app/tenant/profile",

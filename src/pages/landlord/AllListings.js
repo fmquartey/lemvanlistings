@@ -234,7 +234,6 @@ const AllListings = () => {
                         Hidden
                     </Button>
 
-
                 </Box>
                 <Box sx={{
                     display: "flex",
@@ -383,8 +382,6 @@ const AllListings = () => {
                                 </Table>
                             </TableContainer>
                         )
-
-
                     )
                 }
             </Box>

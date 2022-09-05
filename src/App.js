@@ -39,7 +39,7 @@ import FavoriteListings from "./pages/tenant/FavoriteListings";
 import TenantProfile from "./pages/tenant/TenantProfile";
 import TenantChat from "./pages/tenant/Chat";
 import TenantSettings from "./pages/tenant/Settings";
-
+import TenantsAppointments from "./pages/tenant/Appointments";
 
 
 function App() {
@@ -63,6 +63,9 @@ function App() {
   const [openSidebar, setOpenSideBar] = useState(true);
   const [openTenantDrawer, setOpenTenantDrawer] = useState(false);
   const [openLandlordDrawer, setOpenLandlordDrawer] = useState(false);
+  const [allAppCol, setAllAppCol] = useState(false);
+  const [pendingAppCol, setPendingAppCol] = useState(false);
+  const [completedAppCol, setCompletedAppCol] = useState(false);
   const [allCol, setAllCol] = useState(false);
   const [publishedCol, setPublishedCol] = useState(false);
   const [hiddendCol, setHiddenCol] = useState(false);
@@ -151,6 +154,12 @@ function App() {
           setDraftCol,
           allColor,
           setAllColor,
+          allAppCol,
+          setAllAppCol,
+          pendingAppCol,
+          setPendingAppCol,
+          completedAppCol,
+          setCompletedAppCol,
           currentcolor,
           setCurrentColor,
           pastcolor,
@@ -163,7 +172,6 @@ function App() {
           setMovedTenants,
           alert,
           setAlert,
-
           updatedAvater,
           setUpdatedAvater,
           updatedAbout,
@@ -203,6 +211,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
             <Route path="settings" element={<Settings />} />
+
           </Route>
 
           {/* tenants */}
@@ -210,6 +219,7 @@ function App() {
             <Route path="" element={<Rentals />} />
             <Route path="favorites" element={<FavoriteListings />} />
             <Route path="chat" element={<TenantChat />} />
+            <Route path="appointments" element={<TenantsAppointments />} />
             <Route path="profile" element={<TenantProfile />} />
             <Route path="settings" element={<TenantSettings />} />
           </Route>

@@ -3,10 +3,11 @@ import Axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { apilink } from "../Helper";
+
 
 const FacebookAuth = () => {
   const location = useLocation();
-  const backendurl = process.env.REACT_APP_BACKEND_URL;
   const facebookurl = location.search;
   const navigate = useNavigate();
   const { setUser, setShowNav } = useContext(UserContext);
@@ -18,7 +19,7 @@ const FacebookAuth = () => {
     }, 5000);
   };
   const Facebook = () => {
-    Axios.get(`${backendurl}/api/facebook/auth/callback/1${facebookurl}`)
+    Axios.get(`${apilink}/api/facebook/auth/callback/1${facebookurl}`)
       .then((res) => {
         localStorage.setItem("user-info", JSON.stringify(res.data.data));
         redirect();
