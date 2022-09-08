@@ -22,7 +22,7 @@ import ApplyListings from "../components/ApplyListings";
 
 
 const Details = () => {
-  const { token, setShowNav, user } = useContext(UserContext);
+  const { token, setShowNav, userId } = useContext(UserContext);
   const { id } = useParams();
   const [checked, setChecked] = useState(false);
   const [inspectionType, setInspectionType] = useState("Physical")
@@ -42,6 +42,11 @@ const Details = () => {
   const [name, setName] = useState("");
   const backendurl = apilink;
   const [openApply, setOpenApply] = useState(false);
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [landlordId, setLandlordId] = useState("");
+  const [appointmentTime, setAppointmentTime] = useState("");
+  const [timeFormat, setTimeformat] = useState("am");
+
 
 
 
@@ -68,8 +73,9 @@ const Details = () => {
         setIsFurnished(res.data.data.is_furnished);
         setIsFurnished_with(res.data.data.furnished_with);
         setHasWater(res.data.data.has_water);
-        similarListings();
+        setLandlordId(res.data.data.user.id);
         setName(res.data.data.user.firstname + " " + res.data.data.user.lastname)
+        similarListings();
       })
       .catch((err) => {
         console.log(err);
@@ -98,11 +104,23 @@ const Details = () => {
     setOpenApply(true)
   }
 
-  const applyListing = () => {
+  const bookApointment = () => {
     const formdata = new FormData();
+    const appointmntTime = appointmentTime +" "+ timeFormat;
+    console.log(appointmntTime)
+    formdata.append("appointment_type", inspectionType);
+    formdata.append("appointment_date", appointmentDate);
+    formdata.append("appointment_time", appointmntTime);
     formdata.append("listing_id", id);
-    authAxios.post(`/api/listings/${id}/apply`).then((res) => {
-    }).catch((err) => { })
+    formdata.append("user_id", userId);
+    formdata.append("landlord_id", landlordId);
+    // formdata.append("status", "pending");
+
+    authAxios.post(`/api/appointments`, formdata).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
   useEffect(() => {
@@ -251,6 +269,10 @@ const Details = () => {
 
   const handleChange = (e) => {
     setInspectionType(e.target.value);
+  }
+
+  const handleChangeformat = (e) => {
+    setTimeformat(e.target.value);
   }
 
   const saveFavorite = (id) => {
@@ -633,22 +655,22 @@ const Details = () => {
                         }}
                       >
                         {
-                            isFurnished === 1 ? (
-                              furnishedWith !== null ? (
-                                <Typography variant="body1"
+                          isFurnished === 1 ? (
+                            furnishedWith !== null ? (
+                              <Typography variant="body1"
                                 sx={{
                                   fontSize: "14px",
                                 }}
-                                >{furnishedWith}</Typography>
-                              ) : (
-                                  <Typography variant="body1"
+                              >{furnishedWith}</Typography>
+                            ) : (
+                              <Typography variant="body1"
                                 sx={{
                                   fontSize: "14px",
                                 }}
                               >
                                 Not Furnished
-                                  </Typography>
-                                )
+                              </Typography>
+                            )
                           ) : (
                             <Typography variant="body1"
                               sx={{
@@ -805,7 +827,6 @@ const Details = () => {
                       height: "auto",
                       display: "flex",
                       flexDirection: "column",
-                      // borderRadius: "14px",
                       backgroundColor: "#35BF43",
                       borderRadius: "14px 14px 8px 8px",
                       alignItems: "center",
@@ -902,7 +923,7 @@ const Details = () => {
                             },
                             lineHeight: "18px"
                           }}>
-                          Interested in this Listing? Schedule an inspection.
+                          Interested in this Listing?Schedule an appointment.
                         </Typography>
                       </Box>
 
@@ -922,7 +943,7 @@ const Details = () => {
                             },
 
                           }}>
-                          Type of inspection
+                          Type of appointment
                         </Typography>
                         <TextField
                           color="success"
@@ -936,7 +957,7 @@ const Details = () => {
                           }}
                         >
                           <MenuItem value="Physical">Physical</MenuItem>
-                          <MenuItem value="Other">Other</MenuItem>
+                          <MenuItem value="Virtual">Virtual</MenuItem>
                         </TextField>
                       </Box>
 
@@ -958,7 +979,7 @@ const Details = () => {
 
                           }}
                         >
-                          Inspection Date
+                          Appointment Date
                         </Typography>
 
                         <TextField
@@ -969,7 +990,54 @@ const Details = () => {
                           sx={{
                             marginTop: "3px"
                           }}
+                          onchange={(e) => setAppointmentDate(e.target.value)}
                         />
+
+                        {/* inspection time */}
+                        <Typography variant="body1"
+                          sx={{
+                            marginTop: "10px",
+                            fontWeight: "550",
+                            fontSize: {
+                              sm: "14px",
+                              md: "14px",
+                              lg: "14px",
+                            },
+
+                          }}
+                        >
+                          Appointment Time
+                        </Typography>
+                        <Box sx={{
+                          marginTop: "3px",
+                          width: "100%",
+                          height: "auto",
+                          display: "flex",
+                          alignItems: "center",
+
+                        }}>
+                          <TextField
+                            color="success"
+                            fullWidth={true}
+                            size="small"
+                            type="time"
+                            // value={appointmentTime}
+                            onchange={(e) => setAppointmentTime(e.target.value)}
+                          />
+                          &nbsp;
+                          <TextField
+                            color="success"
+                            select
+                            fullWidth={true}
+                            size="small"
+                            value={timeFormat}
+                            onChange={handleChangeformat}
+                          >
+                            <MenuItem value="am">am</MenuItem>
+                            <MenuItem value="pm">pm</MenuItem>
+                          </TextField>
+                        </Box>
+
                         <Button
                           fullWidth={true}
                           variant="contained"
@@ -979,7 +1047,9 @@ const Details = () => {
                             "&:hover": {
                               backgroundColor: "#35BF43",
                             }
-                          }}>
+                          }}
+                          onClick={bookApointment}
+                        >
                           <Typography variant="body1"
                             sx={{
                               textTransform: "none",
@@ -989,7 +1059,7 @@ const Details = () => {
                                 lg: "14px",
                               },
                             }}
-                          >Book Inspection</Typography>
+                          >Book Appointment</Typography>
                         </Button>
                       </Box>
                     </Box>
