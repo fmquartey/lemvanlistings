@@ -6,18 +6,31 @@ import { UserContext } from '../context/UserContext';
 import { apilink } from '../Helper';
 
 const ApplyListings = (props) => {
-    const { token, user, userId } = useContext(UserContext);
+    const {
+        token,
+        user,
+        userId,
+        userName,
+        userLastName,
+        userPhone,
+        userEmail,
+        setApplied,
+        openAlert,
+        setOpenAlert,
+    } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
-    const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
+    const [firstname, setFirstName] = useState(userName);
+    const [lastname, setLastName] = useState(userLastName);
     const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState(userPhone);
+    const [email, setEmail] = useState(userEmail);
     const [number, setNumber] = useState("");
     const [period, setPeriod] = useState("");
     const [duration, setDuration] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [aletType, setAletType] = useState("");
+    const [statusMsg, setStatusMsg] = useState("");
 
 
     const authAxios = Axios.create({
@@ -32,16 +45,15 @@ const ApplyListings = (props) => {
         setPeriod(e.target.value);
     }
     const id = props.id;
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);
         const formData = new FormData();
-        setName(`${firstname} ${lastname}`);
-        setDuration(`${number}/${period}`);
+        setName(`${userName} ${userLastName}`);
+        const duration = number + "/" + period;
         formData.append("name", name);
-        formData.append("phone", phone);
-        formData.append("email", email);
+        formData.append("phone", userPhone);
+        formData.append("email", userEmail);
         formData.append("duration", duration);
         formData.append("start_date", startDate);
         formData.append("end_date", endDate);
@@ -49,19 +61,31 @@ const ApplyListings = (props) => {
         formData.append("user_id", userId);
 
         if (user) {
-            authAxios.post('/api/tenants', formData).then(res => {
-                setLoading(false);
-                console.log(res.data.data);
-                props.handleClose();
-            }).catch(err => {
-                setLoading(false);
-                console.log(err);
-            });
+            if (number === "" || period === "" || startDate === "" || endDate === ""){
+                setAletType("warning");
+                setStatusMsg("Please all fields are required");
+                setOpenAlert(true);
+            } else {
+                setLoading(true);
+                authAxios.post('/api/tenants', formData).then(res => {
+                    setLoading(false);
+                    setApplied(true);
+                    props.handleClose();
+                }).catch(err => {
+                    setLoading(false);
+                    setAletType("error");
+                    setStatusMsg("Sorry there is an error. Please try again");
+                    setOpenAlert(true);
+                    // console.log(err);
+                });
+            }
         } else {
-            console.log("Please log in to perform this action")
+            setAletType("warning");
+            setStatusMsg("Please log in first to apply");
+            setOpenAlert(true);
             setLoading(false);
         }
-       
+
     }
 
 
@@ -69,7 +93,7 @@ const ApplyListings = (props) => {
         <Dialog
             maxWidth="xs"
             fullWidth={true}
-            open={props.openAlert}
+            open={props.openApply}
             aria-describedby="alert-dialog-description"
             aria-labelledby="alert-dialog-title"
         >
@@ -78,14 +102,21 @@ const ApplyListings = (props) => {
             </DialogTitle>
             <DialogContent>
                 <Stack mt={1} spacing={2}>
-                    <TextField
+                    {
+                        openAlert ? (
+                            <Alert severity={aletType} sx={{ width: '100%' }}>
+                                {statusMsg}
+                            </Alert>
+                        ): null
+                    }
+                    {/* <TextField
                         color="success"
                         fullWidth={true}
                         size="small"
                         value={firstname}
                         onChange={(e) => setFirstName(e.target.value)}
                         label="First Name"
-                        required={true}
+                        disabled={true}
                     />
                     <TextField
                         color="success"
@@ -94,7 +125,7 @@ const ApplyListings = (props) => {
                         value={lastname}
                         onChange={(e) => setLastName(e.target.value)}
                         label="Last Name"
-                        required={true}
+                        disabled={true}
                     />
                     <TextField
                         color="success"
@@ -104,7 +135,7 @@ const ApplyListings = (props) => {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         label="Phone Number"
-                        required={true}
+                        disabled={true}
                     />
                     <TextField
                         color="success"
@@ -114,21 +145,21 @@ const ApplyListings = (props) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         label="Email"
-                        required={true}
-                    />
+                        disabled={true}
+                    /> */}
                     <Box
                         sx={{
                             width: "100%",
                             height: "auto",
                         }}
                     >
-                        <Divider sx={{
+                        {/* <Divider sx={{
                             marginBottom: "10px",
-                        }} />
+                        }} /> */}
                         <Typography variant="body1" sx={{
                             fontSize: "14px",
                         }}>
-                            How long do you want to stay?
+                            How long do you wish to stay?
                         </Typography>
 
                         <Box sx={{
@@ -154,12 +185,11 @@ const ApplyListings = (props) => {
                                     size="small"
                                     value={period}
                                     onChange={handleChange}
-                                    label="Week/Month/Year"
+                                    label="Month/Year"
                                     sx={{
                                         marginTop: "3px"
                                     }}
                                 >
-                                    <MenuItem value="week">Week</MenuItem>
                                     <MenuItem value="month">Month</MenuItem>
                                     <MenuItem value="year">Year</MenuItem>
                                 </TextField>

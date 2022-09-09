@@ -35,10 +35,10 @@ const Listing = () => {
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
-        console.log(res.data.data);
-        setBookmark(res.data.data.bookmark);
-        console.log(res.data.data.bookmark.action);
-        action === 1 ? setFavorite(true) : setFavorite(false);
+        // console.log(res.data.data);
+        // setBookmark(res.data.data.bookmark);
+        // console.log(res.data.data.bookmark.action);
+        // action === 1 ? setFavorite(true) : setFavorite(false);
       })
       .catch((err) => {
         console.log(err);

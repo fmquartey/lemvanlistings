@@ -79,7 +79,10 @@ function App() {
   const [movedListing, setMovedListing] = useState(false);
   const [movedTenants, setMovedTenants] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [refresh, setRefesh] = useState(0);
+  const [applied, setApplied] = useState(false)
+
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const userToken = localStorage.getItem("user-token");
   const id = localStorage.getItem("lemvan");
@@ -181,7 +184,11 @@ function App() {
           updatedAddress,
           setUpdatedAddress,
           refresh,
-          setRefesh
+          setRefesh,
+          applied,
+          setApplied,
+          openAlert,
+          setOpenAlert
         }}
       >
         {showNav ? <TopBar /> : null}

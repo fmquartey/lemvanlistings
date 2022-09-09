@@ -2,6 +2,7 @@ import { CheckCircle, ChevronLeft, ChevronRight, ExpandMore, Favorite, FavoriteB
 import { Box, Container, Checkbox, CircularProgress, Divider, Grid, IconButton, Stack, Typography, Button, Paper, Avatar, TextField, MenuItem } from "@mui/material";
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import Toast from '../components/Toast';
 
 
 import Axios from "axios";
@@ -19,13 +20,26 @@ import hse5 from "../img/hse5.jpg";
 import { UserContext } from "../context/UserContext";
 import { apilink } from "../Helper";
 import ApplyListings from "../components/ApplyListings";
+import Progress from "../components/Progress";
 
 
 const Details = () => {
-  const { token, setShowNav, userId } = useContext(UserContext);
+  const {
+    user,
+    token,
+    setShowNav,
+    userId,
+    applied,
+    openAlert,
+    setOpenAlert,
+    userName,
+    userLastName,
+    userPhone,
+    userEmail,
+  } = useContext(UserContext);
   const { id } = useParams();
   const [checked, setChecked] = useState(false);
-  const [inspectionType, setInspectionType] = useState("Physical")
+  const [inspectionType, setInspectionType] = useState("physical")
   const [showTag, setShowTag] = useState(false);
   const [selectedImg, setSelectedImg] = useState("");
   const [imgs, setImgs] = useState([]);
@@ -36,6 +50,10 @@ const Details = () => {
   const [isFurnished, setIsFurnished] = useState();
   const [furnishedWith, setIsFurnished_with] = useState();
   const [loading, setLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
+  const [aletType, setAletType] = useState("success");
+  const [statusMsg, setStatusMsg] = useState("");
   const [similarLoading, setSimilarLoading] = useState(false);
   const [listing, setListing] = useState([]);
   const [similarListing, setSimilarListing] = useState([]);
@@ -47,8 +65,12 @@ const Details = () => {
   const [appointmentTime, setAppointmentTime] = useState("");
   const [timeFormat, setTimeformat] = useState("am");
 
-
-
+  const closeToast = (e, r) => {
+    if (e === 'clickaway') {
+      return;
+    }
+    setOpenToast(false)
+  }
 
   const authAxios = Axios.create({
     baseURL: apilink,
@@ -97,30 +119,60 @@ const Details = () => {
 
 
   const handleClose = () => {
-    setOpenApply(false)
+    setOpenApply(false);
+    if (applied) {
+      setAletType("success");
+      setStatusMsg("Application is successfull");
+      setOpenToast(true);
+    } else {
+      setOpenToast(false);
+    }
   }
 
   const handleOpenApply = () => {
-    setOpenApply(true)
+    setOpenApply(true);
+    setOpenAlert(false);
   }
 
-  const bookApointment = () => {
-    const formdata = new FormData();
-    const appointmntTime = appointmentTime +" "+ timeFormat;
-    console.log(appointmntTime)
-    formdata.append("appointment_type", inspectionType);
-    formdata.append("appointment_date", appointmentDate);
-    formdata.append("appointment_time", appointmntTime);
-    formdata.append("listing_id", id);
-    formdata.append("user_id", userId);
-    formdata.append("landlord_id", landlordId);
-    // formdata.append("status", "pending");
 
-    authAxios.post(`/api/appointments`, formdata).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-    })
+  const bookApointment = () => {
+    if (user) {
+      if (appointmentDate === "" || appointmentTime === "") {
+        setAletType("warning");
+        setStatusMsg("Please provide date and time for appoinment");
+        setOpenToast(true);
+      } else {
+        setLoadingProgress(true);
+        const formdata = new FormData();
+        const appointmntTime = appointmentTime + "" + timeFormat;
+        console.log(appointmntTime)
+        formdata.append("appointment_type", inspectionType);
+        formdata.append("appointment_date", appointmentDate);
+        formdata.append("appointment_time", appointmntTime);
+        formdata.append("listing_id", id);
+        formdata.append("user_id", userId);
+        formdata.append("landlord_id", landlordId);
+        // formdata.append("status", "pending");
+
+        authAxios.post(`/api/appointments`, formdata).then((res) => {
+          // console.log(res);
+          setLoadingProgress(false);
+          setAletType("success");
+          setStatusMsg("Appoinment booked successfully");
+          setOpenToast(true);
+        }).catch((err) => {
+          setLoadingProgress(false);
+          setAletType("error");
+          setStatusMsg("Sorry there is an error. Please try again");
+          setOpenToast(true);
+          // console.log(err);
+        })
+      }
+    } else {
+      setAletType("warning");
+      setStatusMsg("You need to log in to book appointment");
+      setOpenToast(true);
+    }
   }
 
   useEffect(() => {
@@ -956,8 +1008,8 @@ const Details = () => {
                             marginTop: "3px"
                           }}
                         >
-                          <MenuItem value="Physical">Physical</MenuItem>
-                          <MenuItem value="Virtual">Virtual</MenuItem>
+                          <MenuItem value="physical">Physical</MenuItem>
+                          <MenuItem value="online">Virtual</MenuItem>
                         </TextField>
                       </Box>
 
@@ -990,7 +1042,7 @@ const Details = () => {
                           sx={{
                             marginTop: "3px"
                           }}
-                          onchange={(e) => setAppointmentDate(e.target.value)}
+                          onChange={(e) => setAppointmentDate(e.target.value)}
                         />
 
                         {/* inspection time */}
@@ -1022,7 +1074,7 @@ const Details = () => {
                             size="small"
                             type="time"
                             // value={appointmentTime}
-                            onchange={(e) => setAppointmentTime(e.target.value)}
+                            onChange={(e) => setAppointmentTime(e.target.value)}
                           />
                           &nbsp;
                           <TextField
@@ -1281,7 +1333,9 @@ const Details = () => {
           )
         }
       </Container>
-      <ApplyListings openAlert={openApply} handleClose={handleClose} id={listing.id} />
+      <Progress openProgress={loadingProgress} />
+      <Toast open={openToast} close={closeToast} statusType={aletType} message={statusMsg} />
+      <ApplyListings openApply={openApply} handleClose={handleClose} id={listing.id} />
     </Box>
   );
 };

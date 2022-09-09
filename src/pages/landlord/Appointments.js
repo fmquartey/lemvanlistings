@@ -1,8 +1,10 @@
 import { Forward, Search } from '@mui/icons-material';
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import Axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
+import { apilink } from '../../Helper';
 
 const Appointments = () => {
     const [search, setSearch] = useState("");
@@ -31,6 +33,14 @@ const Appointments = () => {
         setMovedListing,
     } = useContext(UserContext);
 
+    const authAxios = Axios.create({
+        baseURL: apilink,
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+
+
     const allAppoinments = () => {
         setAllAppCol(true);
         setPendingAppCol(false);
@@ -55,7 +65,21 @@ const Appointments = () => {
         // navigate("/app/landlord/listings/published");
     }
 
+
+    const getAppoinment = () => {
+        setLoading(true);
+        authAxios.get("/api/landlord/appointments").then((res) => {
+            setLoading(false)
+            console.log(res.data.data);
+            setAppointments(res.data.data);
+        }).catch((err) => {
+            setLoading(false);
+            console.log(err)
+        })
+    }
+
     useEffect(() => {
+        getAppoinment();
         setAllAppCol(true);
         setPendingAppCol(false);
         setCompletedAppCol(false);
@@ -240,38 +264,40 @@ const Appointments = () => {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell align="center">Type</TableCell>
-                                                <TableCell align="center">Landlord</TableCell>
+                                                <TableCell align="center">Name</TableCell>
+                                                <TableCell align="center">Phone</TableCell>
+                                                <TableCell align="center">Email</TableCell>
                                                 <TableCell align="center">Date</TableCell>
                                                 <TableCell align="center">Time</TableCell>
-                                                <TableCell align="center">Status</TableCell>
+                                                {/* <TableCell align="center">Status</TableCell> */}
                                                 <TableCell align="center">Actions</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                appointments.filter((row, index) => {
-                                                    return search.toLocaleLowerCase() === "" ? row : row.property_type.type.toLocaleLowerCase().includes(search) || row.location.toLocaleLowerCase().includes(search) || row.status.toString().includes(search)
-                                                }).map((row, index) => (
+                                                appointments.map((row, index) => (
                                                     <TableRow
                                                         key={index}
                                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     >
                                                         <TableCell align="center">
-                                                            {row.type}
+                                                            {row.appointment_type}
                                                         </TableCell>
-                                                        <TableCell align="center">{row.name}</TableCell>
-                                                        <TableCell align="center">{row.date}</TableCell>
-                                                        <TableCell align="center">{row.time}</TableCell>
-                                                        <TableCell align="center">{
+                                                        <TableCell align="center">{row.user.name}</TableCell>
+                                                        <TableCell align="center">{row.user.phone}</TableCell>
+                                                        <TableCell align="center">{row.user.email}</TableCell>
+                                                        <TableCell align="center">{row.appointment_date}</TableCell>
+                                                        <TableCell align="center">{row.appointment_time}</TableCell>
+                                                        {/* <TableCell align="center">{
                                                             row.status === 2 ? "Draft" : row.status === 1 ? "Published" : "Hidden"
-                                                        }</TableCell>
+                                                        }</TableCell> */}
                                                         <TableCell align="center">
                                                             <Button
-                                                                onClick={(e) => {
-                                                                    setAnchorEl(e.currentTarget)
-                                                                    setAppointmentID(row.id)
-                                                                    setStatusMsg(row.status === 1 ? "Published" : row.status === 2 ? "Draft" : "Hidden")
-                                                                }}
+                                                                // onClick={(e) => {
+                                                                //     setAnchorEl(e.currentTarget)
+                                                                //     setAppointmentID(row.id)
+                                                                //     setStatusMsg(row.status === 1 ? "Published" : row.status === 2 ? "Draft" : "Hidden")
+                                                                // }}
                                                                 variant="text"
                                                                 sx={{
                                                                     textTransform: "none",
