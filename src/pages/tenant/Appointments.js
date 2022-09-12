@@ -1,8 +1,10 @@
 import { Forward, Search } from '@mui/icons-material';
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import Axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
+import { apilink } from '../../Helper';
 
 const TenantsAppointments = () => {
     const [search, setSearch] = useState("");
@@ -31,6 +33,14 @@ const TenantsAppointments = () => {
         setMovedListing,
     } = useContext(UserContext);
 
+    const authAxios = Axios.create({
+        baseURL: apilink,
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+
+
     const allAppoinments = () => {
         setAllAppCol(true);
         setPendingAppCol(false);
@@ -55,10 +65,23 @@ const TenantsAppointments = () => {
         // navigate("/app/landlord/listings/published");
     }
 
+    const getAppoinment = () => {
+        setLoading(true);
+        authAxios.get("/api/user/appointments").then((res) => {
+            setLoading(false)
+            console.log(res.data.data);
+            setAppointments(res.data.data);
+        }).catch((err) => {
+            setLoading(false);
+            console.log(err)
+        })
+    }
+
     useEffect(() => {
         setAllAppCol(true);
         setPendingAppCol(false);
         setCompletedAppCol(false);
+        getAppoinment();
     }, [])
 
     return (
@@ -106,7 +129,7 @@ const TenantsAppointments = () => {
                         display: "flex",
                         alignItems: "center",
                     }}> */}
-                        {/* <Button
+                    {/* <Button
                             size="small"
                             onClick={allAppoinments}
                             sx={{
@@ -121,7 +144,7 @@ const TenantsAppointments = () => {
                             All
                         </Button> */}
 
-                        {/* <Button
+                    {/* <Button
                             size="small"
                             onClick={allAppoinments}
                             sx={{
@@ -135,7 +158,7 @@ const TenantsAppointments = () => {
                             }}>
                             Accepted
                         </Button> */}
-                        {/* <Button
+                    {/* <Button
                             size="small"
                             onClick={pendingAppointments}
 
@@ -151,7 +174,7 @@ const TenantsAppointments = () => {
                             Pending
                         </Button> */}
 
-                        {/* <Button
+                    {/* <Button
                             size="small"
                             onClick={completedAppointments}
                             sx={{
@@ -239,33 +262,37 @@ const TenantsAppointments = () => {
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell align="center">Type</TableCell>
-                                                <TableCell align="center">Name</TableCell>
-                                                <TableCell align="center">Date</TableCell>
-                                                <TableCell align="center">Time</TableCell>
-                                                <TableCell align="center">Status</TableCell>
-                                                <TableCell align="center">Actions</TableCell>
+                                                <TableCell align="center">Type of appointment</TableCell>
+                                                <TableCell align="center">Property title</TableCell>
+                                                <TableCell align="center">Landlord</TableCell>
+                                                {/* <TableCell align="center">Phone</TableCell> */}
+                                                <TableCell align="center">Appointment date</TableCell>
+                                                <TableCell align="center">Appointment time</TableCell>
+                                                {/* <TableCell align="center">Status</TableCell> */}
+                                                {/*<TableCell align="center">Actions</TableCell> */}
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {
                                                 appointments.filter((row, index) => {
-                                                    return search.toLocaleLowerCase() === "" ? row : row.property_type.type.toLocaleLowerCase().includes(search) || row.location.toLocaleLowerCase().includes(search) || row.status.toString().includes(search)
+                                                    return search.toLocaleLowerCase() === "" ? row : row.appointment_type.toLocaleLowerCase().includes(search) || row.appointment_date.toLocaleLowerCase().includes(search) || row.appointment_time.toLocaleLowerCase().includes(search) || row.user.name.toLocaleLowerCase().includes(search)
                                                 }).map((row, index) => (
                                                     <TableRow
                                                         key={index}
                                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     >
                                                         <TableCell align="center">
-                                                            {row.type}
+                                                            {row.appointment_type}
                                                         </TableCell>
-                                                        <TableCell align="center">{row.name}</TableCell>
-                                                        <TableCell align="center">{row.date}</TableCell>
-                                                        <TableCell align="center">{row.time}</TableCell>
-                                                        <TableCell align="center">{
+                                                        <TableCell align="center">{row.listing.title}</TableCell>
+                                                        <TableCell align="center">{row.user.name}</TableCell>
+                                                        {/* <TableCell align="center">{row.user.phone}</TableCell> */}
+                                                        <TableCell align="center">{row.appointment_date}</TableCell>
+                                                        <TableCell align="center">{row.appointment_time}</TableCell>
+                                                        {/* <TableCell align="center">{
                                                             row.status === 2 ? "Draft" : row.status === 1 ? "Published" : "Hidden"
-                                                        }</TableCell>
-                                                        <TableCell align="center">
+                                                        }</TableCell> */}
+                                                        {/* <TableCell align="center">
                                                             <Button
                                                                 onClick={(e) => {
                                                                     setAnchorEl(e.currentTarget)
@@ -279,7 +306,7 @@ const TenantsAppointments = () => {
                                                                     fontWeight: "600",
                                                                     color: "#35BF43",
                                                                 }}>Options</Button>
-                                                        </TableCell>
+                                                        </TableCell> */}
                                                     </TableRow>
                                                 ))
                                             }

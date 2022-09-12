@@ -40,10 +40,11 @@ const Rents = () => {
 
     const getRents = () => {
         setLoading(true);
-        authAxios.get(`/api/tenants`)
+        authAxios.get(`/api/rentals`)
             .then((res) => {
                 setLoading(false);
                 setRents(res.data.data);
+                console.log(res.data.data)
             })
             .catch((err) => {
                 console.log(err);
@@ -99,7 +100,7 @@ const Rents = () => {
                                 width: "100%",
                                 height: "40px"
                             }} />
-                        
+
                         <Skeleton variant="rectangular"
                             sx={{
                                 marginTop: "10px",
@@ -123,45 +124,49 @@ const Rents = () => {
                             </Typography>
                         </Box>
                     ) : (
-                                <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell align="center">Unit</TableCell>
-                                                <TableCell align="center">Rooms</TableCell>
-                                                <TableCell align="center">Price</TableCell>
-                                                <TableCell align="center">Landlord</TableCell>
-                                                <TableCell align="center">Lease Start</TableCell>
-                                                <TableCell align="center">Lease End</TableCell>
-                                                <TableCell align="center">Status</TableCell>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">Property type</TableCell>
+                                        {/* <TableCell align="center">Location</TableCell> */}
+                                        <TableCell align="center">Price</TableCell>
+                                        <TableCell align="center">Duration</TableCell>
+                                        <TableCell align="center">Landlord</TableCell>
+                                        <TableCell align="center">Phone</TableCell>
+                                        <TableCell align="center">Lease Start</TableCell>
+                                        <TableCell align="center">Lease End</TableCell>
+                                        {/* <TableCell align="center">Status</TableCell> */}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        rents.filter((row, index) => {
+                                            return search.toLocaleLowerCase() === "" ? row : row.listing.property_type.type.toLocaleLowerCase().includes(search) || row.listing.landlord.firstname.toLocaleLowerCase().includes(search) || row.listing.landlord.lastname.toLocaleLowerCase().includes(search) || row.listing.amount.toLocaleLowerCase().includes(search) || row.start_date.toLocaleLowerCase().includes(search) || row.start_date.toLocaleLowerCase().includes(search) || row.end_date.toLocaleLowerCase().includes(search)
+                                        }).map((row, index) => (
+                                            <TableRow
+                                                key={index}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell align="center">
+                                                    {row.listing.property_type.type}
+                                                </TableCell>
+                                                {/* <TableCell align="center">{row.listing.location}</TableCell> */}
+                                                <TableCell align="center">{row.listing.amount}</TableCell>
+                                                <TableCell align="center">{row.duration}</TableCell>
+                                                <TableCell align="center">{row.listing.landlord.firstname + " " + row.listing.landlord.lastname}</TableCell>
+                                                <TableCell align="center">{row.listing.landlord.phone}</TableCell>
+                                                <TableCell align="center">{row.start_date}</TableCell>
+                                                <TableCell align="center">{row.end_date}</TableCell>
+                                                {/* <TableCell align="center">
+                                                            {row.status === 2 ? "Draft" : row.status === 1 ? "Published" : "Hidden"}
+                                                        </TableCell> */}
                                             </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {
-                                                rents.filter((row, index) => {
-                                                    return search.toLocaleLowerCase() === "" ? row : row.property_type.type.toLocaleLowerCase().includes(search) || row.location.toLocaleLowerCase().includes(search) || row.status.toString().includes(search)
-                                                }).map((row, index) => (
-                                                    <TableRow
-                                                        key={index}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 1 } }}
-                                                    >
-                                                        <TableCell align="center">
-                                                            {row.unit}
-                                                        </TableCell>
-                                                        <TableCell align="center">{row.rooms}</TableCell>
-                                                        <TableCell align="center">{row.price}</TableCell>
-                                                        <TableCell align="center">{row.landlord}</TableCell>
-                                                        <TableCell align="center">{row.start_date}</TableCell>
-                                                        <TableCell align="center">{row.end_date}</TableCell>
-                                                        <TableCell align="center">{
-                                                            row.status //=== 2 ? "Draft" : row.status === 1 ? "Published" : "Hidden"
-                                                        }</TableCell>
-                                                    </TableRow>
-                                                ))
-                                            }
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                        ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     ))
             }
 

@@ -290,7 +290,7 @@ const AllTenants = () => {
                                         <TableBody>
                                             {
                                                 tenants.filter((item, index) => {
-                                                    return item.name.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search.toLowerCase()) || item.name.toLowerCase() === "" ? item : item.status.toString().includes(search.toString()) || item.name.toLowerCase() === "" ? item : item.location.toLowerCase().includes(search.toLowerCase()) || item.name.toLowerCase() === "" ? item : item.property_type.toLowerCase().includes(search.toLowerCase())
+                                                    return search.toLocaleLowerCase() === "" ? item : item.name.toLocaleLowerCase().includes(search) || item.status.toString().includes(search) || item.location.toLocaleLowerCase().includes(search) || item.property_type.toLocaleLowerCase().includes(search) || item.email.toLocaleLowerCase().includes(search)
                                                 }).map((item, index) => (
                                                     <TableRow
                                                         key={index}

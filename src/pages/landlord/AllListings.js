@@ -345,7 +345,7 @@ const AllListings = () => {
                                     <TableBody>
                                         {
                                             listings.filter((row, index) => {
-                                                return search.toLocaleLowerCase() === "" ? row : row.property_type.type.toLocaleLowerCase().includes(search) || row.location.toLocaleLowerCase().includes(search) || row.status.toString().includes(search)
+                                                return search.toLocaleLowerCase() === "" ? row : row.property_type.type.toLocaleLowerCase().includes(search) || row.location.toLocaleLowerCase().includes(search) || row.status.toString().includes(search) || row.amount.toString().includes(search)
                                             }).map((row, index) => (
                                                 <TableRow
                                                     key={index}
