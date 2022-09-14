@@ -580,4 +580,506 @@ export const tenantsData = [{
     "end_date": "15/4/2022",
     "duration": "1 / month",
     "status": "Current"
+    }]
+
+export const testListingData = [{
+    "id": 1,
+    "property_type": "Single room",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 3,
+    "location": "Kumasi",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "200/month"
+}, {
+    "id": 2,
+    "property_type": "Single room",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 2,
+    "location": "Fosu",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "500/month"
+}, {
+    "id": 3,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 2,
+    "location": "Kumasi",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "120/month"
+}, {
+    "id": 4,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 3,
+    "location": "Fosu",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "500/month"
+}, {
+    "id": 5,
+    "property_type": "Single room",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 4,
+    "location": "Kumasi",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "350/month"
+}, {
+    "id": 6,
+    "property_type": "Single room",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 3,
+    "location": "Accra",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 7,
+    "property_type": "Single room",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 4,
+    "location": "Fosu",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "200/month"
+}, {
+    "id": 8,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 2,
+    "location": "Fosu",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "120/month"
+}, {
+    "id": 9,
+    "property_type": "Single room",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 3,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "200/month"
+}, {
+    "id": 10,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 4,
+    "location": "Fosu",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 11,
+    "property_type": "Single room",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 2,
+    "location": "Fosu",
+    "region": "Central",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 12,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 2,
+    "location": "Kumasi",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 13,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 4,
+    "location": "Kumasi",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "500/month"
+}, {
+    "id": 14,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 2,
+    "location": "Kumasi",
+    "region": "Kumasi",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "1000/month"
+}, {
+    "id": 15,
+    "property_type": "Single room",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 3,
+    "location": "Accra",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "500/month"
+}, {
+    "id": 16,
+    "property_type": "Single room",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 3,
+    "location": "Kumasi",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 17,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 4,
+    "location": "Fosu",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "120/month"
+}, {
+    "id": 18,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 2,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "200/month"
+}, {
+    "id": 19,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 3,
+    "location": "Accra",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "1000/month"
+}, {
+    "id": 20,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 1,
+    "location": "Fosu",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "1000/month"
+}, {
+    "id": 21,
+    "property_type": "Single room",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 1,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "1000/month"
+}, {
+    "id": 22,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 1,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "1000/month"
+}, {
+    "id": 23,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 2,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "500/month"
+}, {
+    "id": 24,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 4,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 25,
+    "property_type": "Single room",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 4,
+    "location": "Fosu",
+    "region": "Central",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "200/month"
+}, {
+    "id": 26,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 3,
+    "location": "Fosu",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "1000/month"
+}, {
+    "id": 27,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 4,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "500/month"
+}, {
+    "id": 28,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 4,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "350/month"
+}, {
+    "id": 29,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 3,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "1000/month"
+}, {
+    "id": 30,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 2,
+    "location": "Kumasi",
+    "region": "Kumasi",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "200/month"
+}, {
+    "id": 31,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 4,
+    "location": "Fosu",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "120/month"
+}, {
+    "id": 32,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 4,
+    "location": "Fosu",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "1000/month"
+}, {
+    "id": 33,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 1,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "350/month"
+}, {
+    "id": 34,
+    "property_type": "Single room",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 2,
+    "location": "Fosu",
+    "region": "Central",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "1000/month"
+}, {
+    "id": 35,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 1,
+    "location": "Fosu",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "500/month"
+}, {
+    "id": 36,
+    "property_type": "Single room",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 1,
+    "location": "Accra",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "200/month"
+}, {
+    "id": 37,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 1,
+    "location": "Kumasi",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "200/month"
+}, {
+    "id": 38,
+    "property_type": "Single room",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 4,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 39,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 1,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 40,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 2,
+    "location": "Accra",
+    "region": "Accra",
+    "favorite": 1,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "500/month"
+}, {
+    "id": 41,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 3,
+    "location": "Accra",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "350/month"
+}, {
+    "id": 42,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 2,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "350/month"
+}, {
+    "id": 43,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 1,
+    "location": "Accra",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "200/month"
+}, {
+    "id": 44,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 4,
+    "location": "Accra",
+    "region": "Central",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "200/month"
+}, {
+    "id": 45,
+    "property_type": "Single room",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 3,
+    "location": "Accra",
+    "region": "Kumasi",
+    "favorite": 0,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiaX68oWNSI-8GcQrqlFDpCx7Th6phXMCQWg&usqp=CAU",
+    "amount": "350/month"
+}, {
+    "id": 46,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 2,
+    "location": "Fosu",
+    "region": "Kumasi",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "350/month"
+}, {
+    "id": 47,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 3,
+    "location": "Kumasi",
+    "region": "Central",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "500/month"
+}, {
+    "id": 48,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 4,
+    "number_of_bedrooms": 2,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 0,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "500/month"
+}, {
+    "id": 49,
+    "property_type": "Apartment",
+    "number_of_bathrooms": 3,
+    "number_of_bedrooms": 4,
+    "location": "Kumasi",
+    "region": "Accra",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/empty-road-at-building-exterior-picture-id479842074?k=20&m=479842074&s=612x612&w=0&h=HS6lsU1f9W21IkotS3cxdvU5KeEO-gLMUa6xrIBbR6k=",
+    "amount": "200/month"
+}, {
+    "id": 50,
+    "property_type": "Single room",
+    "number_of_bathrooms": 1,
+    "number_of_bedrooms": 4,
+    "location": "Fosu",
+    "region": "Accra",
+    "favorite": 1,
+    "image": "https://media.istockphoto.com/photos/low-angle-of-tall-building-in-manhattan-picture-id1291177121?b=1&k=20&m=1291177121&s=170667a&w=0&h=aI1PkWS_GkXJ4Qz0gz2cTOud95SS4hUa4iZc1kqWYL4=",
+    "amount": "1000/month"
 }]

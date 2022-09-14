@@ -1,4 +1,4 @@
-import { FilterList, Search } from "@mui/icons-material";
+import { Favorite, FavoriteBorder, FilterList, Search } from "@mui/icons-material";
 import { Box, Button, CircularProgress, Container, Divider, Grid, InputBase, Menu, MenuItem, Paper, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import ListingCard from "../components/ListingCard";
@@ -7,6 +7,7 @@ import { UserContext } from "../context/UserContext";
 import Axios from "axios";
 import ReactPaginate from "react-paginate";
 import { apilink } from "../Helper";
+import { testListingData } from "../listingData";
 
 const Listing = () => {
   // const user = JSON.parse(localStorage.getItem("user-info"));
@@ -16,8 +17,10 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [showTag, setShowTag] = useState(true);
   const [favorite, setFavorite] = useState(false);
-  const [bookmark, setBookmark] = useState([]);
-  const [action, setAction] = useState(1)
+  const [searchByPrice, setSearchByPrice] = useState("");
+  const [searchByBed, setSearchByBed] = useState("");
+  const [filter, setFilter] = useState("");
+
 
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
@@ -39,55 +42,48 @@ const Listing = () => {
   });
 
   const getListings = () => {
+    // setListings(testListingData)
     setLoading(true);
     authAxios.get(`/api/listings`)
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
         console.log(res.data.data);
-        // setBookmark(res.data.data.bookmark);
-        // console.log(res.data.data.bookmark.action);
-        // action === 1 ? setFavorite(true) : setFavorite(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
 
   const searchListings = (e) => {
-    setSearch(e.target.value);
-    setLoading(true);
-    authAxios.get(`/api/listings/search/${search}`)
-      .then((res) => {
-        setLoading(false);
-        setListings(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // setSearch(e.target.value);
+    // setLoading(true);
+    // authAxios.get(`/api/listings/search/${search}`)
+    //   .then((res) => {
+    //     setLoading(false);
+    //     setListings(res.data.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
-  // const addFavorite = (id) => {
-
-  //   authAxios.get(`/api/listings/wishList/add/${id}`).then((res) => {
-  //     console.log(action)
-  //     console.log(res.data.data)
-  //     setAction(0)
-  //   }).catch((err) => {
-  //     console.log(err)
-  //   });
-  //   // } else {
-  //   //   authAxios.get(`/api/listings/wishList/remove/${id}`).then((res) => {
-  //   //     console.log(res.data.data)
-  //   //     setAction(1)
-  //   //   }).catch((err) => {
-  //   //     console.log(err)
-  //   //   });
-  //   // }
-  // }
+  const filterSearch = (e) => {
+    if (filter === "price") {
+      setSearch(e.target.value);
+    } else if (filter === "bed") {
+      setSearchByBed(e.target.value)
+    }
+  }
 
   const handlePageClick = (e) => {
     console.log(e.selected);
+  }
+
+  const seachPrice = () => {
+    setSearchByPrice("Search by price")
+    handleCloseMenu();
   }
 
   useEffect(() => {
@@ -184,7 +180,7 @@ const Listing = () => {
                       placeholder="Search a city or building"
                       margin="none"
                       size="medium"
-                      onChange={searchListings}
+                      onChange={filterSearch}
                       endAdornment={
                         <Search
                           sx={{
@@ -296,30 +292,83 @@ const Listing = () => {
                     alignItems: "center",
                   }}>
                   <Grid container columnSpacing={1} rowSpacing={1}>
-                      {
-                        listings.filter((res) => {
-                          return search.toLocaleLowerCase() === "" ? res: res.location.toLocaleLowerCase().includes(search)
-                        }).map((data) => (
-                      <Grid key={data.id} item xs={6} sm={4} md={3} lg={3}>
-                        <ListingCard
-                          id={data.id}
-                          image={data.image}
-                          image1={data.image}
-                          image2={data.image}
-                          image3={data.image}
-                          image4={data.image}
-                          favorite={favorite}
-                          showTag={showTag}
-                          amount={data.amount}
-                          property_type={data.property_type.type}
-                          number_of_bathrooms={data.number_of_bathrooms}
-                          number_of_bedrooms={data.number_of_bedrooms}
-                          location={data.location}
-                          region={data.region}
-                        />
-                      </Grid>
-                        ))
-                      }
+                    {
+                      listings.filter((res) => {
+                        return search.toLocaleLowerCase() === "" ? res :
+                          res.location.toLocaleLowerCase().includes(search)
+                          ||
+                          res.amount.toLocaleLowerCase().includes(search)
+                          ||
+                          res.number_of_bathrooms.toString().includes(search)
+                          ||
+                          res.number_of_bedrooms.toString().includes(search)
+                          ||
+                          res.region.toLocaleLowerCase().includes(search)
+                      }).map((data, index) => (
+                        <Grid key={index} item xs={6} sm={4} md={3} lg={3}>
+                          {/* <ListingCard
+                            id={data.id}
+                            image={data.image}
+                            image1={data.image}
+                            image2={data.image}
+                            image3={data.image}
+                            image4={data.image}
+                            favorite={
+                              index = data.id ? data.favorite === 1 ?
+                                (
+                                  <Favorite
+                                    sx={{
+                                      color: "#FF5F05"
+                                    }} />
+                                ) : (
+                                  <FavoriteBorder
+                                    sx={{
+                                      color: "#fff",
+                                    }}
+                                  />
+                                ) : null
+                            }
+                            showTag={showTag}
+                            amount={data.amount}
+                            property_type={data.property_type}
+                            number_of_bathrooms={data.number_of_bathrooms}
+                            number_of_bedrooms={data.number_of_bedrooms}
+                            location={data.location}
+                            region={data.region}
+                          /> */}
+                          <ListingCard
+                            id={data.id}
+                            image={data.image}
+                            image1={data.image}
+                            image2={data.image}
+                            image3={data.image}
+                            image4={data.image}
+                            favorite={
+                              index = data.id ? data.favorite === 1 ?
+                                (
+                                  <Favorite
+                                    sx={{
+                                      color: "#FF5F05"
+                                    }} />
+                                ) : (
+                                  <FavoriteBorder
+                                    sx={{
+                                      color: "#fff",
+                                    }}
+                                  />
+                                ) : null
+                            }
+                            showTag={showTag}
+                            amount={data.amount}
+                            property_type={data.property_type.type}
+                            number_of_bathrooms={data.number_of_bathrooms}
+                            number_of_bedrooms={data.number_of_bedrooms}
+                            location={data.location}
+                            region={data.region}
+                          />
+                        </Grid>
+                      ))
+                    }
                   </Grid>
                 </Box>
                 <Box sx={{
@@ -425,7 +474,7 @@ const Listing = () => {
             <Typography variant="body1" align="center">Search by</Typography>
           </Box>
           <Divider />
-          <MenuItem onClick={handleCloseMenu}>Price</MenuItem>
+          <MenuItem onClick={seachPrice}>Price</MenuItem>
           <MenuItem onClick={handleCloseMenu}>Property</MenuItem>
           <MenuItem onClick={handleCloseMenu}>No. Bath</MenuItem>
           <MenuItem onClick={handleCloseMenu}>No. Bed</MenuItem>

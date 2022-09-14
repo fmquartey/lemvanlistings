@@ -16,9 +16,10 @@ const ListingCard = (props) => {
     arrows: false,
   };
 
+  const icon = null;
+
   return (
     <Box
-
       sx={{
         padding: "2px",
       }}
@@ -225,97 +226,18 @@ const ListingCard = (props) => {
             />
           </IconButton>
 
-          {/* Favourite buttom */}
-          {/* {
-            props.favourite ? (
-              <Favorite
-                sx={{
-                  color: "#FF5F05",
-                  position: "absolute",
-                  top: "3px",
-                  right: "3px",
-                  zIndex: "3",
-                }} />
-            ) : (
-              <FavoriteBorder
-                sx={{
-                  color: "#fff",
-                  position: "absolute",
-                  top: "3px",
-                  right: "3px",
-                  zIndex: "3",
-                }}
-              />
-            )
-          } */}
-          {/* <Checkbox
-            onChange={props.handleFav}
+          
+          {/* Favorite icon */}
+          <Box
             sx={{
-              position: "absolute",
-              top: "0",
-              right: "0",
-              zIndex: "3",
-            }}
-            icon={
-              <FavoriteBorder
-                sx={{
-                  color: "#fff",
-                }}
-              />}
-            checkedIcon={
-              <Favorite
-                sx={{
-                  color: "#FF5F05"
-                }} />}
-          /> */}
-
-          {/* <IconButton
-            onClick={props.handleFavourite}
-            sx={{
-              position: "absolute",
-              top: "0",
-              right: "0",
-              zIndex: "3",
-            }}
-          >
-            {
-              props.addFav ? <Favorite
-                sx={{
-                  color: "#FF5F05",
-                }} /> : <FavoriteBorder
-                sx={{
-                  color: "#FFF"
-                }} />
-            }
-          </IconButton> */}
-
-          {/* {
-            props.showTag ? (
-              <Checkbox
-                checked={props.addFav}
-                onChange={props.handleFav}
-                sx={{
-                  position: "absolute",
-                  top: "0",
-                  right: "0",
-                  zIndex: "3",
-                }}
-                icon={
-                  <FavoriteBorder
-                  sx={{
-                    color: "#fff",
-                  }}
-                />}
-                checkedIcon={
-                  <Favorite
-                    sx={{
-                  color: "#FF5F05"
-                }} />}
-              />
-            ) : null
-          } */}
-
-
+            position: "absolute",
+            top: "3px",
+            right: "3px",
+            zIndex: "3",
+          }}>
+          {props.favorite}
+          </Box>
+          
           {/* Verified tag */}
           {
             props.showTag ? (

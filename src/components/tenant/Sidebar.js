@@ -57,6 +57,7 @@ const TenantSideBar = () => {
                                 key={index}
                                 to={nav.path}>
                                 <Box
+                                   
                                     sx={{
                                         width: "100%",
                                         height: "40px",
@@ -66,6 +67,8 @@ const TenantSideBar = () => {
                                         padding: "0px 10px",
                                         marginBottom: "5px",
                                         borderRadius: "5px",
+                                        color: window.location.pathname === nav.path ? "#FFFFFF": null,
+                                        backgroundColor: window.location.pathname === nav.path ? "#35BF43" : null,
                                         "&:hover": {
                                             backgroundColor: "#35BF43",
                                             color: "#FFFFFF",
