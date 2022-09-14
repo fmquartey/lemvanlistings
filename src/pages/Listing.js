@@ -1,5 +1,5 @@
 import { FilterList, Search } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Container, Grid, InputBase, Paper, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Container, Divider, Grid, InputBase, Menu, MenuItem, Paper, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import ListingCard from "../components/ListingCard";
 import Listings from "../components/Listings";
@@ -19,6 +19,15 @@ const Listing = () => {
   const [bookmark, setBookmark] = useState([]);
   const [action, setAction] = useState(1)
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+  const handleMenuClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
 
 
   const authAxios = Axios.create({
@@ -35,7 +44,7 @@ const Listing = () => {
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
-        // console.log(res.data.data);
+        console.log(res.data.data);
         // setBookmark(res.data.data.bookmark);
         // console.log(res.data.data.bookmark.action);
         // action === 1 ? setFavorite(true) : setFavorite(false);
@@ -191,6 +200,7 @@ const Listing = () => {
                   </Box>
                 </Box>
                 <Button
+                  onClick={handleMenuClick}
                   variant="outlined"
                   color="inherit"
                   size="medium"
@@ -286,7 +296,10 @@ const Listing = () => {
                     alignItems: "center",
                   }}>
                   <Grid container columnSpacing={1} rowSpacing={1}>
-                    {listings.map((data) => (
+                      {
+                        listings.filter((res) => {
+                          return search.toLocaleLowerCase() === "" ? res: res.location.toLocaleLowerCase().includes(search)
+                        }).map((data) => (
                       <Grid key={data.id} item xs={6} sm={4} md={3} lg={3}>
                         <ListingCard
                           id={data.id}
@@ -305,7 +318,8 @@ const Listing = () => {
                           region={data.region}
                         />
                       </Grid>
-                    ))}
+                        ))
+                      }
                   </Grid>
                 </Box>
                 <Box sx={{
@@ -388,6 +402,37 @@ const Listing = () => {
             </Typography>
           </Box>
         </Box>
+
+        <Menu
+          id="menu-area"
+          anchorEl={anchorEl}
+          open={openMenu}
+          onClose={handleCloseMenu}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          {/* <MenuItem>Search by</MenuItem> */}
+          <Box sx={{
+            width: "100%",
+            padding: "5px"
+          }}>
+            <Typography variant="body1" align="center">Search by</Typography>
+          </Box>
+          <Divider />
+          <MenuItem onClick={handleCloseMenu}>Price</MenuItem>
+          <MenuItem onClick={handleCloseMenu}>Property</MenuItem>
+          <MenuItem onClick={handleCloseMenu}>No. Bath</MenuItem>
+          <MenuItem onClick={handleCloseMenu}>No. Bed</MenuItem>
+          <MenuItem onClick={handleCloseMenu}>Location</MenuItem>
+          <MenuItem onClick={handleCloseMenu}>Region</MenuItem>
+        </Menu>
+
       </Container>
     </Box>
   );

@@ -117,7 +117,6 @@ const Details = () => {
   };
 
 
-
   const handleClose = () => {
     setOpenApply(false);
     if (applied) {
@@ -847,6 +846,328 @@ const Details = () => {
                         </Typography>
                       </Box>
                     </Box>
+                    <Divider sx={{
+                      display:{
+                        xs:"block",
+                        sm:"none",
+                        md:"none",
+                        lg:"none",
+                        xl:"none"
+                      }
+                    }}/>
+                  </Box>
+
+                  {/* apply listings mobile view */}
+                  <Box
+                    mt={2}
+                    sx={{
+                      width: "100%",
+                      display: {
+                        xs: "block",
+                        sm: "none",
+                        md: "none",
+                        lg: "none",
+                      },
+                      height: "auto",
+                      // backgroundColor: "#FBFDFB",
+                      }}>
+                      
+                      <Box
+                        sx={{
+                          width: "100%",
+                          height: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          // backgroundColor: "#FFFFFF",
+                          marginTop: "5px",
+                        }}>
+                        <Typography variant="body1"
+                          sx={{
+                            fontWeight: "600",
+                            fontSize: "1.2rem",
+                          }}>
+                          GHC{listing.amount}
+                        </Typography>
+                        <Divider sx={{
+                          width: "100%",
+                          height: "2px",
+                          backgroundColor: "#35BF43",
+                          marginTop: "0.4rem",
+                        }} />
+
+                        {/* Listed by */}
+                        <Box
+                          sx={{
+                            width: "100%",
+                            height: "auto",
+                            display: "flex",
+                            marginTop: "0.5rem"
+                          }}>
+                          <Avatar
+                            src=""
+                            alt=""
+                            size="small"
+                          />
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft: "0.5rem",
+                            }}>
+                            <Typography variant="body1"
+                              sx={{
+                                fontSize: "14px",
+                              }}>Listed by</Typography>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}>
+                              <Typography variant="body1"
+                                sx={{
+                                  fontSize: "14px",
+                                }}>{name}</Typography>
+                              <CheckCircle sx={{
+                                fontSize: "18px",
+                                marginLeft: "0.4rem",
+                                color: "#4285F4",
+                              }} />
+                            </Box>
+                          </Box>
+                        </Box>
+
+                        <Box
+                          mt={2}
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}>
+                          <Typography variant="body1"
+                            
+                            sx={{
+                              fontWeight: "550",
+                              fontSize: {
+                                sm: "14px",
+                                md: "14px",
+                                lg: "14px",
+                              },
+                              lineHeight: "18px",
+                              marginBottom:"10px"
+                            }}>
+                            Interested in this Listing? Schedule an appointment.
+                          </Typography>
+                        </Box>
+                            <Divider />
+                        {/* Type of inspection */}
+                        <Box
+                          mt={1}
+                          sx={{
+                            width: "100%",
+                          }}>
+                          <Typography variant="body1"
+                            sx={{
+                              fontWeight: "550",
+                              fontSize: {
+                                sm: "14px",
+                                md: "14px",
+                                lg: "14px",
+                              },
+
+                            }}>
+                            Type of appointment
+                          </Typography>
+                          <TextField
+                            color="success"
+                            select
+                            fullWidth={true}
+                            size="small"
+                            value={inspectionType}
+                            onChange={handleChange}
+                            sx={{
+                              marginTop: "3px"
+                            }}
+                          >
+                            <MenuItem value="physical">Physical</MenuItem>
+                            <MenuItem value="online">Virtual</MenuItem>
+                          </TextField>
+                        </Box>
+
+                        {/* Date */}
+                        <Box
+                          mt={1}
+                          sx={{
+                            width: "100%",
+                          }}
+                        >
+                          <Typography variant="body1"
+                            sx={{
+                              fontWeight: "550",
+                              fontSize: {
+                                sm: "14px",
+                                md: "14px",
+                                lg: "14px",
+                              },
+
+                            }}
+                          >
+                            Appointment Date
+                          </Typography>
+
+                          <TextField
+                            color="success"
+                            fullWidth={true}
+                            size="small"
+                            type="date"
+                            sx={{
+                              marginTop: "3px"
+                            }}
+                            onChange={(e) => setAppointmentDate(e.target.value)}
+                          />
+
+                          {/* inspection time */}
+                          <Typography variant="body1"
+                            sx={{
+                              marginTop: "10px",
+                              fontWeight: "550",
+                              fontSize: {
+                                sm: "14px",
+                                md: "14px",
+                                lg: "14px",
+                              },
+
+                            }}
+                          >
+                            Appointment Time
+                          </Typography>
+                          <Box sx={{
+                            marginTop: "3px",
+                            width: "100%",
+                            height: "auto",
+                            display: "flex",
+                            alignItems: "center",
+
+                          }}>
+                            <TextField
+                              color="success"
+                              fullWidth={true}
+                              size="small"
+                              type="time"
+                              // value={appointmentTime}
+                              onChange={(e) => setAppointmentTime(e.target.value)}
+                            />
+                            &nbsp;
+                            <TextField
+                              color="success"
+                              select
+                              fullWidth={true}
+                              size="small"
+                              value={timeFormat}
+                              onChange={handleChangeformat}
+                            >
+                              <MenuItem value="am">am</MenuItem>
+                              <MenuItem value="pm">pm</MenuItem>
+                            </TextField>
+                          </Box>
+
+                          <Button
+                            fullWidth={true}
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#35BF43",
+                              marginTop: "1rem",
+                              "&:hover": {
+                                backgroundColor: "#35BF43",
+                              }
+                            }}
+                            onClick={bookApointment}
+                          >
+                            <Typography variant="body1"
+                              sx={{
+                                textTransform: "none",
+                                fontSize: {
+                                  sm: "14px",
+                                  md: "14px",
+                                  lg: "14px",
+                                },
+                              }}
+                            >Book Appointment</Typography>
+                          </Button>
+                        </Box>
+                      </Box>
+                    
+
+                    {/* Apply now */}
+                      <Box
+                        sx={{
+                          width: "100%",
+                          height: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          // justifyContent: "space-between",
+                          padding: {
+                            sm: "1rem 0.8rem",
+                            md: "1rem 2rem",
+                            lg: "1rem 2rem",
+                          },
+                          alignItems: "center",
+                          borderRadius: "8px",
+                          // backgroundColor: "#FFF",
+                          marginTop: "5px",
+                        }}>
+
+                        <Box
+                          mt={2}
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                          }}>
+                          <Typography variant="body1"
+                            align="center"
+                            sx={{
+                              fontWeight: "550",
+                              fontSize: {
+                                sm: "14px",
+                                md: "14px",
+                                lg: "14px",
+                              },
+                              lineHeight: "18px"
+                            }}>
+                            Like this Listing? Secure this home by sending your application today!
+                          </Typography>
+                        </Box>
+
+                        {/* Date */}
+                        <Box
+                          sx={{
+                            width: "100%",
+                          }}
+                        >
+                          <Button
+                            fullWidth={true}
+                            onClick={handleOpenApply}
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#35BF43",
+                              marginTop: "1rem",
+                              "&:hover": {
+                                backgroundColor: "#35BF43",
+                              }
+                            }}>
+                            <Typography variant="body1"
+                              sx={{
+                                textTransform: "none",
+                                fontSize: {
+                                  sm: "14px",
+                                  md: "14px",
+                                  lg: "14px",
+                                },
+                              }}
+                            >Apply now</Typography>
+                          </Button>
+                        </Box>
+                      </Box>
                   </Box>
                 </Box>
 
