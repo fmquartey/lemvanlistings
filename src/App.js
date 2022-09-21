@@ -82,6 +82,8 @@ function App() {
   const [openAlert, setOpenAlert] = useState(false);
   const [refresh, setRefesh] = useState(0);
   const [applied, setApplied] = useState(false)
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
 
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const userToken = localStorage.getItem("user-token");
@@ -89,8 +91,14 @@ function App() {
   const navigate = useNavigate();
   
 
-
+  const location = () => {
+    navigator.geolocation.getCurrentPosition((p) => {
+      setLat(p.coords.latitude);
+      setLong(p.coords.longitude);
+    })
+  }
   useEffect(() => {
+    location();
     if (localStorage.getItem("user-info")) {
       setUser(true);
       setUserId(id);
@@ -188,7 +196,9 @@ function App() {
           applied,
           setApplied,
           openAlert,
-          setOpenAlert
+          setOpenAlert,
+          lat,
+          long,
         }}
       >
         {showNav ? <TopBar /> : null}
@@ -234,11 +244,7 @@ function App() {
           <Route path="/:token/:email" element={<Resetpwd />} />
           <Route path="/verified" element={<Verified />} />
           <Route path="/login" element={<Login />} />
-          <Route
-
-            path="/register/accounttype/:account_type"
-            element={<Register />}
-          />
+          <Route path="/register/accounttype/:account_type" element={<Register />}/>
           <Route path="/sociallogin" element={<SocialAuth />} />
           <Route path="/facebooklogin" element={<FacebookAuth />} />
           <Route path="/users/password/forgot" element={<ForgotPwd />} />

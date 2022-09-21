@@ -406,10 +406,7 @@ const TenantProfile = () => {
                                     }} />
                                 </IconButton>
                             </Box>
-
                         </Stack>
-
-
                     </Box>
                 </Paper>
             </Box>

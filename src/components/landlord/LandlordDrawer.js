@@ -65,6 +65,8 @@ const LandlordDrawer = () => {
                                           padding: "0px 10px",
                                           marginBottom: "5px",
                                           borderRadius: "5px",
+                                          color: window.location.pathname === nav.path ? "#FFFFFF" : null,
+                                          backgroundColor: window.location.pathname === nav.path ? "#35BF43" : null,
                                           "&:hover": {
                                               backgroundColor: "#35BF43",
                                               color: "#FFFFFF",

@@ -124,9 +124,17 @@ const TopBar = () => {
                   anchorEl={anchorEl}
                   open={openMenu}
                   onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
                 >
                   <MenuItem onClick={handleCloseMenu}>{userName}</MenuItem>
-                  <MenuItem onClick={openDashboard}>Dashbord</MenuItem>
+                  <MenuItem onClick={openDashboard}>Dashboard</MenuItem>
                   <Divider />
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>

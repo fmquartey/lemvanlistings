@@ -1,5 +1,5 @@
 import { Favorite, FavoriteBorder, FilterList, Search } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Container, Divider, Grid, InputBase, Menu, MenuItem, Paper, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Container, Divider, Dialog, DialogContent, DialogContentText, DialogTitle, Grid, InputBase, MenuItem, Paper, TextField, Typography, Stack, Menu } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import ListingCard from "../components/ListingCard";
 import Listings from "../components/Listings";
@@ -11,26 +11,33 @@ import { testListingData } from "../listingData";
 
 const Listing = () => {
   // const user = JSON.parse(localStorage.getItem("user-info"));
-  const { setShowNav, token } = useContext(UserContext);
+  const { setShowNav, token, lat, long } = useContext(UserContext);
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [showTag, setShowTag] = useState(true);
   const [favorite, setFavorite] = useState(false);
-  const [searchByPrice, setSearchByPrice] = useState("");
-  const [searchByBed, setSearchByBed] = useState("");
-  const [filter, setFilter] = useState("");
+  const [openFilter, setOpenFilter] = useState(false);
+  const [filterPrice, setFilterPrice] = useState("");
+  const [filterPeriod, setFilterPeriod] = useState("month");
+  const [filterProperty, setFilterProperty] = useState("apartment");
+  const [filterBy, setFilterBy] = useState("");
+  const [filterByLocation, setFilterByLocation] = useState("");
+  const [filterByBed, setFilterByBed] = useState("");
+  const [filterByBath, setFilterByBath] = useState("");
+  const [filterByRegion, setFilterByRegion] = useState("accra");
+
 
 
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
+
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
 
 
   const authAxios = Axios.create({
@@ -69,27 +76,59 @@ const Listing = () => {
     //   });
   };
 
-  const filterSearch = (e) => {
-    if (filter === "price") {
-      setSearch(e.target.value);
-    } else if (filter === "bed") {
-      setSearchByBed(e.target.value)
-    }
+  const resetFilter = () => {
+    setSearch("");
+    handleCloseMenu();
+  }
+  const filterSearchPrice = () => {
+    setFilterBy("price")
+    setOpenFilter(true);
+    handleCloseMenu();
+  }
+  const filterSearchProperty = () => {
+    setFilterBy("property")
+    setOpenFilter(true);
+    handleCloseMenu();
+  }
+  const filterSearchBed = () => {
+    setFilterBy("bed")
+    setOpenFilter(true);
+    handleCloseMenu();
+  }
+  const filterSearchBath = () => {
+    setFilterBy("bath")
+    setOpenFilter(true);
+    handleCloseMenu();
+  }
+  const filterSearchLocation = () => {
+    setFilterBy("location")
+    setOpenFilter(true);
+    handleCloseMenu();
+  }
+  const filterSearchRegion = () => {
+    setFilterBy("region")
+    setOpenFilter(true);
+    handleCloseMenu();
+  }
+
+  const filterClose = () => {
+    setOpenFilter(false);
+    handleCloseMenu();
   }
 
   const handlePageClick = (e) => {
     console.log(e.selected);
   }
 
-  const seachPrice = () => {
-    setSearchByPrice("Search by price")
-    handleCloseMenu();
+  const seachChange = (e) => {
+    setSearch(e.target.value);
   }
 
   useEffect(() => {
     setShowNav(true);
     getListings();
   }, []);
+
 
   return (
     <Box
@@ -180,7 +219,7 @@ const Listing = () => {
                       placeholder="Search a city or building"
                       margin="none"
                       size="medium"
-                      onChange={filterSearch}
+                      onChange={seachChange}
                       endAdornment={
                         <Search
                           sx={{
@@ -294,48 +333,20 @@ const Listing = () => {
                   <Grid container columnSpacing={1} rowSpacing={1}>
                     {
                       listings.filter((res) => {
-                        return search.toLocaleLowerCase() === "" ? res :
-                          res.location.toLocaleLowerCase().includes(search)
+                        return search.toLowerCase() === "" ? res :
+                          res.location.toLowerCase().includes(search.toLowerCase())
                           ||
-                          res.amount.toLocaleLowerCase().includes(search)
+                          res.amount.toLowerCase().includes(search.toLowerCase())
                           ||
                           res.number_of_bathrooms.toString().includes(search)
                           ||
                           res.number_of_bedrooms.toString().includes(search)
                           ||
-                          res.region.toLocaleLowerCase().includes(search)
+                          res.region.toLowerCase().includes(search.toLowerCase())
+                          ||
+                          res.property_type.type.toLowerCase().includes(search.toLowerCase())
                       }).map((data, index) => (
-                        <Grid key={index} item xs={6} sm={4} md={3} lg={3}>
-                          {/* <ListingCard
-                            id={data.id}
-                            image={data.image}
-                            image1={data.image}
-                            image2={data.image}
-                            image3={data.image}
-                            image4={data.image}
-                            favorite={
-                              index = data.id ? data.favorite === 1 ?
-                                (
-                                  <Favorite
-                                    sx={{
-                                      color: "#FF5F05"
-                                    }} />
-                                ) : (
-                                  <FavoriteBorder
-                                    sx={{
-                                      color: "#fff",
-                                    }}
-                                  />
-                                ) : null
-                            }
-                            showTag={showTag}
-                            amount={data.amount}
-                            property_type={data.property_type}
-                            number_of_bathrooms={data.number_of_bathrooms}
-                            number_of_bedrooms={data.number_of_bedrooms}
-                            location={data.location}
-                            region={data.region}
-                          /> */}
+                        <Grid key={data.id} item xs={6} sm={4} md={3} lg={3}>
                           <ListingCard
                             id={data.id}
                             image={data.image}
@@ -366,6 +377,36 @@ const Listing = () => {
                             location={data.location}
                             region={data.region}
                           />
+                          {/* <ListingCard
+                            id={data.id}
+                            image={data.image}
+                            image1={data.image}
+                            image2={data.image}
+                            image3={data.image}
+                            image4={data.image}
+                            favorite={
+                              index = data.id ? data.favorite === 1 ?
+                                (
+                                  <Favorite
+                                    sx={{
+                                      color: "#FF5F05"
+                                    }} />
+                                ) : (
+                                  <FavoriteBorder
+                                    sx={{
+                                      color: "#fff",
+                                    }}
+                                  />
+                                ) : null
+                            }
+                            showTag={showTag}
+                            amount={data.amount}
+                            property_type={data.property_type}
+                            number_of_bathrooms={data.number_of_bathrooms}
+                            number_of_bedrooms={data.number_of_bedrooms}
+                            location={data.location}
+                            region={data.region}
+                          /> */}
                         </Grid>
                       ))
                     }
@@ -466,22 +507,311 @@ const Listing = () => {
             horizontal: 'right',
           }}
         >
-          {/* <MenuItem>Search by</MenuItem> */}
+
           <Box sx={{
             width: "100%",
             padding: "5px"
           }}>
-            <Typography variant="body1" align="center">Search by</Typography>
+            <Typography variant="body1" align="center">Filter by</Typography>
           </Box>
           <Divider />
-          <MenuItem onClick={seachPrice}>Price</MenuItem>
-          <MenuItem onClick={handleCloseMenu}>Property</MenuItem>
-          <MenuItem onClick={handleCloseMenu}>No. Bath</MenuItem>
-          <MenuItem onClick={handleCloseMenu}>No. Bed</MenuItem>
-          <MenuItem onClick={handleCloseMenu}>Location</MenuItem>
-          <MenuItem onClick={handleCloseMenu}>Region</MenuItem>
+          <MenuItem onClick={resetFilter}>Reset</MenuItem>
+          <MenuItem onClick={filterSearchPrice}>Price</MenuItem>
+          <MenuItem onClick={filterSearchProperty}>Property</MenuItem>
+          {/* <MenuItem onClick={filterSearchBath}>No. Bath</MenuItem>
+          <MenuItem onClick={filterSearchBed}>No. Bed</MenuItem> */}
+          <MenuItem onClick={filterSearchLocation}>Location</MenuItem>
+          <MenuItem onClick={filterSearchRegion}>Region</MenuItem>
         </Menu>
 
+        {/* filter dialog */}
+        <Dialog
+          maxWidth="xs"
+          fullWidth={true}
+          open={openFilter}
+          aria-describedby="dialog-description"
+          aria-labelledby="dialog-title"
+        >
+          <DialogTitle id="dialog-title">
+            Filter results
+          </DialogTitle>
+          <DialogContent>
+
+            {
+              filterBy === "price" ? (
+                <Box>
+                  <Typography variant="body1"
+                    sx={{
+                      fontWeight: "550",
+                      fontSize: {
+                        sm: "14px",
+                        md: "14px",
+                        lg: "14px",
+                      },
+
+                    }}
+                  >
+                    Price
+                  </Typography>
+                  <Box
+                    sx={{
+                      marginTop: "3px",
+                      width: "100%",
+                      height: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                    }}>
+                    <TextField
+                      color="success"
+                      fullWidth={true}
+                      size="small"
+                      type="text"
+                      value={filterPrice}
+                      placeholder="0"
+                      onChange={(e) => setFilterPrice(e.target.value)}
+                    />
+                    &nbsp;
+                    <TextField
+                      color="success"
+                      select
+                      fullWidth={true}
+                      size="small"
+                      value={filterPeriod}
+                      onChange={(e) => setFilterPeriod(e.target.value)}
+                    >
+                      <MenuItem value="month">Month</MenuItem>
+                      <MenuItem value="year">Year</MenuItem>
+                    </TextField>
+                  </Box>
+                </Box>
+              ) : filterBy === "property" ? (
+                <Box>
+                  <Typography variant="body1"
+                    sx={{
+                      fontWeight: "550",
+                      fontSize: {
+                        sm: "14px",
+                        md: "14px",
+                        lg: "14px",
+                      },
+
+                    }}
+                  >
+                    Property type
+                  </Typography>
+                  <Box sx={{
+                    marginTop: "3px",
+                    width: "100%",
+                    height: "auto",
+                  }}>
+                    <TextField
+                      color="success"
+                      select
+                      fullWidth={true}
+                      size="small"
+                      value={filterProperty}
+                      onChange={(e) => setFilterProperty(e.target.value)}
+                    >
+                      <MenuItem value="apartment">Apartment</MenuItem>
+                      <MenuItem value="single room">Single room</MenuItem>
+                    </TextField>
+                  </Box>
+                </Box>
+              ) : filterBy === "bath" ? (
+                <Box>
+                  <Typography variant="body1"
+                    sx={{
+                      fontWeight: "550",
+                      fontSize: {
+                        sm: "14px",
+                        md: "14px",
+                        lg: "14px",
+                      },
+
+                    }}
+                  >
+                    No. Bathrooms
+                  </Typography>
+                  <Box
+                    sx={{
+                      marginTop: "3px",
+                      width: "100%",
+                      height: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                    }}>
+                    <TextField
+                      color="success"
+                      fullWidth={true}
+                      size="small"
+                      type="number"
+                      value={filterByBath}
+                      placeholder="0"
+                      onChange={(e) => setFilterByBath(e.target.value)}
+                    />
+                  </Box>
+                </Box>
+              ) : filterBy === "bed" ? (
+                <Box>
+                  <Typography variant="body1"
+                    sx={{
+                      fontWeight: "550",
+                      fontSize: {
+                        sm: "14px",
+                        md: "14px",
+                        lg: "14px",
+                      },
+                    }}
+                  >
+                    No. Bedrooms
+                  </Typography>
+                  <Box
+                    sx={{
+                      marginTop: "3px",
+                      width: "100%",
+                      height: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                    }}>
+                    <TextField
+                      color="success"
+                      fullWidth={true}
+                      size="small"
+                      type="number"
+                      value={filterByBed}
+                      placeholder="0"
+                      onChange={(e) => setFilterByBed(e.target.value)}
+                    />
+
+                  </Box>
+                </Box>
+              ) : filterBy === "location" ? (
+                <Box>
+                  <Typography variant="body1"
+                    sx={{
+                      fontWeight: "550",
+                      fontSize: {
+                        sm: "14px",
+                        md: "14px",
+                        lg: "14px",
+                      },
+                    }}
+                  >
+                    Location
+                  </Typography>
+                  <Box
+                    sx={{
+                      marginTop: "3px",
+                      width: "100%",
+                      height: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                    }}>
+                    <TextField
+                      color="success"
+                      fullWidth={true}
+                      size="small"
+                      value={filterByLocation}
+                      onChange={(e) => setFilterByLocation(e.target.value)}
+                    />
+                  </Box>
+                </Box>
+              ) : filterBy === "region" ? (
+                <Box>
+                  <Typography variant="body1"
+                    sx={{
+                      fontWeight: "550",
+                      fontSize: {
+                        sm: "14px",
+                        md: "14px",
+                        lg: "14px",
+                      },
+                    }}
+                  >
+                    Region
+                  </Typography>
+                  <Box
+                    sx={{
+                      marginTop: "3px",
+                      width: "100%",
+                      height: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                    }}>
+                    <TextField
+                      select
+                      color="success"
+                      fullWidth={true}
+                      size="small"
+                      value={filterByRegion}
+                      onChange={(e) => setFilterByRegion(e.target.value)}
+                    >
+                      <MenuItem value="accra">Greater Accra</MenuItem>
+                      <MenuItem value="central">Central</MenuItem>
+                      <MenuItem value="ashanti">Ashanti</MenuItem>
+                      <MenuItem value="brong ahafo">Brong ahafo</MenuItem>
+                      <MenuItem value="eastern">Eastern</MenuItem>
+                      <MenuItem value="northern">Northern</MenuItem>
+                      <MenuItem value="upper east">Upper east</MenuItem>
+                      <MenuItem value="upper west">Upper west</MenuItem>
+                      <MenuItem value="western">Western</MenuItem>
+                    </TextField>
+                  </Box>
+                </Box>
+              ) : null
+            }
+
+
+            <Box sx={{
+              width: "100%",
+              height: "auto",
+              marginTop: "15px",
+            }}>
+              <Stack spacing={2} direction="row"
+                sx={{
+                  justifyContent: "flex-end",
+                }}>
+                <Button
+                  onClick={filterClose}
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    textTransform: "none",
+                    textDecoration: "none",
+                    fontSize: "14px",
+                    backgroundColor: "#35BF43",
+                    "&:hover": {
+                      backgroundColor: "#35BF43",
+                    }
+                  }}
+
+                >Cancel
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    textTransform: "none",
+                    textDecoration: "none",
+                    fontSize: "14px",
+                    backgroundColor: "#35BF43",
+                    "&:hover": {
+                      backgroundColor: "#35BF43",
+                    }
+                  }}
+                  onClick={() => {
+                    const result = filterBy === "price" ? filterPrice + "/" + filterPeriod : filterBy === "property" ? filterProperty : filterBy === "region" ? filterByRegion : filterBy === "location" ? filterByLocation : filterBy === "bed" ? filterByBed : filterBy === "bath" ? filterByBath : null
+                    setSearch(result);
+                    console.log(result);
+                    filterClose();
+                  }}
+                >
+                  Filter
+                </Button>
+              </Stack>
+            </Box>
+          </DialogContent>
+        </Dialog>
       </Container>
     </Box>
   );

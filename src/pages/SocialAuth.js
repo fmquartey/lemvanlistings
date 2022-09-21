@@ -39,22 +39,22 @@ const SocialAuth = () => {
       });
   };
 
-  // const Facebook = () => {
-  //   Axios.get(`${backendurl}/api/facebook/auth/callback/1${facebookurl}`)
-  //     .then((res) => {
-  //       localStorage.setItem("user-info", JSON.stringify(res.data.data));
-  //       redirect();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const Facebook = () => {
+    Axios.get(`${backendurl}/api/facebook/auth/callback/1${facebookurl}`)
+      .then((res) => {
+        localStorage.setItem("user-info", JSON.stringify(res.data.data));
+        redirect();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
 
   useEffect(() => {
     setShowNav(false);
     Verify();
-    // Facebook();
+    Facebook();
     // console.log(backendurl + googleurl);
   }, []);
 

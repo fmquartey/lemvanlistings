@@ -1,15 +1,16 @@
 import { Box } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/landingpage/Header";
 import OurHome from "../components/landingpage/OurHome";
 import Reviews from "../components/landingpage/Reviews";
 import { UserContext } from "../context/UserContext";
+
 const LandingPage = () => {
   const { setShowNav } = useContext(UserContext);
+ 
 
   useEffect(() => {
     setShowNav(true);
-    
   }, []);
 
   return (

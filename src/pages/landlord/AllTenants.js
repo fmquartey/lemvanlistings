@@ -228,6 +228,7 @@ const AllTenants = () => {
                         placeholder='Search'
                         onChange={(e) => setSearch(e.target.value)}
                         fullWidth={true}
+                        type="text"
                         endAdornment={<Search sx={{
                             color: "#ACACAC",
                         }} />}
