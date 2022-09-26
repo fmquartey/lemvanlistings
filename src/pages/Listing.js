@@ -1,5 +1,6 @@
 import { Close, Favorite, FavoriteBorder, FilterList, Search } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Container, Divider, Dialog, DialogContent, DialogContentText, DialogTitle, Grid, InputBase, MenuItem, Paper, TextField, Typography, Stack, Menu, IconButton, Alert } from "@mui/material";
+import { ThemeProvider } from '@mui/material/styles'
+import { Box, Button, CircularProgress, Container, Divider, Dialog, DialogContent, DialogContentText, DialogTitle, Grid, InputBase, MenuItem, Paper, TextField, Typography, Stack, Menu, IconButton, Alert, Pagination } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import ListingCard from "../components/ListingCard";
 import Listings from "../components/Listings";
@@ -8,6 +9,8 @@ import Axios from "axios";
 import ReactPaginate from "react-paginate";
 import { apilink } from "../Helper";
 import { testListingData } from "../listingData";
+import theme from "../styles/Styles"
+
 
 const Listing = () => {
   // const user = JSON.parse(localStorage.getItem("user-info"));
@@ -28,7 +31,8 @@ const Listing = () => {
   const [filterByBath, setFilterByBath] = useState("");
   const [filterByRegion, setFilterByRegion] = useState("accra");
   const [statusMsg, setStatusMsg] = useState("");
-
+  const [courrentPage, setCurrentPage] = useState(1);
+  const [listingsPerPage, setListingsPerPage] = useState(12);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
@@ -40,6 +44,15 @@ const Listing = () => {
     setAnchorEl(null);
   };
 
+  // Pagination
+  const lastListingIndex = courrentPage * listingsPerPage;
+  const firstListingIndex = lastListingIndex - listingsPerPage;
+  const allListing = listings.slice(firstListingIndex, lastListingIndex)
+  const nextPage = (e, p) => {
+    setCurrentPage(p);
+  };
+  const pageCount = Math.ceil(listings.length / listingsPerPage);
+
 
   const authAxios = Axios.create({
     baseURL: apilink,
@@ -50,7 +63,7 @@ const Listing = () => {
   });
 
   const getListings = () => {
-    // setListings(testListingData)
+    // setListings(testListingData);
     setLoading(true);
     authAxios.get(`/api/listings`)
       .then((res) => {
@@ -122,11 +135,6 @@ const Listing = () => {
     setFilterByRegion("accra");
     setFilterProperty("apartment");
     setFilterPeriod("month");
-  }
-
-
-  const handlePageClick = (e) => {
-    console.log(e.selected);
   }
 
   const seachChange = (e) => {
@@ -341,7 +349,7 @@ const Listing = () => {
                   }}>
                   <Grid container columnSpacing={1} rowSpacing={1}>
                     {
-                      listings.filter((res) => {
+                      allListing.filter((res) => {
                         return search.toLowerCase() === "" ? res :
                           res.location.toLowerCase().includes(search.toLowerCase())
                           ||
@@ -438,44 +446,18 @@ const Listing = () => {
                   },
                   alignItems: "center",
                 }}>
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      width: {
-                        xs: "100%",
-                        sm: "100%",
-                        md: "auto",
-                        lg: "auto",
-                      },
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: " 0 1rem",
-                    }}>
-                    <ReactPaginate
-                      previousLabel={"Prev"}
-                      nextLabel={"Next"}
-                      breakLabel={"..."}
-                      pageCount={50}
-                      marginPagesDisplayed={1}
-                      onPageChange={handlePageClick}
-                      containerClassName={"pagination"}
-                      activeLinkClassName={"active"}
-                      previousLinkClassName={"prevlink"}
-                      previousClassName={"prev"}
-                      pageClassName={"page-num"}
-                      pageLinkClassName={"page-num"}
-                      nextLinkClassName={"page-num"}
-                      nextClassName={"next"}
-                      renderOnZeroPageCount={false}
-                      pageRangeDisplayed={1}
-                    />
-                  </Paper>
+
+                  <Pagination
+                    count={pageCount}
+                    siblingCount={0}
+                    size="medium"
+                    onChange={nextPage}
+                  />
+
                 </Box>
               </>
             )
           }
-
 
           <Box
             mt={2}
@@ -504,7 +486,6 @@ const Listing = () => {
 
         {/* filter dialog */}
         <Dialog
-
           maxWidth="xs"
           fullWidth={true}
           open={openFilter}
@@ -827,6 +808,7 @@ const Listing = () => {
         </Dialog>
       </Container>
     </Box>
+
   );
 }
 
