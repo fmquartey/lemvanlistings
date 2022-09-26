@@ -89,7 +89,7 @@ function App() {
   const userToken = localStorage.getItem("user-token");
   const id = localStorage.getItem("lemvan");
   const navigate = useNavigate();
-  
+
 
   const location = () => {
     navigator.geolocation.getCurrentPosition((p) => {
@@ -112,7 +112,6 @@ function App() {
       setUserAddress(userInfo.address)
       setUserAbout(userInfo.about)
       setEmailVerifiedAt(userInfo.email_verified_at)
-  
     } else {
       setUser(false);
       navigate("/welcome");
@@ -199,6 +198,8 @@ function App() {
           setOpenAlert,
           lat,
           long,
+          setLat,
+          setLong
         }}
       >
         {showNav ? <TopBar /> : null}
@@ -244,7 +245,7 @@ function App() {
           <Route path="/:token/:email" element={<Resetpwd />} />
           <Route path="/verified" element={<Verified />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register/accounttype/:account_type" element={<Register />}/>
+          <Route path="/register/accounttype/:account_type" element={<Register />} />
           <Route path="/sociallogin" element={<SocialAuth />} />
           <Route path="/facebooklogin" element={<FacebookAuth />} />
           <Route path="/users/password/forgot" element={<ForgotPwd />} />

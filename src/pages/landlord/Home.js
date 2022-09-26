@@ -58,6 +58,7 @@ const Home = () => {
                         lg: !openSidebar ? "85%" : "100%",
                     },
                     margin: {
+                        sm:"auto",
                         md: "auto",
                         lg: "auto"
                     },
@@ -71,8 +72,8 @@ const Home = () => {
                     <Grid
                         item
                         xs={12}
-                        sm={4}
-                        md={3}
+                        sm={5}
+                        md={4}
                         lg={3}
                         sx={{
                             display: "flex",
@@ -99,7 +100,7 @@ const Home = () => {
                         </Link>
 
                     </Grid>
-                    <Grid item xs={12} sm={4} md={3} lg={3}
+                    <Grid item xs={12} sm={5} md={4} lg={3}
                         sx={{
                             display: "flex",
                             alignItems: "center",
@@ -124,7 +125,7 @@ const Home = () => {
                             />
                         </Link>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={3} lg={3}
+                    <Grid item xs={12} sm={5} md={4} lg={3}
                         sx={{
                             display: "flex",
                             alignItems: "center",
@@ -149,12 +150,8 @@ const Home = () => {
                             />
                         </Link>
                     </Grid>
-                    
-
                 </Grid>
             </Box>
-
-
         </Box>
     );
 }
