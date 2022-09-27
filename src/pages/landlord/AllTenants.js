@@ -1,5 +1,5 @@
 import { Delete, Edit, Forward, Search } from '@mui/icons-material'
-import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Skeleton, Typography } from '@mui/material'
+import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Skeleton, Typography, TextField } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
@@ -15,6 +15,8 @@ const AllTenants = () => {
     const [tenantsId, setTenantsId] = useState("")
     const [openDialog, setOpenDialog] = useState(false);
     const [statusMsg, setStatusMsg] = useState("");
+    const [filterTenants, setFilterTenants] = useState("3");
+
 
     const navigate = useNavigate();
     const {
@@ -33,37 +35,41 @@ const AllTenants = () => {
 
 
     const current = () => {
-        setCurrentColor(true)
-        setAllColor(false);
-        setUpcomingColor(false)
-        setPastColor(false);
+        // setCurrentColor(true)
+        // setAllColor(false);
+        // setUpcomingColor(false)
+        // setPastColor(false);
         setSearch("1");
     }
 
     const all = () => {
-        setAllColor(true);
-        setCurrentColor(false)
-        setUpcomingColor(false)
-        setPastColor(false);
+        // setAllColor(true);
+        // setCurrentColor(false)
+        // setUpcomingColor(false)
+        // setPastColor(false);
         setSearch("");
     }
 
     const past = () => {
-        setPastColor(true);
-        setAllColor(false);
-        setCurrentColor(false)
-        setUpcomingColor(false)
+        // setPastColor(true);
+        // setAllColor(false);
+        // setCurrentColor(false)
+        // setUpcomingColor(false)
         setSearch("2");
     }
 
     const upcoming = () => {
-        setUpcomingColor(true)
-        setAllColor(false);
-        setCurrentColor(false)
-        setPastColor(false);
+        // setUpcomingColor(true)
+        // setAllColor(false);
+        // setCurrentColor(false)
+        // setPastColor(false);
         setSearch("0");
     }
 
+
+    const handleFilter = (e) => {
+        setFilterTenants(e.target.value);
+    }
 
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
@@ -113,10 +119,10 @@ const AllTenants = () => {
     useEffect(() => {
         getTenants();
         setTitle("")
-        setAllColor(true);
-        setCurrentColor(false)
-        setUpcomingColor(false)
-        setPastColor(false);
+        // setAllColor(true);
+        // setCurrentColor(false)
+        // setUpcomingColor(false)
+        // setPastColor(false);
     }, [movedTenants])
 
 
@@ -128,18 +134,37 @@ const AllTenants = () => {
             }}>
             <Box
                 sx={{
-                    width: "100%",
+                    width: {
+                        xs: "100%",
+                        sm: "300px",
+                        md: "300px",
+                        lg: "300px",
+                    },
                     height: "auto",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     mt: 2
                 }}>
                 <Box sx={{
                     display: "flex",
                     alignItems: "center",
                 }}>
-                    <Button
+                    <TextField
+                        select
+                        color="success"
+                        // fullWidth={true}
+                        size="small"
+                        value={filterTenants}
+                        onChange={handleFilter}
+                    >
+                        <MenuItem value="3" onClick={all}>All</MenuItem>
+                        <MenuItem value="1" onClick={current}>Current</MenuItem>
+                        <MenuItem value="2" onClick={past}>Past</MenuItem>
+                        <MenuItem value="0" onClick={upcoming}>Upcoming</MenuItem>
+                    </TextField>
+
+                    {/* <Button
                         size="small"
                         onClick={all}
                         sx={{
@@ -195,13 +220,7 @@ const AllTenants = () => {
                             }
                         }}>
                         Upcoming
-                    </Button>
-                </Box>
-                <Box sx={{
-                    display: "flex",
-                    alignItems: "center",
-                }}>
-
+                    </Button> */}
                 </Box>
             </Box>
             {/* <Outlet /> */}

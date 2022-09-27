@@ -1,5 +1,5 @@
 import { Delete, Edit, Forward, Forward10, Search, VisibilityOff, VisibilityRounded } from '@mui/icons-material'
-import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
@@ -11,11 +11,13 @@ import MoveListing from '../../components/landlord/MoveListing';
 
 const AllListings = () => {
     const [listings, setListings] = useState([]);
-    const [search, setSearch] = useState("");
     const [listingId, setListingId] = useState("")
     const [openDialog, setOpenDialog] = useState(false);
     const [loading, setLoading] = useState(false);
     const [statusMsg, setStatusMsg] = useState("");
+    const [filterListings, setFilterListings] = useState("0");
+    const [search, setSearch] = useState("");
+
     const navigate = useNavigate();
 
     const {
@@ -37,41 +39,49 @@ const AllListings = () => {
         navigate("/app/landlord/listings/create");
         setTitle("\\ Create listing")
     }
+    
     const allListing = () => {
-        setAllCol(true);
-        setPublishedCol(false);
-        setHiddenCol(false);
-        setDraftCol(false);
+        // setAllCol(true);
+        // setPublishedCol(false);
+        // setHiddenCol(false);
+        // setDraftCol(false);
         setSearch("");
+        
         // navigate("/app/landlord/listings");
     }
 
     const publishedListing = () => {
-        setPublishedCol(true);
-        setAllCol(false);
-        setHiddenCol(false);
-        setDraftCol(false);
+        // setPublishedCol(true);
+        // setAllCol(false);
+        // setHiddenCol(false);
+        // setDraftCol(false);
         setSearch("1");
-        // navigate("/app/landlord/listings/published");
 
+        // navigate("/app/landlord/listings/published");
     }
 
     const draftListing = () => {
-        setDraftCol(true);
-        setAllCol(false);
-        setHiddenCol(false);
-        setPublishedCol(false);
+        // setDraftCol(true);
+        // setAllCol(false);
+        // setHiddenCol(false);
+        // setPublishedCol(false);
         setSearch("2");
+
         // navigate("/app/landlord/listings/draft");
     }
 
     const hiddenListing = () => {
-        setHiddenCol(true);
-        setDraftCol(false);
-        setAllCol(false);
-        setPublishedCol(false);
+        // setHiddenCol(true);
+        // setDraftCol(false);
+        // setAllCol(false);
+        // setPublishedCol(false);
         setSearch("3");
+
         // navigate("/app/landlord/listings/draft");
+    }
+
+    const handleFilter = (e) => {
+        setFilterListings(e.target.value);
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -144,10 +154,10 @@ const AllListings = () => {
     }
 
     useEffect(() => {
-        setAllCol(true);
-        setPublishedCol(false);
-        setHiddenCol(false);
-        setDraftCol(false);
+        // setAllCol(true);
+        // setPublishedCol(false);
+        // setHiddenCol(false);
+        // setDraftCol(false);
         getListings();
         setTitle("");
     }, [movedListing])
@@ -160,7 +170,12 @@ const AllListings = () => {
             }}>
             <Box
                 sx={{
-                    width: "100%",
+                    width: {
+                        xs: "100%",
+                        sm: "300px",
+                        md: "300px",
+                        lg: "300px",
+                    },
                     height: "auto",
                     display: "flex",
                     alignItems: "center",
@@ -171,7 +186,21 @@ const AllListings = () => {
                     display: "flex",
                     alignItems: "center",
                 }}>
-                    <Button
+                    <TextField
+                        select
+                        color="success"
+                        // fullWidth={true}
+                        size="small"
+                        value={filterListings}
+                        onChange={handleFilter}
+                    >
+                        <MenuItem value="0" onClick={allListing}>All</MenuItem>
+                        <MenuItem value="1" onClick={publishedListing}>Published</MenuItem>
+                        <MenuItem value="2" onClick={draftListing}>Draft</MenuItem>
+                        <MenuItem value="3" onClick={hiddenListing}>Hidden</MenuItem>
+                    </TextField>
+
+                    {/* <Button
                         size="small"
                         onClick={allListing}
 
@@ -218,6 +247,7 @@ const AllListings = () => {
                         }}>
                         Draft
                     </Button>
+
                     <Button
                         size="small"
                         onClick={hiddenListing}
@@ -232,33 +262,35 @@ const AllListings = () => {
                             }
                         }}>
                         Hidden
-                    </Button>
-
+                    </Button> */}
                 </Box>
                 <Box sx={{
                     display: "flex",
                     alignItems: "center",
                 }}>
                     <Button
-                        size="small"
+                        size="medium"
                         onClick={createNewListing}
                         variant="outlined"
+
                         sx={{
                             borderRadius: "8px",
                             textTransform: "none",
-                            border: "1px solid #000",
+                            color: "#000",
+                            border: "1px solid #ACACAC",
                             "&:hover": {
                                 backgroundColor: "transparent",
-                                border: "1px solid #000",
+                                border: "1px solid #35BF43",
                             }
                         }}>
-                        <Typography variant="body1"
+                        Create new listing
+                        {/* <Typography variant="body1"
                             sx={{
                                 fontSize: "12px",
                                 fontWeight: "600",
                                 color: "#000",
 
-                            }}>Create new listing</Typography>
+                            }}>Create new listing</Typography> */}
                     </Button>
                 </Box>
             </Box>
@@ -267,7 +299,7 @@ const AllListings = () => {
             <Box
                 sx={{
                     width: "100%",
-                    height:"auto",
+                    height: "auto",
                     marginTop: "10px",
                 }}>
                 <Box
