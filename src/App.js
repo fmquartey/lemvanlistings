@@ -40,6 +40,8 @@ import TenantProfile from "./pages/tenant/TenantProfile";
 import TenantChat from "./pages/tenant/Chat";
 import TenantSettings from "./pages/tenant/Settings";
 import TenantsAppointments from "./pages/tenant/Appointments";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminHome from "./pages/admin/AdminHome";
 
 
 function App() {
@@ -242,6 +244,12 @@ function App() {
             <Route path="settings" element={<TenantSettings />} />
           </Route>
 
+          {/* Admin */}
+          <Route path="/app/admin" element={<AdminDashboard />}>
+            <Route path="" element={<AdminHome />} />
+          </Route>
+
+          {/* Other routes */}
           <Route path="/:token/:email" element={<Resetpwd />} />
           <Route path="/verified" element={<Verified />} />
           <Route path="/login" element={<Login />} />

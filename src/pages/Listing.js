@@ -17,6 +17,7 @@ const Listing = () => {
   const { setShowNav, token, lat, long } = useContext(UserContext);
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState("");
+  const [listingsStat, setListingsStat] = useState("");
   const [loading, setLoading] = useState(false);
   const [showTag, setShowTag] = useState(true);
   const [favorite, setFavorite] = useState(false);
@@ -69,7 +70,8 @@ const Listing = () => {
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
-        console.log(res.data.data);
+        res.data.data.length === 0 && console.log("Nothing found");
+        res.data.data.length === 0 && setListingsStat("Nothing found");
       })
       .catch((err) => {
         console.log(err);
@@ -83,6 +85,8 @@ const Listing = () => {
       .then((res) => {
         setLoading(false);
         setListings(res.data.data);
+        res.data.data.length === 0 && setListingsStat("No match found for your search");
+        res.data.data.length === 0 && console.log("No result " + res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -99,24 +103,26 @@ const Listing = () => {
   }
 
   const handlefilter = () => {
-    if (filterPrice === "" || filterByBed === "" || filterByBath === "" || filterByLocation === "") {
+    if (filterPrice === "" || filterByLocation === "") {
       setStatusMsg("All fields are required for this action");
       setOpenAlert(true);
     } else {
       filterClose();
-      const formData = new FormData();
       const price = filterPrice + "/" + filterPeriod;
-      formData.append("amount", price);
-      formData.append("property_type_id", filterProperty);
-      formData.append("number_of_bedrooms", filterByBed);
-      formData.append("number_of_bathrooms", filterByBath);
-      formData.append("location", filterByLocation);
-      formData.append("region", filterByRegion);
+      // const formData = new FormData();
+      // formData.append("amount", price);
+      // formData.append("property_type_id", filterProperty);
+      // formData.append("number_of_bedrooms", filterByBed);
+      // formData.append("number_of_bathrooms", filterByBath);
+      // formData.append("location", filterByLocation);
+      // formData.append("region", filterByRegion);
       setLoading(true);
-      authAxios.post("/api/listings", formData)
+      authAxios.get(`/api/listings/advanced/search?price=${price}&location=${filterByLocation}&region=${filterByRegion}`,)
         .then((res) => {
           setLoading(false);
           setListings(res.data.data);
+          res.data.data.length === 0 && setListingsStat("No match found for your search");
+          res.data.data.length === 0 && console.log("Not found " + res.data.data);
           console.log(res.data.data);
         })
         .catch((err) => {
@@ -144,7 +150,7 @@ const Listing = () => {
   useEffect(() => {
     setShowNav(true);
     getListings();
-  }, []);
+  }, [!search]);
 
 
   return (
@@ -236,7 +242,7 @@ const Listing = () => {
                       placeholder="Search a city or building"
                       margin="none"
                       size="medium"
-                      onChange={seachChange}
+                      onChange={searchListings}
                       endAdornment={
                         <Search
                           sx={{
@@ -347,7 +353,8 @@ const Listing = () => {
                     justifyContent: "center",
                     alignItems: "center",
                   }}>
-                  <Grid container columnSpacing={1} rowSpacing={1}>
+                  {/* Grid with filter method */}
+                  {/* <Grid container columnSpacing={1} rowSpacing={1}>
                     {
                       allListing.filter((res) => {
                         return search.toLowerCase() === "" ? res :
@@ -394,41 +401,65 @@ const Listing = () => {
                             location={data.location}
                             region={data.region}
                           />
-                          {/* <ListingCard
-                            id={data.id}
-                            image={data.image}
-                            image1={data.image}
-                            image2={data.image}
-                            image3={data.image}
-                            image4={data.image}
-                            favorite={
-                              index = data.id ? data.favorite === 1 ?
-                                (
-                                  <Favorite
-                                    sx={{
-                                      color: "#FF5F05"
-                                    }} />
-                                ) : (
-                                  <FavoriteBorder
-                                    sx={{
-                                      color: "#fff",
-                                    }}
-                                  />
-                                ) : null
-                            }
-                            showTag={showTag}
-                            amount={data.amount}
-                            property_type={data.property_type}
-                            number_of_bathrooms={data.number_of_bathrooms}
-                            number_of_bedrooms={data.number_of_bedrooms}
-                            location={data.location}
-                            region={data.region}
-                          /> */}
                         </Grid>
                       ))
                     }
+                  </Grid> */}
+
+                  {/* Grid without filter */}
+                  <Grid container columnSpacing={1} rowSpacing={1}>
+                    {
+                      listings.length === 0 ? (
+                        <Box sx={{
+                          width: " 100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}>
+                          <Typography>
+                            {listingsStat}
+                          </Typography>
+                        </Box>
+                      )
+                        :
+                        (allListing.map((data, index) => (
+                          <Grid key={data.id} item xs={6} sm={4} md={3} lg={3}>
+                            <ListingCard
+                              id={data.id}
+                              image={data.image}
+                              image1={data.image}
+                              image2={data.image}
+                              image3={data.image}
+                              image4={data.image}
+                              favorite={
+                                index = data.id ? data.favorite === 1 ?
+                                  (
+                                    <Favorite
+                                      sx={{
+                                        color: "#FF5F05"
+                                      }} />
+                                  ) : (
+                                    <FavoriteBorder
+                                      sx={{
+                                        color: "#fff",
+                                      }}
+                                    />
+                                  ) : null
+                              }
+                              showTag={showTag}
+                              amount={data.amount}
+                              property_type={data.property_type.type}
+                              number_of_bathrooms={data.number_of_bathrooms}
+                              number_of_bedrooms={data.number_of_bedrooms}
+                              location={data.location}
+                              region={data.region}
+                            />
+                          </Grid>
+                        )))
+                    }
                   </Grid>
                 </Box>
+
                 <Box sx={{
                   padding: {
                     xs: '1rem 0',
@@ -566,7 +597,7 @@ const Listing = () => {
               </Box>
 
               {/* property type */}
-              <Box mt={1}>
+              {/* <Box mt={1}>
                 <Typography variant="body1"
                   sx={{
                     fontWeight: "550",
@@ -597,18 +628,19 @@ const Listing = () => {
                     <MenuItem value="single room">Single room</MenuItem>
                   </TextField>
                 </Box>
-              </Box>
+              </Box> */}
+
 
               {/* No. Bathrooms / Bedroom*/}
-              <Box mt={1}
+              {/* <Box mt={1}
                 sx={{
                   display: "flex",
                   width: "100%",
                   height: "auto"
-                }}>
+                }}> */}
 
-                {/* No. bedroom */}
-                <Box>
+              {/* No. bedroom */}
+              {/* <Box>
                   <Typography variant="body1"
                     sx={{
                       fontWeight: "550",
@@ -641,9 +673,9 @@ const Listing = () => {
 
                   </Box>
                 </Box>
-                &nbsp;
-                {/* No. bathroom */}
-                <Box>
+                &nbsp; */}
+              {/* No. bathroom */}
+              {/* <Box>
                   <Typography variant="body1"
                     sx={{
                       fontWeight: "550",
@@ -676,7 +708,7 @@ const Listing = () => {
                     />
                   </Box>
                 </Box>
-              </Box>
+              </Box> */}
 
               {/* location */}
               <Box mt={1}>
@@ -750,6 +782,7 @@ const Listing = () => {
                     <MenuItem value="upper east">Upper east</MenuItem>
                     <MenuItem value="upper west">Upper west</MenuItem>
                     <MenuItem value="western">Western</MenuItem>
+                    <MenuItem value="volta">Volta</MenuItem>
                   </TextField>
                 </Box>
               </Box>
@@ -773,6 +806,7 @@ const Listing = () => {
                 <Button
                   onClick={resetFilter}
                   size="small"
+                  fullWidth={true}
                   variant="contained"
                   sx={{
                     textTransform: "none",
@@ -789,6 +823,7 @@ const Listing = () => {
                 <Button
                   size="small"
                   variant="contained"
+                  fullWidth={true}
                   sx={{
                     textTransform: "none",
                     textDecoration: "none",

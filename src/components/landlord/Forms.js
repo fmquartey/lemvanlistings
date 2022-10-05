@@ -11,13 +11,13 @@ import { useNavigate } from "react-router-dom";
 
 const ListingForms = () => {
     const { token } = useContext(UserContext);
-    // const [property_type_id, setProperty_type_id] = useState([]);
+    const [propertyType, setPropertyType] = useState([]);
     const [openAlert, setOpenAlert] = useState(false);
     const [loading, setLoading] = useState(false);
     const [openMsgBox, setOpenMsgBox] = useState(false);
     const [msgBoxTitle, setMsgBoxTitle] = useState("");
     const [msgBoxMessage, setMsgBoxMessage] = useState("");
-    const [status, setStatus] = useState(0);
+    const [status, setStatus] = useState(2);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState("");
     const [property_type_id, setPropertyType_id] = useState("");
@@ -75,7 +75,9 @@ const ListingForms = () => {
         setPropertyType_id(e.target.value);
     }
 
-      const hasKitchen = (e) => {
+    console.log(property_type_id)
+
+    const hasKitchen = (e) => {
         setHas_kitchen(e.target.value)
         if (has_kitchen === 1) {
             setHas_kitchen(0);
@@ -383,19 +385,17 @@ const ListingForms = () => {
         }
     }
 
+    const getPropertyType = () => {
+        Axios.get(`${apilink}/api/property/types`).then((res) => {
+            setPropertyType(res.data.data);
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
-    // const getPropertyType = () => {
-    //     Axios.get(`${apilink}/api/property/types`).then((res) => {
-    //         setPropertyType(res.data.data);
-    //         console.log(propertyType);
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     })
-    // }
-
-    // useEffect(() => {
-    //     getPropertyType();
-    // }, []);
+    useEffect(() => {
+        getPropertyType();
+    }, []);
 
     return (
         <Box
@@ -456,8 +456,17 @@ const ListingForms = () => {
                                     marginTop: "3px"
                                 }}
                             >
-                                <MenuItem value="1">Apartment</MenuItem>
-                                <MenuItem value="2">Single Room</MenuItem>
+
+                                {
+                                    propertyType.map((data, index) => (
+                                        <MenuItem key={index} value={data.type}>
+                                            {
+                                                data.type === 1 ? "Apartment" : data.type === 2 ? "Single Room" : null
+                                            }
+                                        </MenuItem>
+                                    ))
+                                }
+                                {/* <MenuItem value="2">Single Room</MenuItem> */}
 
                             </TextField>
 

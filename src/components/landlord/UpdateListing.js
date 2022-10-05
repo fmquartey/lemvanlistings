@@ -125,7 +125,7 @@ const UpdateListing = () => {
             .then((res) => {
                 setLoading(false);
                 console.log(res.data.data);
-                setPropertyType(res.data.data.property_type.id);
+                setPropertyType(res.data.data.property_type.type);
                 setPropertyTitle(res.data.data.property_title);
                 setNumber_of_bedrooms(res.data.data.number_of_bedrooms);
                 setNumber_of_bathrooms(res.data.data.number_of_bathrooms);
@@ -394,7 +394,7 @@ const UpdateListing = () => {
                             >
                                 {
                                     property_type_id.map((item, index) => (
-                                        <MenuItem key={index} value={item.id}>{item.type}</MenuItem>
+                                        <MenuItem key={index} value={item.type}>{item.type}</MenuItem>
                                     ))
                                 }
 

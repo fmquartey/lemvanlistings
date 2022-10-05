@@ -53,7 +53,7 @@ const OurHome = () => {
   const sliderRef = useRef(null);
   const [showTag, setShowTag] = useState(false);
   const navigate = useNavigate();
-
+  const [listingsStat, setListingsStat] = useState("");
   const [search, setSearch] = useState("");
   const [openFilter, setOpenFilter] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
@@ -182,6 +182,7 @@ const OurHome = () => {
         setLoading(false);
         setListings(res.data.data);
         // console.log(listings);
+        res.data.data.length === 0 && setListingsStat("Nothing found");
       })
       .catch((err) => {
         console.log(err);
@@ -197,26 +198,49 @@ const OurHome = () => {
     setOpenFilter(false);
   }
 
+  // const handleFilter = () => {
+  //   if (filterPrice === "" || filterByLocation === "") {
+  //     setStatusMsg("All fields are required for this action");
+  //     setOpenAlert(true);
+  //   } else {
+  //     setOpenAlert(false);
+  //     filterClose();
+  //     const formData = new FormData();
+  //     const price = filterPrice + "/" + filterPeriod;
+  //     formData.append("amount", price);
+  //     formData.append("property_type_id", filterProperty);
+  //     formData.append("number_of_bedrooms", filterByBed);
+  //     formData.append("number_of_bathrooms", filterByBath);
+  //     formData.append("location", filterByLocation);
+  //     formData.append("region", filterByRegion);
+  //     setLoading(true);
+  //     Axios.post(`${apilink}/api/index/page`, formData)
+  //       .then((res) => {
+  //         setLoading(false);
+  //         setListings(res.data.data);
+  //         console.log(res.data.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }
+
   const handleFilter = () => {
-    if (filterPrice === "" || filterByBed === "" || filterByBath === "" || filterByLocation === "") {
+    if (filterPrice === "" || filterByLocation === "") {
       setStatusMsg("All fields are required for this action");
       setOpenAlert(true);
     } else {
-      setOpenAlert(false);
       filterClose();
-      const formData = new FormData();
       const price = filterPrice + "/" + filterPeriod;
-      formData.append("amount", price);
-      formData.append("property_type_id", filterProperty);
-      formData.append("number_of_bedrooms", filterByBed);
-      formData.append("number_of_bathrooms", filterByBath);
-      formData.append("location", filterByLocation);
-      formData.append("region", filterByRegion);
+
       setLoading(true);
-      Axios.post(`${apilink}/api/index/page`, formData)
+      Axios.get(`${apilink}/api/listings/advanced/search?price=${price}&location=${filterByLocation}&region=${filterByRegion}`,)
         .then((res) => {
           setLoading(false);
           setListings(res.data.data);
+          res.data.data.length === 0 && setListingsStat("No match found for your search");
+          res.data.data.length === 0 && console.log("Not found " + res.data.data);
           console.log(res.data.data);
         })
         .catch((err) => {
@@ -398,132 +422,136 @@ const OurHome = () => {
                 />
               </Box>
             ) : (
-              // Slider //
-              // Slider //
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                {/* Slider prev button */}
-                <IconButton
-                  size="small"
-                  disableRipple={true}
-                  aria-label="previous"
-                  onClick={() => sliderRef.current.slickPrev()}
-                  edge="start"
+              <>
+                { /* Slider content// Slider //
+              // Slider //*/}
+                  {listings.length === 0 ? (
+                    <Box sx={{
+                      width: " 100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}>
+                      <Typography>
+                        {listingsStat}
+                      </Typography>
+                    </Box>
+                  ): (
+                      <Box
+                  sx = {{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
                 >
-                  <ChevronLeft
+                  {/* Slider prev button */}
+                  <IconButton
+                    size="small"
+                    disableRipple={true}
+                    aria-label="previous"
+                    onClick={() => sliderRef.current.slickPrev()}
+                    edge="start"
+                  >
+                    <ChevronLeft
+                      sx={{
+                        fontSize: {
+                          xs: "2rem",
+                          sm: "2rem",
+                          md: "2.5rem",
+                          lg: "2.5rem",
+                        },
+                        color: "#000",
+                      }}
+                    />
+                  </IconButton>
+                  {/* Slider content*/}
+                  <Box
                     sx={{
-                      fontSize: {
-                        xs: "2rem",
-                        sm: "2rem",
-                        md: "2.5rem",
-                        lg: "2.5rem",
-                      },
-                      color: "#000",
+                      width: "100%",
+                      height: "auto",
+                      overflow: "hidden",
                     }}
-                  />
-                </IconButton>
-                {/* Slider content*/}
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "auto",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Slider ref={sliderRef} {...settings}>
-                    {
-                      listings.filter((res) => {
-                        return search.toLowerCase() === "" ? res :
-                          res.location.toLowerCase().includes(search.toLowerCase())
-                          ||
-                          res.amount.toLowerCase().includes(search.toLowerCase())
-                          ||
-                          res.number_of_bathrooms.toString().includes(search)
-                          ||
-                          res.number_of_bedrooms.toString().includes(search)
-                          ||
-                          res.region.toLowerCase().includes(search.toLowerCase())
-                          ||
-                          res.property_type.type.toLowerCase().includes(search.toLowerCase())
-                      }).map((listing, index) => (
-                        <IndexListings
-                          key={listing.id}
-                          image={listing.image}
-                          image1={hse2}
-                          image2={hse3}
-                          image3={hse4}
-                          image4={hse5}
-                          id={listing.id}
-                          showTag={showTag}
-                          amount={listing.amount}
-                          property_type={listing.property_type.type}
-                          number_of_bathrooms={listing.number_of_bathrooms}
-                          number_of_bedrooms={listing.number_of_bedrooms}
-                          location={listing.location}
-                          region={listing.region}
-                        />
+                  >
+                    <Slider ref={sliderRef} {...settings}>
+                      {
+                        listings.map((listing, index) => (
+                          <IndexListings
+                            key={listing.id}
+                            image={listing.image}
+                            image1={hse2}
+                            image2={hse3}
+                            image3={hse4}
+                            image4={hse5}
+                            id={listing.id}
+                            showTag={showTag}
+                            amount={listing.amount}
+                            property_type={listing.property_type.type}
+                            number_of_bathrooms={listing.number_of_bathrooms}
+                            number_of_bedrooms={listing.number_of_bedrooms}
+                            location={listing.location}
+                            region={listing.region}
+                          />
 
-                        // <ListingCard
-                        //   id={listing.id}
-                        //   image={listing.image}
-                        //   image1={listing.image}
-                        //   image2={listing.image}
-                        //   image3={listing.image}
-                        //   image4={listing.image}
-                        //   favorite={
-                        //     index = listing.id ? listing.favorite === 1 ?
-                        //       (
-                        //         <Favorite
-                        //           sx={{
-                        //             color: "#FF5F05"
-                        //           }} />
-                        //       ) : (
-                        //         <FavoriteBorder
-                        //           sx={{
-                        //             color: "#fff",
-                        //           }}
-                        //         />
-                        //       ) : null
-                        //   }
-                        //   showTag={showTag}
-                        //   amount={listing.amount}
-                        //   property_type={listing.property_type}
-                        //   number_of_bathrooms={listing.number_of_bathrooms}
-                        //   number_of_bedrooms={listing.number_of_bedrooms}
-                        //   location={listing.location}
-                        //   region={listing.region}
-                        // />
-                      ))
-                    }
-                  </Slider>
+                          // <ListingCard
+                          //   id={listing.id}
+                          //   image={listing.image}
+                          //   image1={listing.image}
+                          //   image2={listing.image}
+                          //   image3={listing.image}
+                          //   image4={listing.image}
+                          //   favorite={
+                          //     index = listing.id ? listing.favorite === 1 ?
+                          //       (
+                          //         <Favorite
+                          //           sx={{
+                          //             color: "#FF5F05"
+                          //           }} />
+                          //       ) : (
+                          //         <FavoriteBorder
+                          //           sx={{
+                          //             color: "#fff",
+                          //           }}
+                          //         />
+                          //       ) : null
+                          //   }
+                          //   showTag={showTag}
+                          //   amount={listing.amount}
+                          //   property_type={listing.property_type}
+                          //   number_of_bathrooms={listing.number_of_bathrooms}
+                          //   number_of_bedrooms={listing.number_of_bedrooms}
+                          //   location={listing.location}
+                          //   region={listing.region}
+                          // />
+                        ))
+                      }
+                    </Slider>
+                  </Box>
+                  {/*Slider next button Icon*/}
+                  <IconButton
+                    size="small"
+                    disableRipple={true}
+                    aria-label="next"
+                    onClick={() => sliderRef.current.slickNext()}
+                    edge="end"
+                  >
+                    <ChevronRight
+                      sx={{
+                        fontSize: {
+                          xs: "2rem",
+                          sm: "2rem",
+                          md: "2.5rem",
+                          lg: "2.5rem",
+                        },
+                        color: "#000",
+                      }}
+                    />
+                  </IconButton>
                 </Box>
-                {/*Slider next button Icon*/}
-                <IconButton
-                  size="small"
-                  disableRipple={true}
-                  aria-label="next"
-                  onClick={() => sliderRef.current.slickNext()}
-                  edge="end"
-                >
-                  <ChevronRight
-                    sx={{
-                      fontSize: {
-                        xs: "2rem",
-                        sm: "2rem",
-                        md: "2.5rem",
-                        lg: "2.5rem",
-                      },
-                      color: "#000",
-                    }}
-                  />
-                </IconButton>
-              </Box>
+                  )}
+               
+
+              </>
             )}
           </Box>
         </Box>
@@ -641,7 +669,7 @@ const OurHome = () => {
               </Box>
 
               {/* property type */}
-              <Box mt={1}>
+              {/* <Box mt={1}>
                 <Typography variant="body1"
                   sx={{
                     fontWeight: "550",
@@ -672,18 +700,18 @@ const OurHome = () => {
                     <MenuItem value="single room">Single room</MenuItem>
                   </TextField>
                 </Box>
-              </Box>
+              </Box> */}
 
               {/* No. Bathrooms / Bedroom*/}
-              <Box mt={1}
+              {/* <Box mt={1}
                 sx={{
                   display: "flex",
                   width: "100%",
                   height: "auto"
-                }}>
+                }}> */}
 
-                {/* No. bedroom */}
-                <Box>
+              {/* No. bedroom */}
+              {/* <Box>
                   <Typography variant="body1"
                     sx={{
                       fontWeight: "550",
@@ -716,9 +744,9 @@ const OurHome = () => {
 
                   </Box>
                 </Box>
-                &nbsp;
-                {/* No. bathroom */}
-                <Box>
+                &nbsp; */}
+              {/* No. bathroom */}
+              {/* <Box>
                   <Typography variant="body1"
                     sx={{
                       fontWeight: "550",
@@ -750,8 +778,8 @@ const OurHome = () => {
                       onChange={(e) => setFilterByBath(e.target.value)}
                     />
                   </Box>
-                </Box>
-              </Box>
+                </Box> */}
+              {/* </Box> */}
 
               {/* location */}
               <Box mt={1}>
@@ -825,6 +853,7 @@ const OurHome = () => {
                     <MenuItem value="upper east">Upper east</MenuItem>
                     <MenuItem value="upper west">Upper west</MenuItem>
                     <MenuItem value="western">Western</MenuItem>
+                    <MenuItem value="volta">Volta</MenuItem>
                   </TextField>
                 </Box>
               </Box>
@@ -848,6 +877,7 @@ const OurHome = () => {
                 <Button
                   onClick={resetFilter}
                   size="small"
+                  fullWidth={true}
                   variant="contained"
                   sx={{
                     textTransform: "none",
@@ -863,6 +893,7 @@ const OurHome = () => {
                 </Button>
                 <Button
                   size="small"
+                  fullWidth={true}
                   variant="contained"
                   sx={{
                     textTransform: "none",
