@@ -1,4 +1,4 @@
-import { Delete, Edit, Forward, Forward10, Search, VisibilityOff, VisibilityRounded } from '@mui/icons-material'
+import { ArrowForwardIos, Delete, Edit, Forward, Forward10, Search, VisibilityOff, VisibilityRounded } from '@mui/icons-material'
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Axios from "axios";
 import { apilink } from '../../Helper';
 import { data } from '../../listingData';
 import MoveListing from '../../components/landlord/MoveListing';
+import ListingsView from '../../components/landlord/ListingsView';
 
 
 const AllListings = () => {
@@ -17,6 +18,7 @@ const AllListings = () => {
     const [statusMsg, setStatusMsg] = useState("");
     const [filterListings, setFilterListings] = useState("0");
     const [search, setSearch] = useState("");
+    const [openView, setOpenView] = useState(false);
 
     const navigate = useNavigate();
 
@@ -39,14 +41,14 @@ const AllListings = () => {
         navigate("/app/landlord/listings/create");
         setTitle("\\ Create listing")
     }
-    
+
     const allListing = () => {
         // setAllCol(true);
         // setPublishedCol(false);
         // setHiddenCol(false);
         // setDraftCol(false);
         setSearch("");
-        
+
         // navigate("/app/landlord/listings");
     }
 
@@ -99,6 +101,11 @@ const AllListings = () => {
         setAnchorEl(null);
     };
 
+    // Close mobil view
+    const closeView = () => {
+        setOpenView(false)
+    }
+
     // const navigate = useNavigate();
     const editListing = () => {
         navigate(`/app/landlord/listings/edit/${listingId}`);
@@ -135,16 +142,17 @@ const AllListings = () => {
     }
 
     const getListings = () => {
-        setLoading(true);
-        authAxios.get(`${apilink}/api/landlord/listings`)
-            .then((res) => {
-                setLoading(false);
-                setListings(res.data.data);
-            })
-            .catch((err) => {
-                console.log(err);
-                setLoading(false);
-            });
+        setListings(data);
+        // setLoading(true);
+        // authAxios.get(`${apilink}/api/landlord/listings`)
+        //     .then((res) => {
+        //         setLoading(false);
+        //         setListings(res.data.data);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //         setLoading(false);
+        //     });
     };
 
     const moveListing = () => {
@@ -363,56 +371,139 @@ const AllListings = () => {
                                 </Typography>
                             </Box>
                         ) : (
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="center">Property type</TableCell>
-                                            <TableCell align="center">Amount </TableCell>
-                                            <TableCell align="center">Location</TableCell>
-                                            <TableCell align="center">Status</TableCell>
-                                            <TableCell align="center">Actions</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {
-                                            listings.filter((row, index) => {
-                                                return search.toLocaleLowerCase() === "" ? row : row.property_type.type.toLocaleLowerCase().includes(search) || row.location.toLocaleLowerCase().includes(search) || row.status.toString().includes(search) || row.amount.toString().includes(search)
-                                            }).map((row, index) => (
-                                                <TableRow
-                                                    key={index}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell align="center">
-                                                        {row.property_type.type}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.amount}</TableCell>
-                                                    <TableCell align="center">{row.location}</TableCell>
-                                                    <TableCell align="center">{
-                                                        row.status === 2 ? "Draft" : row.status === 1 ? "Published" : "Hidden"
-                                                    }</TableCell>
-                                                    <TableCell align="center">
-                                                        <Button
-                                                            onClick={(e) => {
-                                                                setAnchorEl(e.currentTarget)
-                                                                setListingId(row.id)
-                                                                setStatusMsg(row.status === 1 ? "Published" : row.status === 2 ? "Draft" : "Hidden")
-                                                            }}
-                                                            variant="text"
+                            <>
+                                <Box
+                                    sx={{
+                                        display: {
+                                            xs: "block",
+                                            sm: "block",
+                                            md: "none",
+                                            lg: "none"
+                                        },
+                                        width: "100%",
+                                        height: "auto",
+                                    }}>
+                                    {
+                                        listings.filter((row) => {
+                                            return search.toLowerCase() === "" ? row : row.property_type.toLowerCase().includes(search.toLowerCase()) || row.location.toLowerCase().includes(search.toLowerCase()) || row.status.toString().includes(search) || row.amount.toString().includes(search)
+                                        }).map((row, index) => (
+                                            <Paper
+                                                onClick={(e) => setOpenView(true)}
+                                                variant="outlined"
+                                                key={index}
+                                                sx={{
+                                                    marginBottom: "5px"
+                                                }}>
+                                                <Box
+                                                    sx={{
+                                                        width: "100%",
+                                                        height: "auto",
+                                                        padding: "10px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "space-between"
+                                                    }}>
+                                                    <Box
+                                                        sx={{}}>
+                                                        <Typography variant="body1"
                                                             sx={{
-                                                                textTransform: "none",
-                                                                fontSize: "14px",
+                                                                marginBottom: "5px",
                                                                 fontWeight: "600",
-                                                                color: "#35BF43",
-                                                            }}>Options</Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))
+                                                            }}>
+                                                            {row.property_title}
+                                                        </Typography>
+                                                        <Typography variant="body1"
+                                                            sx={{
+                                                                color: "#9D9899"
+                                                            }}>
+                                                            {row.property_type}
+                                                        </Typography>
+                                                    </Box>
+                                                    <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center"
+                                                        }}>
+                                                        <Typography variant="body1"
+                                                            sx={{
+                                                                fontSize: "14px",
+                                                                color: "#9D9899",
+                                                                marginRight: "10px"
+                                                            }}>
+                                                            {row.status === 2 ? "Draft" : row.status === 1 ? "Published" : row.status === 3 ? "Hidden" : null}
+                                                        </Typography>
+                                                        <ArrowForwardIos
+                                                            sx={{
+                                                                fontSize: "15px",
+                                                                fontWeight: "700",
+                                                                color: "#9D9899"
+                                                            }} />
+                                                    </Box>
+                                                </Box>
+                                            </Paper>
+                                        ))
+                                    }
+                                </Box>
+                                <TableContainer component={Paper}
+                                    sx={{
+                                        display: {
+                                            xs: "none",
+                                            sm: "none",
+                                            md: "block",
+                                            lg: "block"
                                         }
+                                    }}>
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="center">Property type</TableCell>
+                                                <TableCell align="center">Amount </TableCell>
+                                                <TableCell align="center">Location</TableCell>
+                                                <TableCell align="center">Status</TableCell>
+                                                <TableCell align="center">Actions</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                listings.filter((row) => {
+                                                    return search.toLowerCase() === "" ? row : row.property_type.toLowerCase().includes(search) || row.location.toLowerCase().includes(search) || row.status.toString().includes(search) || row.amount.toString().includes(search)
+                                                }).map((row, index) => (
+                                                    <TableRow
+                                                        key={index}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell align="center">
+                                                            {row.property_type}
+                                                        </TableCell>
+                                                        <TableCell align="center">{row.amount}</TableCell>
+                                                        <TableCell align="center">{row.location}</TableCell>
+                                                        <TableCell align="center">{
+                                                            row.status === 2 ? "Draft" : row.status === 1 ? "Published" : row.status === 3 ? "Hidden" : null
+                                                        }</TableCell>
+                                                        <TableCell align="center">
+                                                            <Button
+                                                                onClick={(e) => {
+                                                                    setAnchorEl(e.currentTarget)
+                                                                    setListingId(row.id)
+                                                                    setStatusMsg(row.status === 1 ? "Published" : row.status === 2 ? "Draft" : "Hidden")
+                                                                }}
+                                                                variant="text"
+                                                                sx={{
+                                                                    textTransform: "none",
+                                                                    fontSize: "14px",
+                                                                    fontWeight: "600",
+                                                                    color: "#35BF43",
+                                                                }}>Options</Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            }
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </>
                         )
                     )
                 }
@@ -452,6 +543,7 @@ const AllListings = () => {
                 </MenuItem>
             </Menu>
             <MoveListing openDialog={openDialog} id={listingId} handleClose={handleClose} statusMsg={statusMsg} />
+            <ListingsView openView={openView} closeView={closeView} />
         </Box>
     )
 }

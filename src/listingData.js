@@ -1,304 +1,77 @@
-export const data = [{
+export const data = [
+    {
     "id": 1,
     "property_type": "Single Room",
     "amount": 2,
-    "location": "Colombia",
-    "Status": "Published"
+    "location": "Brazil",
+    "property_title": "House for rent",
+    "status": 2
 }, {
     "id": 2,
-    "property_type": "Apartment",
-    "amount": 1,
-    "location": "Israel",
-    "Status": "Published"
+    "property_type": "Single Room",
+    "amount": 3,
+    "location": "Portugal",
+    "property_title": "Single room for rent",
+    "status": 1
 }, {
     "id": 3,
     "property_type": "Apartment",
     "amount": 3,
-    "location": "Brazil",
-    "Status": "Draft"
+    "location": "Russia",
+    "property_title": "Single room for rent",
+    "status": 3
 }, {
     "id": 4,
     "property_type": "Apartment",
-    "amount": 2,
-    "location": "Mauritius",
-    "Status": "Hidden"
+    "amount": 3,
+    "location": "Greece",
+    "property_title": "Single room for rent",
+    "status": 2
 }, {
     "id": 5,
     "property_type": "Apartment",
-    "amount": 1,
-    "location": "Argentina",
-    "Status": "Draft"
+    "amount": 2,
+    "location": "Philippines",
+    "property_title": "Single room for rent",
+    "status": 1
 }, {
     "id": 6,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "Italy",
-    "Status": "Draft"
+    "property_type": "Single Room",
+    "amount": 1,
+    "location": "France",
+    "property_title": "House for rent",
+    "status": 3
 }, {
     "id": 7,
     "property_type": "Single Room",
-    "amount": 1,
-    "location": "Chile",
-    "Status": "Hidden"
+    "amount": 2,
+    "location": "Philippines",
+    "property_title": "New apartment for rent",
+    "status": 2
 }, {
     "id": 8,
     "property_type": "Apartment",
-    "amount": 3,
-    "location": "China",
-    "Status": "Hidden"
+    "amount": 2,
+    "location": "Indonesia",
+    "property_title": "New apartment for rent",
+    "status": 3
 }, {
     "id": 9,
     "property_type": "Apartment",
     "amount": 2,
-    "location": "Indonesia",
-    "Status": "Draft"
+    "location": "China",
+    "property_title": "Single room for rent",
+    "status": 1
 }, {
     "id": 10,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "China",
-    "Status": "Hidden"
-}, {
-    "id": 11,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "Sweden",
-    "Status": "Hidden"
-}, {
-    "id": 12,
     "property_type": "Single Room",
     "amount": 2,
-    "location": "Poland",
-    "Status": "Draft"
-}, {
-    "id": 13,
-    "property_type": "Apartment",
-    "amount": 3,
-    "location": "Ukraine",
-    "Status": "Hidden"
-}, {
-    "id": 14,
-    "property_type": "Single Room",
-    "amount": 2,
-    "location": "Indonesia",
-    "Status": "Published"
-}, {
-    "id": 15,
-    "property_type": "Single Room",
-    "amount": 2,
-    "location": "China",
-    "Status": "Hidden"
-}, {
-    "id": 16,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "China",
-    "Status": "Published"
-}, {
-    "id": 17,
-    "property_type": "Apartment",
-    "amount": 1,
-    "location": "Croatia",
-    "Status": "Draft"
-}, {
-    "id": 18,
-    "property_type": "Apartment",
-    "amount": 1,
-    "location": "Indonesia",
-    "Status": "Draft"
-}, {
-    "id": 19,
-    "property_type": "Apartment",
-    "amount": 1,
-    "location": "Peru",
-    "Status": "Published"
-}, {
-    "id": 20,
-    "property_type": "Single Room",
-    "amount": 2,
-    "location": "Belarus",
-    "Status": "Hidden"
-}, {
-    "id": 21,
-    "property_type": "Single Room",
-    "amount": 1,
-    "location": "China",
-    "Status": "Draft"
-}, {
-    "id": 22,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "Finland",
-    "Status": "Draft"
-}, {
-    "id": 23,
-    "property_type": "Single Room",
-    "amount": 1,
-    "location": "Argentina",
-    "Status": "Draft"
-}, {
-    "id": 24,
-    "property_type": "Single Room",
-    "amount": 2,
-    "location": "Brazil",
-    "Status": "Hidden"
-}, {
-    "id": 25,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "Mexico",
-    "Status": "Hidden"
-}, {
-    "id": 26,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "Colombia",
-    "Status": "Hidden"
-}, {
-    "id": 27,
-    "property_type": "Single Room",
-    "amount": 1,
-    "location": "Turkmenistan",
-    "Status": "Published"
-}, {
-    "id": 28,
-    "property_type": "Single Room",
-    "amount": 1,
-    "location": "Lithuania",
-    "Status": "Draft"
-}, {
-    "id": 29,
-    "property_type": "Single Room",
-    "amount": 1,
-    "location": "Czech Republic",
-    "Status": "Published"
-}, {
-    "id": 30,
-    "property_type": "Apartment",
-    "amount": 3,
-    "location": "Philippines",
-    "Status": "Published"
-}, {
-    "id": 31,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "China",
-    "Status": "Hidden"
-}, {
-    "id": 32,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "Brazil",
-    "Status": "Draft"
-}, {
-    "id": 33,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "Japan",
-    "Status": "Published"
-}, {
-    "id": 34,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "Lithuania",
-    "Status": "Hidden"
-}, {
-    "id": 35,
-    "property_type": "Apartment",
-    "amount": 1,
-    "location": "Philippines",
-    "Status": "Hidden"
-}, {
-    "id": 36,
-    "property_type": "Single Room",
-    "amount": 2,
-    "location": "Thailand",
-    "Status": "Hidden"
-}, {
-    "id": 37,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "China",
-    "Status": "Hidden"
-}, {
-    "id": 38,
-    "property_type": "Apartment",
-    "amount": 1,
-    "location": "Croatia",
-    "Status": "Published"
-}, {
-    "id": 39,
-    "property_type": "Apartment",
-    "amount": 1,
-    "location": "Russia",
-    "Status": "Published"
-}, {
-    "id": 40,
-    "property_type": "Single Room",
-    "amount": 1,
-    "location": "Sweden",
-    "Status": "Hidden"
-}, {
-    "id": 41,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "Mexico",
-    "Status": "Draft"
-}, {
-    "id": 42,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "Argentina",
-    "Status": "Draft"
-}, {
-    "id": 43,
-    "property_type": "Apartment",
-    "amount": 1,
     "location": "Netherlands",
-    "Status": "Published"
-}, {
-    "id": 44,
-    "property_type": "Single Room",
-    "amount": 2,
-    "location": "Japan",
-    "Status": "Draft"
-}, {
-    "id": 45,
-    "property_type": "Apartment",
-    "amount": 3,
-    "location": "France",
-    "Status": "Draft"
-}, {
-    "id": 46,
-    "property_type": "Apartment",
-    "amount": 2,
-    "location": "China",
-    "Status": "Published"
-}, {
-    "id": 47,
-    "property_type": "Apartment",
-    "amount": 3,
-    "location": "Czech Republic",
-    "Status": "Draft"
-}, {
-    "id": 48,
-    "property_type": "Single Room",
-    "amount": 2,
-    "location": "Guatemala",
-    "Status": "Published"
-}, {
-    "id": 49,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "Indonesia",
-    "Status": "Hidden"
-}, {
-    "id": 50,
-    "property_type": "Single Room",
-    "amount": 3,
-    "location": "South Korea",
-    "Status": "Draft"
-}]
+    "property_title": "New apartment for rent",
+    "status": 3
+    }
+]
+
 
 export const tenantsData = [{
     "id": 1,

@@ -97,7 +97,7 @@ const Pages = () => {
                 }}>
                     <IconButton
                         sx={{
-                            
+
                         }}
                         onClick={handleOpenLandlordDrawer}>
                         <Menu

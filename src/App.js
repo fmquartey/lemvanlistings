@@ -42,6 +42,7 @@ import TenantSettings from "./pages/tenant/Settings";
 import TenantsAppointments from "./pages/tenant/Appointments";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminHome from "./pages/admin/AdminHome";
+import AdminListings from "./pages/admin/AdminListings";
 
 
 function App() {
@@ -247,6 +248,7 @@ function App() {
           {/* Admin */}
           <Route path="/app/admin" element={<AdminDashboard />}>
             <Route path="" element={<AdminHome />} />
+            <Route path="listings" element={<AdminListings />} />
           </Route>
 
           {/* Other routes */}

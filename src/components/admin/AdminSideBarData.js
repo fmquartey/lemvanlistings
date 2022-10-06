@@ -3,7 +3,7 @@ import { AccountCircle, Alarm, Apartment, Chat, Favorite, Home, ListAlt, People,
 export const AdminSideBarData = [
     {
         name: "Home",
-        path: "/app/admin/",
+        path: "/app/admin",
         icon: <Home sx={{
             fontSize: "20px",
         }} />
