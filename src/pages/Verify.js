@@ -1,8 +1,8 @@
-import { Alert, Button, Stack, Typography } from "@mui/material";
+import { Alert, Stack, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { apilink } from "../Helper";
 
 const Verify = () => {
