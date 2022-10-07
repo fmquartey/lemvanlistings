@@ -25,7 +25,21 @@ import AccountType from "../components/auths/AccountType";
 import { apilink } from "../Helper";
 
 const Login = () => {
-  const { setUser, setShowNav } = useContext(UserContext);
+  const { setUser,
+    setShowNav,
+  
+  setUserId,
+  setUserName,
+  setUSerLastName,
+  setUserEmail,
+  setUserAvater,
+  setToken,
+  setAccountType,
+  setUserPhone,
+  setUserAddress,
+  setUserAbout,
+  setEmailVerifiedAt
+  } = useContext(UserContext);
 
   useEffect(() => {
     setShowNav(false);
@@ -87,6 +101,18 @@ const Login = () => {
           localStorage.setItem("user-info", JSON.stringify(res.data.data));
           localStorage.setItem("user-token", res.data.data.access_token);
           localStorage.setItem("lemvan", res.data.data.id);
+          setUserId(res.data.data.id);
+          setUserName(res.data.data.firstname);
+          setUSerLastName(res.data.data.lastname);
+          setUserEmail(res.data.data.email);
+          setUserAvater(res.data.data.avatar);
+          setToken(res.data.data.access_token);
+          setAccountType(res.data.data.account_type);
+          setUserPhone(res.data.data.phone);
+          setUserAddress(res.data.data.address)
+          setUserAbout(res.data.data.about)
+          setEmailVerifiedAt(res.data.data.email_verified_at)
+          console.log(res.data.data)
           setUser(true);
           redirect();
         })

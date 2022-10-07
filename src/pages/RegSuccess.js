@@ -14,7 +14,7 @@ import { apilink } from "../Helper";
 
 const RegSuccess = () => {
   const { successmessage, email } = useParams();
-  const { setUser, setShowNav } = useContext(UserContext);
+  const { setUser,token, setShowNav } = useContext(UserContext);
 
   const [message, setMessage] = useState("");
   const [alert, setAlert] = useState(false);
@@ -22,7 +22,6 @@ const RegSuccess = () => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   // const email = localStorage.getItem("user-info.email");
-  const backendurl = apilink;
 
   const user = JSON.parse(localStorage.getItem("user-info"));
 
@@ -31,13 +30,14 @@ const RegSuccess = () => {
   }, []);
 
   const authAxios = Axios.create({
-    baseURL: backendurl,
+    baseURL: apilink,
     headers: {
       Authorization: "Bearer " + user.access_token,
     },
   });
 
-  const ResendLink = () => {
+  const reSendLink = () => {
+    setLoading(true)
     authAxios
       .post(`/api/email/verify/resend`, {
         email: email,
@@ -50,6 +50,7 @@ const RegSuccess = () => {
         setAlert(true);
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err);
         setAlert(false);
         setDisabled(false);
@@ -82,7 +83,7 @@ const RegSuccess = () => {
           <Typography variant="body1">{successmessage}</Typography>
           <Typography variant="body1">Didn't recieve link?</Typography>
           <Button
-            onClick={ResendLink}
+            onClick={reSendLink}
             sx={{
               borderRadius: "10px",
               "&:hover": {

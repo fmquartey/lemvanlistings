@@ -9,7 +9,6 @@ const Verify = () => {
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("");
   const [loading, setLoading] = useState(false);
-  const backendurl = apilink;
   const { id, hash } = useParams();
   const location = useLocation();
   const urlSearch = location.search;
@@ -22,9 +21,9 @@ const Verify = () => {
   }
    
   const verify = () => {
-    // console.log(`${backendurl}/api/email/verify/${id}/${hash}${urlSearch}`);
+    console.log(`${apilink}/api/email/verify/${id}/${hash}${urlSearch}`);
     setLoading(true);
-    Axios.get(`${backendurl}/api/email/verify/${id}/${hash}${urlSearch}`)
+    Axios.get(`${apilink}/api/email/verify/${id}/${hash}${urlSearch}`)
       .then((res) => {
         setLoading(false);
         // console.log(res.data);
@@ -65,11 +64,13 @@ const Verify = () => {
               <Typography variant="body1">{message}</Typography>
             </Alert>
           )}
-          {loading ? null : (
+          {
+            loading ? null : (
             <Typography variant="body1">
               Redirecting you to the login page in 5 seconds
             </Typography>
-          )}
+            )
+          }
         </Stack>
       </Container>
     </Box>

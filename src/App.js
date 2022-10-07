@@ -117,7 +117,7 @@ function App() {
       setEmailVerifiedAt(userInfo.email_verified_at)
     } else {
       setUser(false);
-      navigate("/welcome");
+      // navigate("/welcome");
     }
   }, []);
 

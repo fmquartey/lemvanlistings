@@ -1,4 +1,4 @@
-import { Delete, Edit, Forward, Search, VisibilityOff } from '@mui/icons-material';
+import { Edit, Forward, Search } from '@mui/icons-material';
 import { Box, Button, Divider, InputBase, ListItemIcon, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
@@ -9,7 +9,6 @@ import { apilink } from '../../Helper';
 const Current = () => {
     const { setTitle, setCurrentColor } = useContext(UserContext);  
     const [listings, setListings] = useState([]);
-    const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
 
     const [anchorEl, setAnchorEl] = useState(null);
